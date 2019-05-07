@@ -1,5 +1,5 @@
 # Fast_Multipliers
-Contains the RTL code and test benches for multipliers
+Contains the RTL code and test benches for multipliers.
 
 # Setup
 1) Generate ssh keys
