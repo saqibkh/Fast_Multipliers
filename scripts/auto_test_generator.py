@@ -27,9 +27,17 @@ for root, dirs, files in os.walk(full_path):
 
 
 def main(argv):
-
-    print "This is the start of the auto test generation script"
-    # Put your code here
+a=random.randint(1, 1000)
+g=hex(a)
+print("1st random value=",g)
+gdec=int(g,16)
+b=random.randint(1, 1000)
+s=hex(b)
+print("2nd random value=",s)
+sdec=int(s,16)
+c=gdec*sdec
+d=hex(c)
+print("Result=",d)
 
 
 
