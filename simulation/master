@@ -1,1 +1,0 @@
-time -v lib1 unpipelined.v unpipelined_test.v
