@@ -1,1 +1,4 @@
-time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Adders/ripple_adders.v ../rtl/Adders/tests/ripple_adder_4_test.v
+#!/bin/bash
+module load synopsys/vcs
+vcs -full64 time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Adders/ripple_adders.v ../rtl/Adders/tests/ripple_adder_4_test.v -debug_all
+./simv
