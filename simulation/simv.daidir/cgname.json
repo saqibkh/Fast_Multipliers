@@ -1,0 +1,37 @@
+{
+    "std": [
+        "std",
+        "reYIK",
+        "module"
+    ],
+    "...MASTER...": [
+        "SIM",
+        "amcQw",
+        "module"
+    ],
+    "timeunits": [
+        "timeunits",
+        "hCJED",
+        "module"
+    ],
+    "sign_bit": [
+        "sign_bit",
+        "HnpHh",
+        "module"
+    ],
+    "ripple_adder_8": [
+        "ripple_adder_8",
+        "YDLa4",
+        "module"
+    ],
+    "full_adder": [
+        "full_adder",
+        "BEdzp",
+        "module"
+    ],
+    "test_ripple_adder_4": [
+        "test_ripple_adder_4",
+        "p9Zba",
+        "module"
+    ]
+}
