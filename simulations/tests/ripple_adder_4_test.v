@@ -23,7 +23,7 @@ module test_ripple_adder_4;
     cin = 0;
 
     // Wait 100 ns for global reset to finish
-    #50;
+    #100;
     // Add stimulus here
     in1=4'b0001;in2=4'b0000;cin=1'b0;
     #10 in1=4'b1010;in2=4'b0011;cin=1'b0;
