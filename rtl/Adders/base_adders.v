@@ -18,6 +18,15 @@ module sign_bit_32(output wire sign,
 endmodule
 
 
+module half_adder(output wire sign,
+                  output wire cout,
+                  input wire in1,
+                  input wire in2);
+    xor(sum, in1, in2);
+    and(cout, in1, in2);
+endmodule
+
+
 ///////////////////////////////////////////////////////////////////////////////////
 //
 // Module Name: Full Adder (1-bit)
