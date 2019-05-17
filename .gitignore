@@ -2,3 +2,7 @@ simulations/simv
 simulations/csrc/*
 simulations/simv.daidir/*
 simulations/ucli.key
+simulations/.restartSimSession.tcl.old
+simulations/.synopsys_dve_rebuild.tcl
+simulations/DVEfiles/
+simulations/inter.vpd
