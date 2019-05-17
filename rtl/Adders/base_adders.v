@@ -18,7 +18,7 @@ module sign_bit_32(output wire sign,
 endmodule
 
 
-module half_adder(output wire sign,
+module half_adder(output wire sum,
                   output wire cout,
                   input wire in1,
                   input wire in2);

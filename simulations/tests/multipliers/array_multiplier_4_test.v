@@ -5,7 +5,7 @@ module test_array_multiplier_4;
   reg [3:0] B;
 
   // Outputs
-  wire [8:0] product;
+  wire [7:0] product;
   
   // Instantiate the Unit test (UUT)
   array_multiplier_4 uut(
