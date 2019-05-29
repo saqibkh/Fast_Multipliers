@@ -1,4 +1,4 @@
-module array_multiplier_4(output wire [7:0] product,
+module array_unsigned_multiplier_4(output wire [7:0] product,
                           input wire [3:0] A, B);
 
   wire c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10;
@@ -39,7 +39,7 @@ module array_multiplier_4(output wire [7:0] product,
   full_adder FA8(product[6], product[7], a3b[3], c7, c10);
 endmodule
 
-module array_multiplier_8(output wire [15:0] product,
+module array_unsigned_multiplier_8(output wire [15:0] product,
                           input wire [7:0] A, B);
 
 
@@ -182,7 +182,7 @@ full_adder FA6_7(product[14], product[15],  c5_7, a7b7, c6_6);
 endmodule
 
 
-module array_multiplier_16(output wire [31:0] product,
+module array_unsigned_multiplier_16(output wire [31:0] product,
                           input wire [15:0] A, B);
 
 and AND1(a0b0, A[0], B[0]);and AND2(a0b1, A[0], B[1]);

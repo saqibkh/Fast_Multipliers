@@ -1,14 +1,14 @@
-module test_array_multiplier_8;
+module test_array_signed_multiplier_8;
 
   // Inputs
-  reg [7:0] A;
-  reg [7:0] B;
+  reg signed [7:0] A;
+  reg signed [7:0] B;
 
   // Outputs
-  wire [15:0] product;
+  wire signed [15:0] product;
   
   // Instantiate the Unit test (UUT)
-  array_multiplier_8 uut(
+  array_signed_multiplier_8 uut(
     .product(product),
     .A(A),
     .B(B));
@@ -26,6 +26,6 @@ module test_array_multiplier_8;
     #10 A=8'b11111111;B=8'b11111111;
     end
   initial begin
-    $monitor("time=",$time,, "A=%D B=%d : product=%d",A,B,product);
+    $monitor("time=",$time,, "A=%d B=%d : product=%d",A,B,product);
   end
 endmodule

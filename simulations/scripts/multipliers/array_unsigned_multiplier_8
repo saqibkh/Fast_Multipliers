@@ -1,0 +1,4 @@
+#!/bin/sh
+module load synopsys/vcs
+vcs -full64 time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Multipliers/array_unsigned_multiplier.v tests/multipliers/array_unsigned_multiplier_8_test.v -debug_all
+./simv

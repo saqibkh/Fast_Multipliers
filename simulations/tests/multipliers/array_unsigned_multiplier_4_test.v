@@ -1,4 +1,4 @@
-module test_array_multiplier_4;
+module test_array_unsigned_multiplier_4;
 
   // Inputs
   reg [3:0] A;
@@ -8,7 +8,7 @@ module test_array_multiplier_4;
   wire [7:0] product;
   
   // Instantiate the Unit test (UUT)
-  array_multiplier_4 uut(
+  array_unsigned_multiplier_4 uut(
     .product(product),
     .A(A),
     .B(B));
@@ -25,6 +25,6 @@ module test_array_multiplier_4;
     #10 A=4'b1101;B=4'b1010;
     end
   initial begin
-    $monitor("time=",$time,, "A=%b B=%b : product=%b",A,B,product);
+    $monitor("time=",$time,, "A=%d B=%d : product=%d",A,B,product);
   end
 endmodule
