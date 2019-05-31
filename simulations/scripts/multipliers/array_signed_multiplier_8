@@ -1,4 +1,3 @@
 #!/bin/sh
-module load synopsys/vcs
 vcs -full64 time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Multipliers/array_signed_multiplier.v tests/multipliers/array_signed_multiplier_8_test.v -debug_all
 ./simv
