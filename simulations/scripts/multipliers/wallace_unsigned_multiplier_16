@@ -1,4 +1,3 @@
 #!/bin/sh
-module load synopsys/vcs
-vcs -full64 -sverilog time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Multipliers/wallace_unsigned_multiplier.v tests/multipliers/wallace_unsigned_multiplier_16_test.v -debug_all
+vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/wallace/wallace_unsigned_multiplier_16.v tests/multipliers/wallace_unsigned_multiplier_16_test.v -debug_all
 ./simv
