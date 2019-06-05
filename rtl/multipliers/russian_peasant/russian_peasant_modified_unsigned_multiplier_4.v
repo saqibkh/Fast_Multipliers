@@ -1,26 +1,3 @@
-module half_adder(output wire sum,
-                  output wire cout,
-                  input wire in1,
-                  input wire in2);
-    xor(sum, in1, in2);
-    and(cout, in1, in2);
-endmodule
-
-module full_adder(output wire sum,
-                  output wire cout,
-                  input wire in1,
-                  input wire in2,
-                  input wire cin);
-    wire temp1;
-    wire temp2;
-    wire temp3;
-    xor(sum, in1, in2, cin);
-    and(temp1,in1,in2);
-    and(temp2,in1,cin);
-    and(temp3,in2,cin);
-    or(cout,temp1,temp2,temp3);
-endmodule
-
 module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
@@ -80,4 +57,27 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     full_adder(product[4], c32,        s23,   c22, c31);
     full_adder(product[5], c33,        s24,   c23, c32);
     full_adder(product[6], product[7], P3[6], c24, c33);
+endmodule
+
+module half_adder(output wire sum,
+                  output wire cout,
+                  input wire in1,
+                  input wire in2);
+    xor(sum, in1, in2);
+    and(cout, in1, in2);
+endmodule
+
+module full_adder(output wire sum,
+                  output wire cout,
+                  input wire in1,
+                  input wire in2,
+                  input wire cin);
+    wire temp1;
+    wire temp2;
+    wire temp3;
+    xor(sum, in1, in2, cin);
+    and(temp1,in1,in2);
+    and(temp2,in1,cin);
+    and(temp3,in2,cin);
+    or(cout,temp1,temp2,temp3);
 endmodule
