@@ -1,4 +1,3 @@
 #!/bin/sh
-module load synopsys/vcs
-vcs -full64 -sverilog time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Multipliers/dadda_signed_multiplier.v tests/multipliers/dadda_signed_multiplier_4_test.v -debug_all
+vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/dadda/dadda_signed_multiplier_4.v tests/multipliers/dadda_signed_multiplier_4_test.v -debug_all
 ./simv

@@ -1,4 +1,3 @@
 #!/bin/sh
-module load synopsys/vcs
-vcs -full64 -sverilog time -v ../rtl/Misc/lib1 ../rtl/Multipliers/russian_peasant_unsigned_multiplier.v tests/multipliers/russian_peasant_unsigned_multiplier_8_test.v -debug_all
+vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/russian_peasant/russian_peasant_unsigned_multiplier_8.v tests/multipliers/russian_peasant_unsigned_multiplier_8_test.v -debug_all
 ./simv
