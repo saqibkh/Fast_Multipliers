@@ -1,4 +1,4 @@
-module test_booth_multiplier_4;
+module test_booth_signed_multiplier_4;
 
   // Inputs
   reg signed [3:0] A;
@@ -8,7 +8,7 @@ module test_booth_multiplier_4;
   wire signed [7:0] product;
   
   // Instantiate the Unit test (UUT)
-  booth_multiplier_4 uut(
+  booth_signed_multiplier_4 uut(
     .product(product),
     .A(A),
     .B(B));

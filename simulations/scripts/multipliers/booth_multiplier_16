@@ -1,4 +1,0 @@
-#!/bin/sh
-module load synopsys/vcs
-vcs -full64 -sverilog time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Multipliers/booth_multiplier.v tests/multipliers/booth_multiplier_16_test.v -debug_all
-./simv

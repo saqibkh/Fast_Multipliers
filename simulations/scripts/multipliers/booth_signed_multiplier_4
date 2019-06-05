@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/booth/booth_signed_multiplier_4.v tests/multipliers/booth_signed_multiplier_4_test.v -debug_all
+./simv
