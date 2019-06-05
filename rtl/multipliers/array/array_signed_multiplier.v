@@ -1,11 +1,11 @@
-module array_unsigned_multiplier_4(output wire [7:0] product,
+module array_signed_multiplier_4(output wire [7:0] product,
                           input wire [3:0] A, B);
 
   wire c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10;
   wire s1,s2,s3,s5,s6,s7;
   wire [3:0] a0b, a1b, a2b, a3b;
 
-  // Generate all dot products of A x B
+  /* Generate all dot products of A x B */
   and AND1(a0b[0], A[0], B[0]);
   and AND2(a0b[1], A[0], B[1]);
   and AND3(a0b[2], A[0], B[2]);
@@ -39,7 +39,7 @@ module array_unsigned_multiplier_4(output wire [7:0] product,
   full_adder FA8(product[6], product[7], a3b[3], c7, c10);
 endmodule
 
-module array_unsigned_multiplier_8(output wire [15:0] product,
+module array_signed_multiplier_8(output wire [15:0] product,
                           input wire [7:0] A, B);
 
 
@@ -150,7 +150,7 @@ full_adder FA3_5(s3_5, c3_5,       s2_6, a5b4, c3_4);
 full_adder FA3_6(s3_6, c3_6,       s2_7, a6b4, c3_5);
 full_adder FA3_7(s3_7, c3_7,       c2_7, a7b4, c3_6);
 
-//row 4
+/* row 4 */
 half_adder HA4_1(product[5], c4_0, s3_1, a0b5);
 full_adder FA4_1(s4_1, c4_1,       s3_2, a1b5, c4_0);
 full_adder FA4_2(s4_2, c4_2,       s3_3, a2b5, c4_1);
@@ -160,7 +160,7 @@ full_adder FA4_5(s4_5, c4_5,       s3_6, a5b5, c4_4);
 full_adder FA4_6(s4_6, c4_6,       s3_7, a6b5, c4_5);
 full_adder FA4_7(s4_7, c4_7,       c3_7, a7b5, c4_6);
 
-//row 5
+/* row 5 */
 half_adder HA5_1(product[6], c5_0, s4_1, a0b6);
 full_adder FA5_1(s5_1, c5_1,       s4_2, a1b6, c5_0);
 full_adder FA5_2(s5_2, c5_2,       s4_3, a2b6, c5_1);
@@ -170,7 +170,7 @@ full_adder FA5_5(s5_5, c5_5,       s4_6, a5b6, c5_4);
 full_adder FA5_6(s5_6, c5_6,       s4_7, a6b6, c5_5);
 full_adder FA5_7(s5_7, c5_7,       c4_7, a7b6, c5_6);
 
-//row 6
+/* row 6 */
 half_adder HA6_1(product[7],  c6_0,         s5_1, a0b7);
 full_adder FA6_1(product[8],  c6_1,         s5_2, a1b7, c6_0);
 full_adder FA6_2(product[9],  c6_2,         s5_3, a2b7, c6_1);
@@ -182,7 +182,7 @@ full_adder FA6_7(product[14], product[15],  c5_7, a7b7, c6_6);
 endmodule
 
 
-module array_unsigned_multiplier_16(output wire [31:0] product,
+module array_signed_multiplier_16(output wire [31:0] product,
                           input wire [15:0] A, B);
 
 and AND1(a0b0, A[0], B[0]);and AND2(a0b1, A[0], B[1]);
