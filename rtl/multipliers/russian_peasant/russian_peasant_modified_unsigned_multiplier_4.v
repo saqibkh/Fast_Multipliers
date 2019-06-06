@@ -13,51 +13,49 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
         B_mod = B;
 
         P0 = A[0] ? B_mod : 8'd00;
-        B_mod[4] = B_mod[3];
-        B_mod[3] = B_mod[2];
-        B_mod[2] = B_mod[1];
-        B_mod[1] = B_mod[0];
-        B_mod[0] = 0;
 
+        B_mod = B_mod << 1;
         P1 = A[1] ? B_mod : 8'd00;
-        B_mod[5] = B_mod[4];
-        B_mod[4] = B_mod[3];
-        B_mod[3] = B_mod[2];
-        B_mod[2] = B_mod[1];
-        B_mod[1] = 0;
 
+        B_mod = B_mod << 1;
         P2 = A[2] ? B_mod : 8'd00;
-        B_mod[6] = B_mod[5];
-        B_mod[5] = B_mod[4];
-        B_mod[4] = B_mod[3];
-        B_mod[3] = B_mod[2];
-        B_mod[2] = 0;
 
+        B_mod = B_mod << 1;
         P3 = A[3] ? B_mod : 8'd00;
-        B_mod[7] = B_mod[6];
-        B_mod[6] = B_mod[5];
-        B_mod[5] = B_mod[4];
-        B_mod[4] = B_mod[3];
-        B_mod[3] = 0;
     end
 
+    /* First stage of Wallace Tree Reduction */
     assign product[0] = P0[0];
-    half_adder HA1(s11, c11, P0[1], P1[1]);
-    full_adder FA1(s12, c12, P0[2], P1[2], P2[2]);
-    full_adder FA2(s13, c13, P0[3], P1[3], P2[3]);
-    half_adder HA2(s14, c14,        P1[4], P2[4]);
+    half_adder HA1(product[1], c11, P0[1], P1[1]);
+    full_adder FA1(s12,        c12, P0[2], P1[2], P2[2]);
+    full_adder FA2(s13,        c13, P0[3], P1[3], P2[3]);
+    half_adder HA2(s14,        c14,        P1[4], P2[4]);
 
-    assign product[1] = s11;
-    half_adder HA3(s21,        c21,        s12,   c11);
+    /* Second stage of Wallace Tree Reduction */
+    half_adder HA3(product[2], c21,        s12,   c11);
     full_adder FA3(s22,        c22, P3[3], s13,   c12);
     full_adder FA4(s23,        c23, P3[4], s14,   c13);
     full_adder FA5(s24,        c24, P3[5], P2[5], c14);
 
-    assign product[2] = s21;
-    half_adder HA4(product[3], c31,        s22,   c21);
-    full_adder FA6(product[4], c32,        s23,   c22, c31);
-    full_adder FA7(product[5], c33,        s24,   c23, c32);
-    full_adder FA8(product[6], product[7], P3[6], c24, c33);
+    /* Final Stage of adding products using Carry-Look-Ahead(CLA) Adder */
+    wire [3:0] sum;
+    wire [3:0] G; /* Generate */
+    wire [3:0] P; /* Propagate */
+    wire [3:0] C; /* Carry */
+
+    assign G[0] = s22 & c21; assign G[1] = s23 & c22; assign G[2] = s24 & c23; assign G[3] = P3[6] & c24;
+    assign P[0] = s22 ^ c21; assign P[1] = s23 ^ c22; assign P[2] = s24 ^ c23; assign P[3] = P3[6] ^ c24;
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */
+    assign C[1] = G[0];// | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & G[0]);// | (P[1] & P[0] & C[0]);
+    assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]);// | (P[2] & P[1] & P[0] & C[0]); 
+    assign product[7] = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1] & G[0]);// |(P[3] & P[2] & P[1] & P[0] & C[0]);
+    assign sum = P ^ C;
+    assign product[3] = sum[0];
+    assign product[4] = sum[1];
+    assign product[5] = sum[2];
+    assign product[6] = sum[3];
 endmodule
 
 module half_adder(output wire sum,

@@ -9,12 +9,12 @@ module carry_lookahead_adder_8(output [7:0] sum,
                                 input [7:0] in1, in2,
                                 input cin);
 
-wire [7:0] G; // Generate
-wire [7:0] P; // Propagate
-wire [7:0] C; // Carry
+wire [7:0] G; /* Generate */
+wire [7:0] P; /* Propagate */
+wire [7:0] C; /* Carry */
 
-assign G = in1 & in2; //Generate
-assign P = in1 ^ in2; //Propagate
+assign G = in1 & in2; /*Generate*/
+assign P = in1 ^ in2; /*Propagate*/
 
 assign C[0] = cin;
 assign C[1] = G[0] | (P[0] & C[0]);
