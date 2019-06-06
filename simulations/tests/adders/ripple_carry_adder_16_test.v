@@ -1,4 +1,4 @@
-module test_ripple_adder_16;
+module test_ripple_carry_adder_16;
 
   // Inputs
   reg [15:0] in1;
@@ -10,7 +10,7 @@ module test_ripple_adder_16;
   wire cout;
   
   // Instantiate the Unit test (UUT)
-  ripple_adder_16 uut(
+  ripple_carry_adder_16 uut(
     .sum(sum),
     .cout(cout),
     .in1(in1),

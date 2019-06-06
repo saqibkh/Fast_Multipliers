@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/ripple_carry/ripple_carry_adders_16.v tests/adders/ripple_carry_adder_16_test.v -debug_all
+./simv
