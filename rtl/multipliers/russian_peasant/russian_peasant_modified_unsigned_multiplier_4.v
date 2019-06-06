@@ -2,7 +2,8 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
 
-    reg [7:0] product, temp, B_mod;
+    wire [7:0] product;
+    reg [7:0] temp, B_mod;
     reg [7:0] P0, P1, P2, P3;
 
     wire s11, s12, s13, s14, s21, s22, s23, s24;
@@ -41,22 +42,22 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     end
 
     assign product[0] = P0[0];
-    half_adder(s11, c11, P0[1], P1[1]);
-    full_adder(s12, c12, P0[2], P1[2], P2[2]);
-    full_adder(s13, c13, P0[3], P1[3], P2[3]);
-    half_adder(s14, c14,        P1[4], P2[4]);
+    half_adder HA1(s11, c11, P0[1], P1[1]);
+    full_adder FA1(s12, c12, P0[2], P1[2], P2[2]);
+    full_adder FA2(s13, c13, P0[3], P1[3], P2[3]);
+    half_adder HA2(s14, c14,        P1[4], P2[4]);
 
     assign product[1] = s11;
-    half_adder(s21,        c21,        s12,   c11);
-    full_adder(s22,        c22, P3[3], s13,   c12);
-    full_adder(s23,        c23, P3[4], s14,   c13);
-    full_adder(s24,        c24, P3[5], P2[5], c14);
+    half_adder HA3(s21,        c21,        s12,   c11);
+    full_adder FA3(s22,        c22, P3[3], s13,   c12);
+    full_adder FA4(s23,        c23, P3[4], s14,   c13);
+    full_adder FA5(s24,        c24, P3[5], P2[5], c14);
 
     assign product[2] = s21;
-    half_adder(product[3], c31,        s22,   c21);
-    full_adder(product[4], c32,        s23,   c22, c31);
-    full_adder(product[5], c33,        s24,   c23, c32);
-    full_adder(product[6], product[7], P3[6], c24, c33);
+    half_adder HA4(product[3], c31,        s22,   c21);
+    full_adder FA6(product[4], c32,        s23,   c22, c31);
+    full_adder FA7(product[5], c33,        s24,   c23, c32);
+    full_adder FA8(product[6], product[7], P3[6], c24, c33);
 endmodule
 
 module half_adder(output wire sum,
