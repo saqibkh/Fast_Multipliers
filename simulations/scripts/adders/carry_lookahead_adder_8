@@ -1,4 +1,3 @@
 #!/bin/sh
-module load synopsys/vcs
-vcs -full64 time -v ../rtl/Misc/lib1 ../rtl/Adders/base_adders.v ../rtl/Adders/carry_lookahead_adders.v tests/carry_lookahead_adder_8_test.v -debug_all
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/base_adders.v ../rtl/adders/carry_lookahead_adders.v tests/carry_lookahead_adder_8_test.v -debug_all
 ./simv
