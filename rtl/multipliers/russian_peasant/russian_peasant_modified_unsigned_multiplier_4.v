@@ -26,7 +26,6 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     full_adder FA5(s24,        c24, P3[2], P2[3], c14);
 
     /* Final Stage of adding products using Carry-Look-Ahead(CLA) Adder */
-    wire [3:0] sum;
     wire [3:0] G; /* Generate */
     wire [3:0] P; /* Propagate */
     wire [3:0] C; /* Carry */
