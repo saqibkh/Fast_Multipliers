@@ -43,6 +43,39 @@ module russian_peasant_modified_unsigned_multiplier_4(product, A, B);
     assign product[6] = P[3] ^ C[3];
 endmodule
 
+module russian_peasant_modified_unsigned_multiplier_4_attemp2(product, A, B);
+    input [3:0] A, B;
+    output [7:0] product;
+
+    wire [7:0] product;
+    wire s11, s12, s13, s14, s21, s22, s23, s24;
+    wire c11, c12, c13, c14, c21, c22, c23, c24, c31, c32, c33;
+
+    wire [3:0] P0, P1, P2, P3;
+    assign P0 = A[0] ? B : 4'b0000;
+    assign P1 = A[1] ? B : 4'b0000;
+    assign P2 = A[2] ? B : 4'b0000;
+    assign P3 = A[3] ? B : 4'b0000;
+
+    /* First stage of Wallace Tree Reduction */
+    assign product[0] = P0[0];
+    half_adder HA1(product[1], c11, P0[1], P1[0]);
+    full_adder FA1(s12,        c12, P0[2], P1[1], P2[0]);
+    full_adder FA2(s13,        c13, P0[3], P1[2], P2[1]);
+    half_adder HA2(s14,        c14,        P1[3], P2[2]);
+
+    /* Second stage of Wallace Tree Reduction */
+    half_adder HA3(product[2], c21,        s12,   c11);
+    full_adder FA3(s22,        c22, P3[0], s13,   c12);
+    full_adder FA4(s23,        c23, P3[1], s14,   c13);
+    full_adder FA5(s24,        c24, P3[2], P2[3], c14);
+
+    half_adder HA01(product[3], c31,        s22,   c21);
+    full_adder FA01(product[4], c32,        s23,   c22, c31);
+    full_adder FA02(product[5], c33,        s24,   c23, c32);
+    full_adder FA03(product[6], product[7], P3[3], c24, c33);
+endmodule
+
 module russian_peasant_modified_unsigned_multiplier_4_attempt1(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
@@ -116,12 +149,7 @@ module full_adder(output wire sum,
                   input wire in1,
                   input wire in2,
                   input wire cin);
-    wire temp1;
-    wire temp2;
-    wire temp3;
-    xor(sum, in1, in2, cin);
-    and(temp1,in1,in2);
-    and(temp2,in1,cin);
-    and(temp3,in2,cin);
-    or(cout,temp1,temp2,temp3);
+    half_adder HA1(sum1, c1, in1, in2);
+    half_adder HA2(sum, c2, sum1, cin);
+    or(cout, in1*in2, in1*cin, in2*cin);
 endmodule
