@@ -149,7 +149,12 @@ module full_adder(output wire sum,
                   input wire in1,
                   input wire in2,
                   input wire cin);
-    half_adder HA1(sum1, c1, in1, in2);
-    half_adder HA2(sum, c2, sum1, cin);
-    or(cout, in1*in2, in1*cin, in2*cin);
+    wire temp1;
+    wire temp2;
+    wire temp3;
+    xor(sum, in1, in2, cin);
+    and(temp1,in1,in2);
+    and(temp2,in1,cin);
+    and(temp3,in2,cin);
+    or(cout,temp1,temp2,temp3);
 endmodule
