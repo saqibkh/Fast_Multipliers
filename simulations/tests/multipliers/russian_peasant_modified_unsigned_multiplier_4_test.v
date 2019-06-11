@@ -20,13 +20,15 @@ module test_russian_peasant_modified_unsigned_multiplier_4;
     // Wait 100 ns for global reset to finish
     #100;
     // Add stimulus here
-    //A=4'b0001;B=4'b0000;
+    A=4'b0001;B=4'b0000;
     #10 A=4'b0010;B=4'b0011;
     #10 A=4'b1010;B=4'b0011;
     #10 A=4'b1101;B=4'b1010;
     #10 A=4'b0001;B=4'b0001;
     #10 A=4'b0010;B=4'b0010;
-    #10 A=4'b0101;B=4'b0010;
+    #10 A=4'b1101;B=4'b0010;
+    #10 A=4'b1101;B=4'b0110;
+    #10 A=4'b1101;B=4'b1110;
     end
   initial begin
     //$monitor("time=",$time,, "A=%b B=%b : product=%b",A,B,product);
