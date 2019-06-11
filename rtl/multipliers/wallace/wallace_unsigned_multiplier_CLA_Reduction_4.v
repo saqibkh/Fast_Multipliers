@@ -1,4 +1,6 @@
 module wallace_unsigned_multiplier_CLA_Reduction_4(product, A, B);
+    /* This implementation uses a 4bit CLA adder for the final stage along
+     * with a half adder */
     input [3:0] A, B;
     output [7:0] product;
 

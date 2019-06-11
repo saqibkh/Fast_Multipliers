@@ -1,4 +1,5 @@
 module dadda_unsigned_multiplier_CLA_Reduced_4(product, A, B);
+    /* This implementation uses a 5-Bit CLA adder for the final stage */
     input [3:0] A, B;
     output [7:0] product;
 
