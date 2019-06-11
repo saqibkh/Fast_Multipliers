@@ -20,7 +20,7 @@ module test_wallace_unsigned_multiplier_CLA_Reduction_4;
     // Wait 100 ns for global reset to finish
     #100;
     // Add stimulus here
-    //A=4'b0001;B=4'b0000;
+    A=4'b0001;B=4'b0000;
     #10 A=4'b0010;B=4'b0011;
     #10 A=4'b1010;B=4'b0011;
     #10 A=4'b1101;B=4'b1010;

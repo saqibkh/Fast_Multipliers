@@ -23,23 +23,72 @@ module dadda_unsigned_multiplier_CLA_Reduced_4(product, A, B);
 
     assign product[0] = pp0[0];
 
-    /* First Stage */
-    half_adder ha1(s11, c11, pp3[0], pp2[1]);
-    half_adder ha2(s12, c12, pp3[1], pp2[2]);
+    /*  First Carry Look-Ahead Adder */
+    wire [3:0] G1; /* Generate */
+    wire [3:0] P1; /* Propagate */
+    wire [3:0] C1; /* Carry */
+    assign G1[0] = pp0[1] & pp1[0];
+    assign G1[1] = pp0[2] & pp1[1];
+    assign G1[2] = pp0[3] & pp1[2];
+    /*assign G[3] = 0      & pp1[3]; */
+    assign P1[0] = pp0[1] ^ pp1[0];
+    assign P1[1] = pp0[2] ^ pp1[1];
+    assign P1[2] = pp0[3] ^ pp1[2];
+    assign P1[3] = pp1[3]; //0      ^ pp1[3];
+    /*assign C[0] = 0; */
+    assign C1[1] = G1[0];
+    assign C1[2] = G1[1] | (P1[1] & C1[1]);
+    assign C1[3] = G1[2] | (P1[2] & C1[2]);
+    assign c1    = P1[3] & C1[3]; //G[3] | (P[3] & C[3]);
+    assign s1    = P1[0];
+    assign s2    = P1[1] ^ C1[1];
+    assign s3    = P1[2] ^ C1[2];
+    assign s4    = P1[3] ^ C1[3];
 
-    /* Second Stage */
-    half_adder ha3(s21, c21, pp2[0], pp1[1]);
-    full_adder fa1(s22, c22, pp1[2], pp0[3], s11);
-    full_adder fa2(s23, c23, pp1[3], s12,    c11);
-    full_adder fa3(s24, c24, pp2[3], pp3[2], c12);
+    /* Second Carry Look-Ahead Adder */
+    wire [2:0] G2; /* Generate */
+    wire [2:0] P2; /* Propagate */
+    wire [2:0] C2; /* Carry */
+    assign G2[0] = pp2[1] & pp3[0];
+    assign G2[1] = pp2[2] & pp3[1];
+    assign G2[2] = pp2[3] & pp3[2];
+    assign P2[0] = pp2[1] ^ pp3[0];
+    assign P2[1] = pp2[2] ^ pp3[1];
+    assign P2[2] = pp2[3] ^ pp3[2];
+    /*assign C[0] = 0; */
+    assign C2[1] = G2[0];
+    assign C2[2] = G2[1] | (P2[1] & C2[1]);
+    assign c2    = G2[2] | (P2[2] & C2[2]);
+    assign s5    = P2[0];
+    assign s6    = P2[1] ^ C2[1];
+    assign s7    = P2[2] ^ C2[2];
 
-    /* Final Stage */
-    half_adder ha4(product[1], c31,        pp0[1], pp1[0]);
-    full_adder fa4(product[2], c32,        s21,    pp0[2], c31);
-    full_adder fa5(product[3], c33,        s22,    c21,    c32);
-    full_adder fa6(product[4], c34,        s23,    c22,    c33);
-    full_adder fa7(product[5], c35,        s24,    c23,    c34);
-    full_adder fa8(product[6], product[7], pp3[3], c24,    c35);
+    /* Final Stage of Carry Look-Ahead Adder */
+    assign product[1] = s1;
+    wire [4:0] G; /* Generate */
+    wire [4:0] P; /* Propagate */
+    wire [4:0] C; /* Carry */
+    assign G[0] = s2     & pp2[0];
+    assign G[1] = s3     & s5;
+    assign G[2] = s4     & s6;
+    assign G[3] = c1     & s7;
+    assign G[4] = pp3[3] & c2;
+    assign P[0] = s2     ^ pp2[0];
+    assign P[1] = s3     ^ s5;
+    assign P[2] = s4     ^ s6;
+    assign P[3] = c1     ^ s7;
+    assign P[4] = pp3[3] ^ c2;
+    /*assign C[0] = 0; */
+    assign C[1] = G[0];
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign product[7] = G[4] | (P[4] & C[4]);
+    assign product[2] = P[0];
+    assign product[3] = P[1] ^ C[1];
+    assign product[4] = P[2] ^ C[2];
+    assign product[5] = P[3] ^ C[3];
+    assign product[6] = P[4] ^ C[4];
 endmodule
 
 module half_adder(output wire sum,
