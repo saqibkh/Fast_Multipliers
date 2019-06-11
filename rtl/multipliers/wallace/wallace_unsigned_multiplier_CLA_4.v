@@ -36,12 +36,31 @@ module wallace_unsigned_multiplier_CLA_4(product, A, B);
     full_adder fa5(s23,        c23, pp3[1], s14,    c13);
     full_adder fa6(s24,        c24, pp3[2], pp2[3], c14);
 
-/* Final Stage uses ripple carry adder */
+/* Final Stage uses Carry Look-Ahead Adder */
     assign product[2] = s21;
-    half_adder ha4(product[3], c31,        s22,    c21);
-    full_adder fa7(product[4], c32,        s23,    c22, c31);
-    full_adder fa8(product[5], c33,        s24,    c23, c32);
-    full_adder fa9(product[6], product[7], pp3[3], c24, c33);
+
+    wire [3:0] G; /* Generate */
+    wire [3:0] P; /* Propagate */
+    wire [3:0] C; /* Carry */
+    assign G[0] = s22    & c21;
+    assign G[1] = s23    & c22;
+    assign G[2] = s24    & c23;
+    assign G[3] = pp3[3] & c24;
+    assign P[0] = s22    ^ c21;
+    assign P[1] = s23    ^ c22;
+    assign P[2] = s24    ^ c23;
+    assign P[3] = pp3[3] ^ c24;
+
+    //assign C[0] = 0;
+    assign C[1] = G[0];
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign product[7]  = G[3] | (P[3] & C[3]);
+
+    assign product[3] = P[0]; 
+    assign product[4] = P[1] ^ C[1];
+    assign product[5] = P[2] ^ C[2];
+    assign product[6] = P[3] ^ C[3];
 endmodule
 
 module half_adder(output wire sum,

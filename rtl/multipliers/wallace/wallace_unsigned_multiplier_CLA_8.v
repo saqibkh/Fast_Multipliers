@@ -137,17 +137,54 @@ module wallace_unsigned_multiplier_CLA_8(product, A, B);
     full_adder fa38(s410,       c410, s236, c310, c235);
     half_adder ha15(s411,       c411, pp7[7],     c236);
 
-    /* Final Stage */
-    half_adder ha16(product[5],  c51,         s402, c401);
-    full_adder fa39(product[6],  c52,         s403, c402, c51);
-    full_adder fa40(product[7],  c53,         s404, c403, c52);
-    full_adder fa41(product[8],  c54,         s405, c404, c53);
-    full_adder fa42(product[9],  c55,         s406, c405, c54);
-    full_adder fa43(product[10], c56,         s407, c406, c55);
-    full_adder fa44(product[11], c57,         s408, c407, c56);
-    full_adder fa45(product[12], c58,         s409, c408, c57);
-    full_adder fa46(product[13], c59,         s410, c409, c58);
-    full_adder fa47(product[14], product[15], s411, c410, c59);
+    /* Final Stage is a Carry Look-Ahead Adder */
+    wire [9:0] G; /* Generate */
+    wire [9:0] P; /* Propagate */
+    wire [9:0] C; /* Carry */
+
+    assign G[0] = s402 & c401;
+    assign G[1] = s403 & c402;
+    assign G[2] = s404 & c403;
+    assign G[3] = s405 & c404;
+    assign G[4] = s406 & c405;
+    assign G[5] = s407 & c406;
+    assign G[6] = s408 & c407;
+    assign G[7] = s409 & c408;
+    assign G[8] = s410 & c409;
+    assign G[9] = s411 & c410;
+    assign P[0] = s402 ^ c401;
+    assign P[1] = s403 ^ c402;
+    assign P[2] = s404 ^ c403;
+    assign P[3] = s405 ^ c404;
+    assign P[4] = s406 ^ c405;
+    assign P[5] = s407 ^ c406;
+    assign P[6] = s408 ^ c407;
+    assign P[7] = s409 ^ c408;
+    assign P[8] = s410 ^ c409;
+    assign P[9] = s411 ^ c410;
+
+    //assign C[0] = 0;
+    assign C[1]        = G[0];// | (P[0] & C[0]);
+    assign C[2]        = G[1] | (P[1] & C[1]);
+    assign C[3]        = G[2] | (P[2] & C[2]);
+    assign C[4]        = G[3] | (P[3] & C[3]);
+    assign C[5]        = G[4] | (P[4] & C[4]);
+    assign C[6]        = G[5] | (P[5] & C[5]);
+    assign C[7]        = G[6] | (P[6] & C[6]);
+    assign C[8]        = G[7] | (P[7] & C[7]);
+    assign C[9]        = G[8] | (P[8] & C[8]);
+    assign product[15] = G[9] | (P[9] & C[9]);
+
+    assign product[5]  = P[0];
+    assign product[6]  = P[1] ^ C[1];
+    assign product[7]  = P[2] ^ C[2];
+    assign product[8]  = P[3] ^ C[3];
+    assign product[9]  = P[4] ^ C[4];
+    assign product[10] = P[5] ^ C[5];
+    assign product[11] = P[6] ^ C[6];
+    assign product[12] = P[7] ^ C[7];
+    assign product[13] = P[8] ^ C[8];
+    assign product[14] = P[9] ^ C[9];
 endmodule
 
 module half_adder(output wire sum,
