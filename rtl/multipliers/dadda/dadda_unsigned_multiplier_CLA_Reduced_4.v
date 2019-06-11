@@ -1,4 +1,4 @@
-module dadda_unsigned_multiplier_4(product, A, B);
+module dadda_unsigned_multiplier_CLA_Reduced_4(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
 

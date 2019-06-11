@@ -1,4 +1,4 @@
-module dadda_unsigned_multiplier_16(product, A, B);
+module dadda_unsigned_multiplier_RCA_16(product, A, B);
     input [15:0] A, B;
     output [31:0] product;
 

@@ -1,4 +1,4 @@
-module test_dadda_unsigned_multiplier_8;
+module test_dadda_unsigned_multiplier_CLA_8;
 
   // Inputs
   reg [7:0] A;
@@ -8,7 +8,7 @@ module test_dadda_unsigned_multiplier_8;
   wire [15:0] product;
   
   // Instantiate the Unit test (UUT)
-  dadda_unsigned_multiplier_8 uut(
+  dadda_unsigned_multiplier_CLA_8 uut(
     .product(product),
     .A(A),
     .B(B));

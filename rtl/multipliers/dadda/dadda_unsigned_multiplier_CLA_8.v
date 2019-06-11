@@ -1,4 +1,4 @@
-module dadda_unsigned_multiplier_8(product, A, B);
+module dadda_unsigned_multiplier_CLA_8(product, A, B);
     input [7:0] A, B;
     output [15:0] product;
 
@@ -121,22 +121,72 @@ module dadda_unsigned_multiplier_8(product, A, B);
     full_adder fa34(s411, c411, c208,   s310,   c309);
     full_adder fa35(s412, c412, pp7[6], pp6[7], c310);
 
-    /* Final Stage */
+    /* Final Stage is a Carry Look-Ahead Adder */
     assign product[0] = pp0[0];
-    half_adder ha08(product[1],  c501,        pp1[0], pp0[1]);
-    full_adder fa36(product[2],  c502,        pp0[2], s401,   c501);
-    full_adder fa37(product[3],  c503,        c401,   s402,   c502);
-    full_adder fa38(product[4],  c504,        c402,   s403,   c503);
-    full_adder fa39(product[5],  c505,        c403,   s404,   c504);
-    full_adder fa40(product[6],  c506,        c404,   s405,   c505);
-    full_adder fa41(product[7],  c507,        c405,   s406,   c506);
-    full_adder fa42(product[8],  c508,        c406,   s407,   c507);
-    full_adder fa43(product[9],  c509,        c407,   s408,   c508);
-    full_adder fa44(product[10], c510,        c408,   s409,   c509);
-    full_adder fa45(product[11], c511,        c409,   s410,   c510);
-    full_adder fa46(product[12], c512,        c410,   s411,   c511);
-    full_adder fa47(product[13], c513,        c411,   s412,   c512);
-    full_adder fa48(product[14], product[15], c412,   pp7[7], c513);
+
+    wire [13:0] G; /* Generate */
+    wire [13:0] P; /* Propagate */
+    wire [13:0] C; /* Carry */
+
+    assign G[0]  = pp1[0] & pp0[1];
+    assign G[1]  = pp0[2] & s401;
+    assign G[2]  = c401   & s402;
+    assign G[3]  = c402   & s403;
+    assign G[4]  = c403   & s404;
+    assign G[5]  = c404   & s405;
+    assign G[6]  = c405   & s406;
+    assign G[7]  = c406   & s407;
+    assign G[8]  = c407   & s408;
+    assign G[9]  = c408   & s409;
+    assign G[10] = c409   & s410;
+    assign G[11] = c410   & s411;
+    assign G[12] = c411   & s412;
+    assign G[13] = c412   & pp7[7];
+    assign P[0]  = pp1[0] ^ pp0[1];
+    assign P[1]  = pp0[2] ^ s401;
+    assign P[2]  = c401   ^ s402;
+    assign P[3]  = c402   ^ s403;
+    assign P[4]  = c403   ^ s404;
+    assign P[5]  = c404   ^ s405;
+    assign P[6]  = c405   ^ s406;
+    assign P[7]  = c406   ^ s407;
+    assign P[8]  = c407   ^ s408;
+    assign P[9]  = c408   ^ s409;
+    assign P[10] = c409   ^ s410;
+    assign P[11] = c410   ^ s411;
+    assign P[12] = c411   ^ s412;
+    assign P[13] = c412   ^ pp7[7];
+
+    //assign C[0] = 0;
+    assign C[1]  = G[0];
+    assign C[2]  = G[1]  | (P[1]  & C[1]);
+    assign C[3]  = G[2]  | (P[2]  & C[2]);
+    assign C[4]  = G[3]  | (P[3]  & C[3]);
+    assign C[5]  = G[4]  | (P[4]  & C[4]);
+    assign C[6]  = G[5]  | (P[5]  & C[5]);
+    assign C[7]  = G[6]  | (P[6]  & C[6]);
+    assign C[8]  = G[7]  | (P[7]  & C[7]);
+    assign C[9]  = G[8]  | (P[8]  & C[8]);
+    assign C[10] = G[9]  | (P[9]  & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign product[15] = G[13] | (P[13] & C[13]);
+
+    assign product[1]  = P[0];
+    assign product[2]  = P[1]  ^ C[1];
+    assign product[3]  = P[2]  ^ C[2];
+    assign product[4]  = P[3]  ^ C[3];
+    assign product[5]  = P[4]  ^ C[4];
+    assign product[6]  = P[5]  ^ C[5];
+    assign product[7]  = P[6]  ^ C[6];
+    assign product[8]  = P[7]  ^ C[7];
+    assign product[9]  = P[8]  ^ C[8];
+    assign product[10] = P[9]  ^ C[9];
+    assign product[11] = P[10] ^ C[10];
+    assign product[12] = P[11] ^ C[11];
+    assign product[13] = P[12] ^ C[12];
+    assign product[14] = P[13] ^ C[13];
 endmodule
 
 

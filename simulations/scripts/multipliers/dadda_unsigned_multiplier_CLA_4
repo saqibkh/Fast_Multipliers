@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/dadda/dadda_unsigned_multiplier_CLA_4.v tests/multipliers/dadda_unsigned_multiplier_CLA_4_test.v -debug_all
+./simv
