@@ -1,4 +1,4 @@
-module wallace_unsigned_multiplier_8(product, A, B);
+module wallace_unsigned_multiplier_CLA_8(product, A, B);
     input [7:0] A, B;
     output [15:0] product;
 

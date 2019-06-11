@@ -1,4 +1,4 @@
-module wallace_unsigned_multiplier_4(product, A, B);
+module wallace_unsigned_multiplier_RCA_4(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
 

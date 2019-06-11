@@ -1,14 +1,14 @@
-module test_wallace_unsigned_multiplier_8;
+module test_wallace_unsigned_multiplier_RCA_4;
 
   // Inputs
-  reg [7:0] A;
-  reg [7:0] B;
+  reg [3:0] A;
+  reg [3:0] B;
 
   // Outputs
-  wire [15:0] product;
+  wire [7:0] product;
   
   // Instantiate the Unit test (UUT)
-  wallace_unsigned_multiplier_8 uut(
+  wallace_unsigned_multiplier_RCA_4 uut(
     .product(product),
     .A(A),
     .B(B));
@@ -21,9 +21,9 @@ module test_wallace_unsigned_multiplier_8;
     #100;
     // Add stimulus here
     //A=4'b0001;B=4'b0000;
-    #10 A=8'b01100010;B=8'b01110011;
-    #10 A=8'b10101010;B=8'b01100011;
-    #10 A=8'b11100101;B=8'b00101010;
+    #10 A=4'b0010;B=4'b0011;
+    #10 A=4'b1010;B=4'b0011;
+    #10 A=4'b1101;B=4'b1010;
     end
   initial begin
     //$monitor("time=",$time,, "A=%b B=%b : product=%b",A,B,product);
