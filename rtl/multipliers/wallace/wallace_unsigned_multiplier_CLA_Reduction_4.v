@@ -66,31 +66,31 @@ module wallace_unsigned_multiplier_CLA_Reduction_4(product, A, B);
 
     /* Final Stage of Carry Look-Ahead Adder */
     assign product[1] = s1;
-    wire [4:0] G; /* Generate */
-    wire [4:0] P; /* Propagate */
-    wire [4:0] C; /* Carry */
-    assign G[0] = s2     & pp2[0];
-    assign G[1] = s3     & s5;
-    assign G[2] = s4     & s6;
-    assign G[3] = c1     & s7;
-    assign G[4] = pp3[3] & c2;
-    assign P[0] = s2     ^ pp2[0];
-    assign P[1] = s3     ^ s5;
-    assign P[2] = s4     ^ s6;
-    assign P[3] = c1     ^ s7;
-    assign P[4] = pp3[3] ^ c2;
-    /*assign C[0] = 0; */
-    assign C[1] = G[0];
+
+    half_adder HA1(product[2], c3, s2, pp2[0]);
+
+    wire [3:0] G; /* Generate */
+    wire [3:0] P; /* Propagate */
+    wire [3:0] C; /* Carry */
+    //assign G[0] = s2     & pp2[0];
+    assign G[0] = s3     & s5;
+    assign G[1] = s4     & s6;
+    assign G[2] = c1     & s7;
+    assign G[3] = pp3[3] & c2;
+    //assign P[0] = s2     ^ pp2[0];
+    assign P[0] = s3     ^ s5;
+    assign P[1] = s4     ^ s6;
+    assign P[2] = c1     ^ s7;
+    assign P[3] = pp3[3] ^ c2;
+    assign C[0] = c3;
+    assign C[1] = G[0] | (P[0] & C[0]);
     assign C[2] = G[1] | (P[1] & C[1]);
     assign C[3] = G[2] | (P[2] & C[2]);
-    assign C[4] = G[3] | (P[3] & C[3]);
-    assign product[7] = G[4] | (P[4] & C[4]);
-    assign product[2] = P[0];
-    assign product[3] = P[1] ^ C[1];
-    assign product[4] = P[2] ^ C[2];
-    assign product[5] = P[3] ^ C[3];
-    assign product[6] = P[4] ^ C[4];
-
+    assign product[7] = G[3] | (P[3] & C[3]);
+    assign product[3] = P[0] ^ C[0];
+    assign product[4] = P[1] ^ C[1];
+    assign product[5] = P[2] ^ C[2];
+    assign product[6] = P[3] ^ C[3];
 endmodule
 
 module half_adder(output wire sum,
