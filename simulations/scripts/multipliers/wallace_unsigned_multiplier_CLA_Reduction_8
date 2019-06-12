@@ -1,3 +1,0 @@
-#!/bin/sh
-vcs -full64 -sverilog time -v ../rtl/misc/lib1 ../rtl/multipliers/wallace/wallace_unsigned_multiplier_CLA_8.v tests/multipliers/wallace_unsigned_multiplier_CLA_8_test.v -debug_all
-./simv

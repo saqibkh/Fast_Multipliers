@@ -1,14 +1,14 @@
-module test_wallace_unsigned_multiplier_CLA_Reduction_16;
+module test_wallace_unsigned_multiplier_CLA_Reduced_8;
 
   // Inputs
-  reg [15:0] A;
-  reg [15:0] B;
+  reg [7:0] A;
+  reg [7:0] B;
 
   // Outputs
-  wire [31:0] product;
+  wire [15:0] product;
   
   // Instantiate the Unit test (UUT)
-  wallace_unsigned_multiplier_CLA_Reduction_16 uut(
+  wallace_unsigned_multiplier_CLA_Reduced_8 uut(
     .product(product),
     .A(A),
     .B(B));
@@ -21,9 +21,9 @@ module test_wallace_unsigned_multiplier_CLA_Reduction_16;
     #100;
     // Add stimulus here
     //A=4'b0001;B=4'b0000;
-    #10 A=16'b0010011101110001;B=16'b0000111101100111;
-    #10 A=16'b1010000000000000;B=16'b0011000011001101;
-    #10 A=16'b1101101001010000;B=16'b1010010100010010;
+    #10 A=8'b01100010;B=8'b01110011;
+    #10 A=8'b10101010;B=8'b01100011;
+    #10 A=8'b11100101;B=8'b00101010;
     end
   initial begin
     //$monitor("time=",$time,, "A=%b B=%b : product=%b",A,B,product);
