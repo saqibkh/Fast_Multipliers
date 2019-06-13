@@ -1,3 +1,127 @@
+module wallace_unsigned_multiplier_CLA_8(product, A, B);
+    input [7:0] A, B;
+    output [15:0] product;
+
+    wire [7:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7;
+    /* First Stage */
+    assign product[0] = pp0[0];
+    half_adder ha01(s111, c111, pp0[1], pp1[0]);
+    full_adder fa01(s112, c112, pp0[2], pp1[1], pp2[0]);
+    full_adder fa02(s113, c113, pp0[3], pp1[2], pp2[1]);
+    full_adder fa03(s114, c114, pp0[4], pp1[3], pp2[2]);
+    full_adder fa04(s115, c115, pp0[5], pp1[4], pp2[3]);
+    full_adder fa05(s116, c116, pp0[6], pp1[5], pp2[4]);
+    full_adder fa06(s117, c117, pp0[7], pp1[6], pp2[5]);
+    half_adder ha02(s118, c118,         pp1[7], pp2[6]);
+
+    half_adder ha03(s119, c119, pp3[1], pp4[0]);
+    full_adder fa07(s120, c120, pp3[2], pp4[1], pp5[0]);
+    full_adder fa08(s121, c121, pp3[3], pp4[2], pp5[1]);
+    full_adder fa09(s122, c122, pp3[4], pp4[3], pp5[2]);
+    full_adder fa10(s123, c123, pp3[5], pp4[4], pp5[3]);
+    full_adder fa11(s124, c124, pp3[6], pp4[5], pp5[4]);
+    full_adder fa12(s125, c125, pp3[7], pp4[6], pp5[5]);
+    half_adder ha04(s126, c126,         pp4[7], pp5[6]);
+
+
+    /* Second Stage */
+    assign product[1] = s111;
+    half_adder ha05(s221, c221, s112, c111);
+    full_adder fa13(s222, c222, s113, c112, pp3[0]);
+    full_adder fa14(s223, c223, s114, c113, s119);
+    full_adder fa15(s224, c224, s115, c114, s120);
+    full_adder fa16(s225, c225, s116, c115, s121);
+    full_adder fa17(s226, c226, s117, c116, s122);
+    full_adder fa18(s227, c227, s118, c117, s123);
+    full_adder fa19(s228, c228, s119, c118, s124);
+
+    half_adder ha06(s229, c229, c120, pp6[0]);
+    full_adder fa20(s230, c230, c121, pp6[1], pp7[0]);
+    full_adder fa21(s231, c231, c122, pp6[2], pp7[1]);
+    full_adder fa22(s232, c232, c123, pp6[3], pp7[2]);
+    full_adder fa23(s233, c233, c124, pp6[4], pp7[3]);
+    full_adder fa24(s234, c234, c125, pp6[5], pp7[4]);
+    full_adder fa25(s235, c235, c126, pp6[6], pp7[5]);
+    half_adder ha07(s236, c236,      pp6[7], pp7[6]);
+
+    /* Third Stage */
+    assign product[2] = s221;
+    half_adder ha08(s301, c301, s222, c221);
+    half_adder ha09(s302, c302, s223, c222);
+    full_adder fa26(s303, c303, s224, c223, c119);
+    full_adder fa27(s304, c304, s225, c224, s229);
+    full_adder fa28(s305, c305, s226, c225, s230);
+    full_adder fa29(s306, c306, s227, c226, s231);
+    full_adder fa30(s307, c307, s228, c227, s232);
+    full_adder fa31(s308, c308, s125, c228, s233);
+    half_adder ha10(s309, c309, s126,       s234);
+    half_adder ha11(s310, c310, pp5[7],     s235);
+
+    /* Fourth Stage */
+    assign product[3] = s301;
+    half_adder ha12(product[4], c401, s302, c301);
+    half_adder ha13(s402,       c402, s303, c302);
+    half_adder ha14(s403,       c403, s304, c303);
+    full_adder fa32(s404,       c404, s305, c304, c229);
+    full_adder fa33(s405,       c405, s306, c305, c230);
+    full_adder fa34(s406,       c406, s307, c306, c231);
+    full_adder fa35(s407,       c407, s308, c307, c232);
+    full_adder fa36(s408,       c408, s309, c308, c233);
+    full_adder fa37(s409,       c409, s310, c309, c234);
+    full_adder fa38(s410,       c410, s236, c310, c235);
+    half_adder ha15(s411,       c411, pp7[7],     c236);
+
+    /* Final Stage is a Carry Look-Ahead Adder */
+    wire [9:0] G; /* Generate */
+    wire [9:0] P; /* Propagate */
+    wire [9:0] C; /* Carry */
+
+    assign G[0] = s402 & c401;
+    assign G[1] = s403 & c402;
+    assign G[2] = s404 & c403;
+    assign G[3] = s405 & c404;
+    assign G[4] = s406 & c405;
+    assign G[5] = s407 & c406;
+    assign G[6] = s408 & c407;
+    assign G[7] = s409 & c408;
+    assign G[8] = s410 & c409;
+    assign G[9] = s411 & c410;
+    assign P[0] = s402 ^ c401;
+    assign P[1] = s403 ^ c402;
+    assign P[2] = s404 ^ c403;
+    assign P[3] = s405 ^ c404;
+    assign P[4] = s406 ^ c405;
+    assign P[5] = s407 ^ c406;
+    assign P[6] = s408 ^ c407;
+    assign P[7] = s409 ^ c408;
+    assign P[8] = s410 ^ c409;
+    assign P[9] = s411 ^ c410;
+
+    //assign C[0] = 0;
+    assign C[1]        = G[0];// | (P[0] & C[0]);
+    assign C[2]        = G[1] | (P[1] & C[1]);
+    assign C[3]        = G[2] | (P[2] & C[2]);
+    assign C[4]        = G[3] | (P[3] & C[3]);
+    assign C[5]        = G[4] | (P[4] & C[4]);
+    assign C[6]        = G[5] | (P[5] & C[5]);
+    assign C[7]        = G[6] | (P[6] & C[6]);
+    assign C[8]        = G[7] | (P[7] & C[7]);
+    assign C[9]        = G[8] | (P[8] & C[8]);
+    assign product[15] = G[9] | (P[9] & C[9]);
+
+    assign product[5]  = P[0];
+    assign product[6]  = P[1] ^ C[1];
+    assign product[7]  = P[2] ^ C[2];
+    assign product[8]  = P[3] ^ C[3];
+    assign product[9]  = P[4] ^ C[4];
+    assign product[10] = P[5] ^ C[5];
+    assign product[11] = P[6] ^ C[6];
+    assign product[12] = P[7] ^ C[7];
+    assign product[13] = P[8] ^ C[8];
+    assign product[14] = P[9] ^ C[9];
+endmodule
+
+
 module wallace_unsigned_multiplier_CLA_8_attempt1(product, A, B);
     /* This attempt tries to use long CLA for adding partial products */
     /* Some CLAs are 9 bits long */
@@ -341,129 +465,6 @@ module wallace_unsigned_multiplier_CLA_8_attempt1(product, A, B);
     half_adder HA3(product[14], c10, s69, c9);
     half_adder HA4(product[15], c11, c6,  c10);
 
-endmodule
-
-module wallace_unsigned_multiplier_CLA_8_attempt1(product, A, B);
-    input [7:0] A, B;
-    output [15:0] product;
-
-    wire [7:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7;
-    /* First Stage */
-    assign product[0] = pp0[0];
-    half_adder ha01(s111, c111, pp0[1], pp1[0]);
-    full_adder fa01(s112, c112, pp0[2], pp1[1], pp2[0]);
-    full_adder fa02(s113, c113, pp0[3], pp1[2], pp2[1]);
-    full_adder fa03(s114, c114, pp0[4], pp1[3], pp2[2]);
-    full_adder fa04(s115, c115, pp0[5], pp1[4], pp2[3]);
-    full_adder fa05(s116, c116, pp0[6], pp1[5], pp2[4]);
-    full_adder fa06(s117, c117, pp0[7], pp1[6], pp2[5]);
-    half_adder ha02(s118, c118,         pp1[7], pp2[6]);
-
-    half_adder ha03(s119, c119, pp3[1], pp4[0]);
-    full_adder fa07(s120, c120, pp3[2], pp4[1], pp5[0]);
-    full_adder fa08(s121, c121, pp3[3], pp4[2], pp5[1]);
-    full_adder fa09(s122, c122, pp3[4], pp4[3], pp5[2]);
-    full_adder fa10(s123, c123, pp3[5], pp4[4], pp5[3]);
-    full_adder fa11(s124, c124, pp3[6], pp4[5], pp5[4]);
-    full_adder fa12(s125, c125, pp3[7], pp4[6], pp5[5]);
-    half_adder ha04(s126, c126,         pp4[7], pp5[6]);
-
-
-    /* Second Stage */
-    assign product[1] = s111;
-    half_adder ha05(s221, c221, s112, c111);
-    full_adder fa13(s222, c222, s113, c112, pp3[0]);
-    full_adder fa14(s223, c223, s114, c113, s119);
-    full_adder fa15(s224, c224, s115, c114, s120);
-    full_adder fa16(s225, c225, s116, c115, s121);
-    full_adder fa17(s226, c226, s117, c116, s122);
-    full_adder fa18(s227, c227, s118, c117, s123);
-    full_adder fa19(s228, c228, s119, c118, s124);
-
-    half_adder ha06(s229, c229, c120, pp6[0]);
-    full_adder fa20(s230, c230, c121, pp6[1], pp7[0]);
-    full_adder fa21(s231, c231, c122, pp6[2], pp7[1]);
-    full_adder fa22(s232, c232, c123, pp6[3], pp7[2]);
-    full_adder fa23(s233, c233, c124, pp6[4], pp7[3]);
-    full_adder fa24(s234, c234, c125, pp6[5], pp7[4]);
-    full_adder fa25(s235, c235, c126, pp6[6], pp7[5]);
-    half_adder ha07(s236, c236,      pp6[7], pp7[6]);
-
-    /* Third Stage */
-    assign product[2] = s221;
-    half_adder ha08(s301, c301, s222, c221);
-    half_adder ha09(s302, c302, s223, c222);
-    full_adder fa26(s303, c303, s224, c223, c119);
-    full_adder fa27(s304, c304, s225, c224, s229);
-    full_adder fa28(s305, c305, s226, c225, s230);
-    full_adder fa29(s306, c306, s227, c226, s231);
-    full_adder fa30(s307, c307, s228, c227, s232);
-    full_adder fa31(s308, c308, s125, c228, s233);
-    half_adder ha10(s309, c309, s126,       s234);
-    half_adder ha11(s310, c310, pp5[7],     s235);
-
-    /* Fourth Stage */
-    assign product[3] = s301;
-    half_adder ha12(product[4], c401, s302, c301);
-    half_adder ha13(s402,       c402, s303, c302);
-    half_adder ha14(s403,       c403, s304, c303);
-    full_adder fa32(s404,       c404, s305, c304, c229);
-    full_adder fa33(s405,       c405, s306, c305, c230);
-    full_adder fa34(s406,       c406, s307, c306, c231);
-    full_adder fa35(s407,       c407, s308, c307, c232);
-    full_adder fa36(s408,       c408, s309, c308, c233);
-    full_adder fa37(s409,       c409, s310, c309, c234);
-    full_adder fa38(s410,       c410, s236, c310, c235);
-    half_adder ha15(s411,       c411, pp7[7],     c236);
-
-    /* Final Stage is a Carry Look-Ahead Adder */
-    wire [9:0] G; /* Generate */
-    wire [9:0] P; /* Propagate */
-    wire [9:0] C; /* Carry */
-
-    assign G[0] = s402 & c401;
-    assign G[1] = s403 & c402;
-    assign G[2] = s404 & c403;
-    assign G[3] = s405 & c404;
-    assign G[4] = s406 & c405;
-    assign G[5] = s407 & c406;
-    assign G[6] = s408 & c407;
-    assign G[7] = s409 & c408;
-    assign G[8] = s410 & c409;
-    assign G[9] = s411 & c410;
-    assign P[0] = s402 ^ c401;
-    assign P[1] = s403 ^ c402;
-    assign P[2] = s404 ^ c403;
-    assign P[3] = s405 ^ c404;
-    assign P[4] = s406 ^ c405;
-    assign P[5] = s407 ^ c406;
-    assign P[6] = s408 ^ c407;
-    assign P[7] = s409 ^ c408;
-    assign P[8] = s410 ^ c409;
-    assign P[9] = s411 ^ c410;
-
-    //assign C[0] = 0;
-    assign C[1]        = G[0];// | (P[0] & C[0]);
-    assign C[2]        = G[1] | (P[1] & C[1]);
-    assign C[3]        = G[2] | (P[2] & C[2]);
-    assign C[4]        = G[3] | (P[3] & C[3]);
-    assign C[5]        = G[4] | (P[4] & C[4]);
-    assign C[6]        = G[5] | (P[5] & C[5]);
-    assign C[7]        = G[6] | (P[6] & C[6]);
-    assign C[8]        = G[7] | (P[7] & C[7]);
-    assign C[9]        = G[8] | (P[8] & C[8]);
-    assign product[15] = G[9] | (P[9] & C[9]);
-
-    assign product[5]  = P[0];
-    assign product[6]  = P[1] ^ C[1];
-    assign product[7]  = P[2] ^ C[2];
-    assign product[8]  = P[3] ^ C[3];
-    assign product[9]  = P[4] ^ C[4];
-    assign product[10] = P[5] ^ C[5];
-    assign product[11] = P[6] ^ C[6];
-    assign product[12] = P[7] ^ C[7];
-    assign product[13] = P[8] ^ C[8];
-    assign product[14] = P[9] ^ C[9];
 endmodule
 
 module half_adder(output wire sum,
