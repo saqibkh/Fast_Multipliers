@@ -69,74 +69,281 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     and AND62(pp7[6], A[6], B[7]);
     and AND63(pp7[7], A[7], B[7]);
 
-    /* First Stage */
-    half_adder ha01(s11, c11, pp6[0], pp5[1]);
-    full_adder fa01(s12, c12, pp7[0], pp6[1], pp5[2]);
-    full_adder fa02(s13, c13, pp7[1], pp6[2], pp5[3]);
-    full_adder fa03(s14, c14, pp7[2], pp6[3], pp5[4]);
+    assign product[0] = pp0[0];
 
-    half_adder ha02(s15, c15, pp4[3], pp3[4]);
-    half_adder ha03(s16, c16, pp4[4], pp3[5]);
+    /* 1st CLA */
+    wire [3:0] G1, P1, C1;
+    assign G1[0] = pp2[4] & pp3[3];
+    assign G1[1] = pp2[5] & pp3[4];
+    assign G1[2] = pp2[6] & pp3[5];
+    assign G1[3] = pp2[7] & pp3[6];
+    assign P1[0] = pp2[4] ^ pp3[3];
+    assign P1[1] = pp2[5] ^ pp3[4];
+    assign P1[2] = pp2[6] ^ pp3[5];
+    assign P1[3] = pp2[7] ^ pp3[6];
+    assign C1[1] = G1[0];
+    assign C1[2] = G1[1] | (P1[1] & C1[1]);
+    assign C1[3] = G1[2] | (P1[2] & C1[2]);
+    assign c1    = G1[3] | (P1[3] & C1[3]);
+    assign s11   = P1[0];
+    assign s12   = P1[1] ^ C1[1];
+    assign s13   = P1[2] ^ C1[2];
+    assign s14   = P1[3] ^ C1[3];
 
-    /* Second Stage */
-    half_adder ha04(s201, c201, pp3[1], pp4[0]);
-    full_adder fa04(s202, c202, pp3[2], pp4[1], pp5[0]);
-    full_adder fa05(s203, c203, pp2[4], pp3[3], pp4[2]);
-    full_adder fa06(s204, c204, pp0[7], pp1[6], pp2[5]);
-    full_adder fa07(s205, c205, pp1[7], pp2[6], s13);
-    full_adder fa08(s206, c206, pp4[5], pp3[6], pp2[7]);
-    full_adder fa09(s207, c207, pp5[5], pp6[4], pp7[3]);
-    full_adder fa10(s208, c208, pp5[6], pp6[5], pp7[4]);
+    /* 2nd CLA */
+    wire [3:0] G2, P2, C2;
+    assign G2[0] = pp4[1] & pp5[0];
+    assign G2[1] = pp4[2] & pp5[1];
+    assign G2[2] = pp4[3] & pp5[2];
+    assign G2[3] = pp4[4] & pp5[3];
+    assign P2[0] = pp4[1] ^ pp5[0];
+    assign P2[1] = pp4[2] ^ pp5[1];
+    assign P2[2] = pp4[3] ^ pp5[2];
+    assign P2[3] = pp4[4] ^ pp5[3];
+    assign C2[1] = G2[0];
+    assign C2[2] = G2[1] | (P2[1] & C2[1]);
+    assign C2[3] = G2[2] | (P2[2] & C2[2]);
+    assign c2    = G2[3] | (P2[3] & C2[3]);
+    assign s21   = P2[0];
+    assign s22   = P2[1] ^ C2[1];
+    assign s23   = P2[2] ^ C2[2];
+    assign s24   = P2[3] ^ C2[3];
 
-    half_adder ha05(s209, c209, pp2[3], pp1[4]);
-    full_adder fa11(s210, c210, pp1[5], pp0[6], s11);
-    full_adder fa12(s211, c211, s12,    c11,    s15);
-    full_adder fa13(s212, c212, c12,    s16,    c15);
-    full_adder fa14(s213, c213, s14,    c13,    c16);
-    full_adder fa15(s214, c214, pp4[6], pp3[7], c14);
-    
-    /* Third Stage */
-    half_adder ha06(s301, c301, pp3[0], pp2[1]);
-    full_adder fa16(s302, c302, pp2[2], pp1[3], pp0[4]);
-    full_adder fa17(s303, c303, pp0[5], s202,   c201);
-    full_adder fa18(s304, c304, s203, c202, s210);
-    full_adder fa19(s305, c305, s204, c203, s211);
-    full_adder fa20(s306, c306, s205, c204, s212);
-    full_adder fa21(s307, c307, s206, c205, s213);
-    full_adder fa22(s308, c308, s207, c206, s214);
-    full_adder fa23(s309, c309, s208, c207, pp4[7]);
-    full_adder fa24(s310, c310, pp7[5], pp6[6], pp5[7]);
+    /* 3rd CLA */
+    wire [3:0] G3, P3, C3;
+    assign G3[0] = pp6[1] & pp7[0];
+    assign G3[1] = pp6[2] & pp7[1];
+    assign G3[2] = pp6[3] & pp7[2];
+    assign G3[3] = pp6[4] & pp7[3];
+    assign P3[0] = pp6[1] ^ pp7[0];
+    assign P3[1] = pp6[2] ^ pp7[1];
+    assign P3[2] = pp6[3] ^ pp7[2];
+    assign P3[3] = pp6[4] ^ pp7[3];
+    assign C3[1] = G3[0];
+    assign C3[2] = G3[1] | (P3[1] & C3[1]);
+    assign C3[3] = G3[2] | (P3[2] & C3[2]);
+    assign c3    = G3[3] | (P3[3] & C3[3]);
+    assign s31   = P3[0];
+    assign s32   = P3[1] ^ C3[1];
+    assign s33   = P3[2] ^ C3[2];
+    assign s34   = P3[3] ^ C3[3];
 
-    /* Fourth Stage */
-    half_adder ha07(s401, c401, pp2[0], pp1[1]);
-    full_adder fa25(s402, c402, pp1[2], pp0[3], s301);
-    full_adder fa26(s403, c403, s201,   s302,   c301);
-    full_adder fa27(s404, c404, s209,   s303,   c302);
-    full_adder fa28(s405, c405, c209,   s304,   c303);
-    full_adder fa29(s406, c406, c210,   s305,   c304);
-    full_adder fa30(s407, c407, c211,   s306,   c305);
-    full_adder fa31(s408, c408, c212,   s307,   c306);
-    full_adder fa32(s409, c409, c213,   s308,   c307);
-    full_adder fa33(s410, c410, c214,   s309,   c308);
-    full_adder fa34(s411, c411, c208,   s310,   c309);
-    full_adder fa35(s412, c412, pp7[6], pp6[7], c310);
+    /* 4th CLA */
+    wire [3:0] G4, P4, C4;
+    assign G4[0] = pp0[3] & pp1[2];
+    assign G4[1] = pp0[4] & pp1[3];
+    assign G4[2] = pp0[5] & pp1[4];
+    assign G4[3] = pp0[6] & pp1[5];
+    assign P4[0] = pp0[3] ^ pp1[2];
+    assign P4[1] = pp0[4] ^ pp1[3];
+    assign P4[2] = pp0[5] ^ pp1[4];
+    assign P4[3] = pp0[6] ^ pp1[5];
+    assign C4[1] = G4[0];
+    assign C4[2] = G4[1] | (P4[1] & C4[1]);
+    assign C4[3] = G4[2] | (P4[2] & C4[2]);
+    assign c4    = G4[3] | (P4[3] & C4[3]);
+    assign s41   = P4[0];
+    assign s42   = P4[1] ^ C4[1];
+    assign s43   = P4[2] ^ C4[2];
+    assign s44   = P4[3] ^ C4[3];
+
+    /* 5th CLA */
+    wire [3:0] G5, P5, C5;
+    assign G5[0] = pp0[7] & pp1[6];
+    assign G5[1] = pp1[7] & s13;
+    assign G5[2] = pp4[5] & pp5[4];
+    assign G5[3] = pp3[7] & pp4[6];
+    assign P5[0] = pp0[7] ^ pp1[6];
+    assign P5[1] = pp1[7] ^ s13;
+    assign P5[2] = pp4[5] ^ pp5[4];
+    assign P5[3] = pp3[7] ^ pp4[6];
+    assign C5[0] = s31;
+    assign C5[1] = G5[0] | (P5[0] & C5[0]);
+    assign C5[2] = G5[1] | (P5[1] & C5[1]);
+    assign C5[3] = G5[2] | (P5[2] & C5[2]);
+    assign c5    = G5[3] | (P5[3] & C5[3]);
+    assign s51   = P5[0] ^ C5[0];
+    assign s52   = P5[1] ^ C5[1];
+    assign s53   = P5[2] ^ C5[2];
+    assign s54   = P5[3] ^ C5[3];
+
+     /* 6th CLA */
+    wire [1:0] G6, P6, C6;
+    assign G6[0] = pp4[7] & pp5[6];
+    assign G6[1] = pp5[7] & pp6[6];
+    assign P6[0] = pp4[7] ^ pp5[6];
+    assign P6[1] = pp5[7] ^ pp6[6];
+    assign C6[0] = c3;
+    assign C6[1] = G6[0] | (P6[0] & C6[0]);
+    assign c6    = G6[1] | (P6[1] & C6[1]);
+    assign s61   = P6[0] ^ C6[0];
+    assign s62   = P6[1] ^ C6[1];
+
+    /* 7th CLA */
+    wire [3:0] G7, P7, C7;
+    assign G7[0] = pp2[2] & pp3[1];
+    assign G7[1] = pp2[3] & pp3[2];
+    assign G7[2] = pp6[0] & s11;
+    assign G7[3] = s12    & s23;
+    assign P7[0] = pp2[2] ^ pp3[1];
+    assign P7[1] = pp2[3] ^ pp3[2];
+    assign P7[2] = pp6[0] ^ s11;
+    assign P7[3] = s12    ^ s23;
+    assign C7[1] = G7[0];
+    assign C7[2] = G7[1] | (P7[1] & C7[1]);
+    assign C7[3] = G7[2] | (P7[2] & C7[2]);
+    assign c7    = G7[3] | (P7[3] & C7[3]);
+    assign s71   = P7[0];
+    assign s72   = P7[1] ^ C7[1];
+    assign s73   = P7[2] ^ C7[2];
+    assign s74   = P7[3] ^ C7[3];
+
+    /* 8th CLA */
+    wire [3:0] G8, P8, C8;
+    assign G8[0] = s24    & s32;
+    assign G8[1] = s14    & c2;
+    assign G8[2] = pp5[5] & c1;
+    assign G8[3] = pp6[5] & pp7[4];
+    assign P8[0] = s24    ^ s32;
+    assign P8[1] = s14    ^ c2;
+    assign P8[2] = pp5[5] ^ c1;
+    assign P8[3] = pp6[5] ^ pp7[4];
+    assign C8[1] = G8[0];
+    assign C8[2] = G8[1] | (P8[1] & C8[1]);
+    assign C8[3] = G8[2] | (P8[2] & C8[2]);
+    assign c8    = G8[3] | (P8[3] & C8[3]);
+    assign s81   = P8[0];
+    assign s82   = P8[1] ^ C8[1];
+    assign s83   = P8[2] ^ C8[2];
+    assign s84   = P8[3] ^ C8[3];
+
+    /* 9th CLA */
+    wire [3:0] G9, P9, C9;
+    assign G9[0] = pp0[2] & pp1[1];
+    assign G9[1] = pp2[1] & pp3[0];
+    assign G9[2] = pp4[0] & s42;
+    assign G9[3] = s21    & s43;
+    assign P9[0] = pp0[2] ^ pp1[1];
+    assign P9[1] = pp2[1] ^ pp3[0];
+    assign P9[2] = pp4[0] ^ s42;
+    assign P9[3] = s21    ^ s43;
+    assign C9[1] = G9[0];
+    assign C9[2] = G9[1] | (P9[1] & C9[1]);
+    assign C9[3] = G9[2] | (P9[2] & C9[2]);
+    assign c9    = G9[3] | (P9[3] & C9[3]);
+    assign s91   = P9[0];
+    assign s92   = P9[1] ^ C9[1];
+    assign s93   = P9[2] ^ C9[2];
+    assign s94   = P9[3] ^ C9[3];
+
+    /* 10th CLA */
+    wire [3:0] GA, PA, CA;
+    assign GA[0] = s22 & s44;
+    assign GA[1] = c4  & s51;
+    assign GA[2] = s52 & c7;
+    assign GA[3] = s33 & s53;
+    assign PA[0] = s22 ^ s44;
+    assign PA[1] = c4  ^ s51;
+    assign PA[2] = s52 ^ c7;
+    assign PA[3] = s33 ^ s53;
+    assign CA[0] = s73;
+    assign CA[1] = GA[0] | (PA[0] & CA[0]);
+    assign CA[2] = GA[1] | (PA[1] & CA[1]);
+    assign CA[3] = GA[2] | (PA[2] & CA[2]);
+    assign c10   = GA[3] | (PA[3] & CA[3]);
+    assign s101  = PA[0] ^ CA[0];
+    assign s102  = PA[1] ^ CA[1];
+    assign s103  = PA[2] ^ CA[2];
+    assign s104  = PA[3] ^ CA[3];
+
+    /* 11th CLA */
+    wire [3:0] GB, PB, CB;
+    assign GB[0] = s34    & s54;
+    assign GB[1] = c5     & s61;
+    assign GB[2] = pp7[5] & s62;
+    assign GB[3] = pp6[7] & pp7[6];
+    assign PB[0] = s34    ^ s54;
+    assign PB[1] = c5     ^ s61;
+    assign PB[2] = pp7[5] ^ s62;
+    assign PB[3] = pp6[7] ^ pp7[6];
+    assign CB[0] = s83;
+    assign CB[1] = GB[0] | (PB[0] & CB[0]);
+    assign CB[2] = GB[1] | (PB[1] & CB[1]);
+    assign CB[3] = GB[2] | (PB[2] & CB[2]);
+    assign c11   = GB[3] | (PB[3] & CB[3]);
+    assign s111  = PB[0] ^ CB[0];
+    assign s112  = PB[1] ^ CB[1];
+    assign s113  = PB[2] ^ CB[2];
+    assign s114  = PB[3] ^ CB[3];
 
     /* Final Stage */
-    assign product[0] = pp0[0];
-    half_adder ha08(product[1],  c501,        pp1[0], pp0[1]);
-    full_adder fa36(product[2],  c502,        pp0[2], s401,   c501);
-    full_adder fa37(product[3],  c503,        c401,   s402,   c502);
-    full_adder fa38(product[4],  c504,        c402,   s403,   c503);
-    full_adder fa39(product[5],  c505,        c403,   s404,   c504);
-    full_adder fa40(product[6],  c506,        c404,   s405,   c505);
-    full_adder fa41(product[7],  c507,        c405,   s406,   c506);
-    full_adder fa42(product[8],  c508,        c406,   s407,   c507);
-    full_adder fa43(product[9],  c509,        c407,   s408,   c508);
-    full_adder fa44(product[10], c510,        c408,   s409,   c509);
-    full_adder fa45(product[11], c511,        c409,   s410,   c510);
-    full_adder fa46(product[12], c512,        c410,   s411,   c511);
-    full_adder fa47(product[13], c513,        c411,   s412,   c512);
-    full_adder fa48(product[14], product[15], c412,   pp7[7], c513);
+    wire [3:0] GD, PD, CD;
+    assign GD[0] = pp0[1] & pp1[0];
+    assign GD[1] = pp2[0] & s91;
+    assign GD[2] = s41    & s92;
+    assign GD[3] = s71    & s93;
+    assign PD[0] = pp0[1] ^ pp1[0];
+    assign PD[1] = pp2[0] ^ s91;
+    assign PD[2] = s41    ^ s92;
+    assign PD[3] = s71    ^ s93;
+    assign CD[1] = GD[0];
+    assign CD[2] = GD[1] | (PD[1] & CD[1]);
+    assign CD[3] = GD[2] | (PD[2] & CD[2]);
+    assign c12   = GD[3] | (PD[3] & CD[3]);
+    assign product[1] = PD[0];
+    assign product[2] = PD[1] ^ CD[1];
+    assign product[3] = PD[2] ^ CD[2];
+    assign product[4] = PD[3] ^ CD[3];
+
+
+    wire [3:0] GC, PC, CC;
+    assign GC[0] = s72 & s94 ;
+    assign GC[1] = c9  & s101;
+    assign GC[2] = s74 & s102;
+    assign GC[3] = s81 & s103;
+    assign PC[0] = s72 ^ s94 ;
+    assign PC[1] = c9  ^ s101;
+    assign PC[2] = s74 ^ s102;
+    assign PC[3] = s81 ^ s103;
+    assign CC[0] = c12;
+    assign CC[1] = GC[0] | (PC[0] & CC[0]);
+    assign CC[2] = GC[1] | (PC[1] & CC[1]);
+    assign CC[3] = GC[2] | (PC[2] & CC[2]);
+    assign c13   = GC[3] | (PC[3] & CC[3]);
+    assign product[5] = PC[0] ^ CC[0];
+    assign product[6] = PC[1] ^ CC[1];
+    assign product[7] = PC[2] ^ CC[2];
+    assign product[8] = PC[3] ^ CC[3];
+
+    wire [3:0] GE, PE, CE;
+    assign GE[0] = s82 & s104; 
+    assign GE[1] = c10 & s111;
+    assign GE[2] = s84 & s112;
+    assign GE[3] = c8  & s113;
+    assign PE[0] = s82 ^ s104;
+    assign PE[1] = c10 ^ s111;
+    assign PE[2] = s84 ^ s112;
+    assign PE[3] = c8  ^ s113;
+    assign CE[0] = c13;
+    assign CE[1] = GE[0] | (PE[0] & CE[0]);
+    assign CE[2] = GE[1] | (PE[1] & CE[1]);
+    assign CE[3] = GE[2] | (PE[2] & CE[2]);
+    assign c14   = GE[3] | (PE[3] & CE[3]);
+    assign product[9]  = PE[0] ^ CE[0];
+    assign product[10] = PE[1] ^ CE[1];
+    assign product[11] = PE[2] ^ CE[2];
+    assign product[12] = PE[3] ^ CE[3];
+
+    wire [1:0] GF, PF, CF;
+    assign GF[0] = c6     & s114;
+    assign GF[1] = pp7[7] & c11;
+    assign PF[0] = c6     ^ s114;
+    assign PF[1] = pp7[7] ^ c11;
+    assign CF[0] = c14;
+    assign CF[1] = GF[0] | (PF[0] & CF[0]);
+    assign product[15] = GF[1] | (PF[1] & CF[1]);
+    assign product[13] = PF[0] ^ CF[0];
+    assign product[14] = PF[1] ^ CF[1];    
 endmodule
 
 
