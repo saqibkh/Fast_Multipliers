@@ -279,7 +279,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign s114  = PB[3] ^ CB[3];
 
     /* Final Stage */
-    wire [3:0] G, P, C;
+    wire [13:0] G, P, C;
     assign G[0] = pp0[1] & pp1[0];
     assign G[1] = pp2[0] & s91;
     assign G[2] = s41    & s92;
@@ -321,7 +321,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign C[11] = G[10] | (P[10] & C[10]);
     assign C[12] = G[11] | (P[11] & C[11]);
     assign C[13] = G[12] | (P[12] & C[12]);
-    assign product[14] = G[13] | (P[13] & C[13]);
+    assign product[15] = G[13] | (P[13] & C[13]);
     assign product[1]  = P[0];
     assign product[2]  = P[1]  ^ C[1];
     assign product[3]  = P[2]  ^ C[2];
