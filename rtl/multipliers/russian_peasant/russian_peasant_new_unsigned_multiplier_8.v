@@ -1,5 +1,10 @@
 module russian_peasant_new_unsigned_multiplier_8(product, A, B);
-
+    /* This attempt is from Wesley Chu design of using CLA4 for partial
+     * product reduction. It uses only CLA4 with and without carry and uses HA
+     * and FAs with a 14bit CLA at the end 
+     * Area: 1017.911669
+     * Power: 0.5495
+     * Timing: 1.25*/
     input [7:0] A, B;
     output [15:0] product;
 
