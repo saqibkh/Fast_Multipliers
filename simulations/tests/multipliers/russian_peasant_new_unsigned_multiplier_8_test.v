@@ -20,7 +20,7 @@ module test_russian_peasant_new_unsigned_multiplier_8;
     // Wait 100 ns for global reset to finish
     #100;
     // Add stimulus here
-    //A=4'b0001;B=4'b0000;
+    A=4'b0001;B=4'b0000;
     #10 A=8'b01100010;B=8'b01110011;
     #10 A=8'b10101010;B=8'b01100011;
     #10 A=8'b11100101;B=8'b00101010;

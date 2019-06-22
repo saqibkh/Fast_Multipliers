@@ -1,244 +1,128 @@
 module russian_peasant_new_unsigned_multiplier_8(product, A, B);
+
     input [7:0] A, B;
     output [15:0] product;
 
+    wire [15:0] product;
+
     wire [7:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7;
+    assign pp0 = A[0] ? B : 8'b00000000;
+    assign pp1 = A[1] ? B : 8'b00000000;
+    assign pp2 = A[2] ? B : 8'b00000000;
+    assign pp3 = A[3] ? B : 8'b00000000;
+    assign pp4 = A[4] ? B : 8'b00000000;
+    assign pp5 = A[5] ? B : 8'b00000000;
+    assign pp6 = A[6] ? B : 8'b00000000;
+    assign pp7 = A[7] ? B : 8'b00000000;
 
-    and AND00(pp0[0], A[0], B[0]);
-    and AND01(pp0[1], A[1], B[0]);
-    and AND02(pp0[2], A[2], B[0]);
-    and AND03(pp0[3], A[3], B[0]);
-    and AND04(pp0[4], A[4], B[0]);
-    and AND05(pp0[5], A[5], B[0]);
-    and AND06(pp0[6], A[6], B[0]);
-    and AND07(pp0[7], A[7], B[0]);
-    and AND08(pp1[0], A[0], B[1]);
-    and AND09(pp1[1], A[1], B[1]);
-    and AND10(pp1[2], A[2], B[1]);
-    and AND11(pp1[3], A[3], B[1]);
-    and AND12(pp1[4], A[4], B[1]);
-    and AND13(pp1[5], A[5], B[1]);
-    and AND14(pp1[6], A[6], B[1]);
-    and AND15(pp1[7], A[7], B[1]);
-    and AND16(pp2[0], A[0], B[2]);
-    and AND17(pp2[1], A[1], B[2]);
-    and AND18(pp2[2], A[2], B[2]);
-    and AND19(pp2[3], A[3], B[2]);
-    and AND20(pp2[4], A[4], B[2]);
-    and AND21(pp2[5], A[5], B[2]);
-    and AND22(pp2[6], A[6], B[2]);
-    and AND23(pp2[7], A[7], B[2]);
-    and AND24(pp3[0], A[0], B[3]);
-    and AND25(pp3[1], A[1], B[3]);
-    and AND26(pp3[2], A[2], B[3]);
-    and AND27(pp3[3], A[3], B[3]);
-    and AND28(pp3[4], A[4], B[3]);
-    and AND29(pp3[5], A[5], B[3]);
-    and AND30(pp3[6], A[6], B[3]);
-    and AND31(pp3[7], A[7], B[3]);
-    and AND32(pp4[0], A[0], B[4]);
-    and AND33(pp4[1], A[1], B[4]);
-    and AND34(pp4[2], A[2], B[4]);
-    and AND35(pp4[3], A[3], B[4]);
-    and AND36(pp4[4], A[4], B[4]);
-    and AND37(pp4[5], A[5], B[4]);
-    and AND38(pp4[6], A[6], B[4]);
-    and AND39(pp4[7], A[7], B[4]);
-    and AND40(pp5[0], A[0], B[5]);
-    and AND41(pp5[1], A[1], B[5]);
-    and AND42(pp5[2], A[2], B[5]);
-    and AND43(pp5[3], A[3], B[5]);
-    and AND44(pp5[4], A[4], B[5]);
-    and AND45(pp5[5], A[5], B[5]);
-    and AND46(pp5[6], A[6], B[5]);
-    and AND47(pp5[7], A[7], B[5]);
-    and AND48(pp6[0], A[0], B[6]);
-    and AND49(pp6[1], A[1], B[6]);
-    and AND50(pp6[2], A[2], B[6]);
-    and AND51(pp6[3], A[3], B[6]);
-    and AND52(pp6[4], A[4], B[6]);
-    and AND53(pp6[5], A[5], B[6]);
-    and AND54(pp6[6], A[6], B[6]);
-    and AND55(pp6[7], A[7], B[6]);
-    and AND56(pp7[0], A[0], B[7]);
-    and AND57(pp7[1], A[1], B[7]);
-    and AND58(pp7[2], A[2], B[7]);
-    and AND59(pp7[3], A[3], B[7]);
-    and AND60(pp7[4], A[4], B[7]);
-    and AND61(pp7[5], A[5], B[7]);
-    and AND62(pp7[6], A[6], B[7]);
-    and AND63(pp7[7], A[7], B[7]);
-
-    /* First Stage */
-    wire [3:0] G1, P1, C1;
-    assign G1[0] = pp6[0] & pp5[1];
-    assign G1[1] = pp7[0] & pp6[1];
-    assign G1[2] = pp7[1] & pp6[2];
-    assign G1[3] = pp7[2] & pp6[3];
-    assign P1[0] = pp6[0] ^ pp5[1];
-    assign P1[1] = pp7[0] ^ pp6[1];
-    assign P1[2] = pp7[1] ^ pp6[2];
-    assign P1[3] = pp7[2] ^ pp6[3];
-    assign C1[0] = 0;
-    assign C1[1] = G1[0] | (P1[0] & C1[0]);
-    assign C1[2] = G1[1] | (P1[1] & C1[1]);
-    assign C1[3] = G1[2] | (P1[2] & C1[2]);
-    assign c1    = G1[3] | (P1[3] & C1[3]);
-    assign s11   = P1[0];
-    assign s12   = P1[1] ^ C1[1];
-    assign s13   = P1[2] ^ C1[2];
-    assign s14   = P1[3] ^ C1[3];
-
-    //half_adder ha01(s11, c11, pp6[0], pp5[1]);
-    //full_adder fa01(s12, c12, pp7[0], pp6[1], pp5[2]);
-    //full_adder fa02(s13, c13, pp7[1], pp6[2], pp5[3]);
-    //full_adder fa03(s14, c14, pp7[2], pp6[3], pp5[4]);
-
-    wire [1:0] G2, P2, C2;
-    assign G2[0] = pp4[3] & pp3[4];
-    assign G2[1] = pp4[4] & pp3[5];
-    assign P2[0] = pp4[3] ^ pp3[4];
-    assign P2[1] = pp4[4] ^ pp3[5];
-    assign C2[0] = 0;
-    assign C2[1] = G2[0] | (P2[0] & C2[0]);
-    assign c2    = G2[1] | (P2[1] & C2[1]);
-    assign s15   = P2[0];
-    assign s16   = P2[1] ^ C2[1];
-    //half_adder ha02(s15, c15, pp4[3], pp3[4]);
-    //half_adder ha03(s16, c16, pp4[4], pp3[5]);
-
-    /* Second Stage */
-    wire [7:0] G3, P3, C3;
-    assign G3[0] = pp3[1] & pp4[0];
-    assign G3[1] = pp3[2] & pp4[1];
-    assign G3[2] = pp2[4] & pp3[3];
-    assign G3[3] = pp0[7] & pp1[6];
-    assign G3[4] = pp1[7] & pp2[6];
-    assign G3[5] = pp4[5] & pp3[6];
-    assign G3[6] = pp5[5] & pp6[4];
-    assign G3[7] = pp5[6] & pp6[5];
-    assign P3[0] = pp3[1] ^ pp4[0];
-    assign P3[1] = pp3[2] ^ pp4[1];
-    assign P3[2] = pp2[4] ^ pp3[3];
-    assign P3[3] = pp0[7] ^ pp1[6];
-    assign P3[4] = pp1[7] ^ pp2[6];
-    assign P3[5] = pp4[5] ^ pp3[6];
-    assign P3[6] = pp5[5] ^ pp6[4];
-    assign P3[7] = pp5[6] ^ pp6[5];
-    assign C3[0] = 0;
-    assign C3[1] = G3[0] | (P3[0] & C3[0]);
-    assign C3[2] = G3[1] | (P3[1] & C3[1]);
-    assign C3[3] = G3[2] | (P3[2] & C3[2]);
-    assign C3[4] = G3[3] | (P3[3] & C3[3]);
-    assign C3[5] = G3[4] | (P3[4] & C3[4]);
-    assign C3[6] = G3[5] | (P3[5] & C3[5]);
-    assign C3[7] = G3[6] | (P3[6] & C3[6]);
-    assign c3    = G3[7] | (P3[7] & C3[7]);
-    assign s201  = P3[0];
-    assign s202  = P3[1] ^ C3[1];
-    assign s203  = P3[2] ^ C3[2];
-    assign s204  = P3[3] ^ C3[3];
-    assign s205  = P3[4] ^ C3[4];
-    assign s206  = P3[5] ^ C3[5];
-    assign s207  = P3[6] ^ C3[6]; 
-    assign s208  = P3[7] ^ C3[7];
-
-    //half_adder ha04(s201, c201, pp3[1], pp4[0]);
-    //full_adder fa04(s202, c202, pp3[2], pp4[1], pp5[0]);
-    //full_adder fa05(s203, c203, pp2[4], pp3[3], pp4[2]);
-    //full_adder fa06(s204, c204, pp0[7], pp1[6], pp2[5]);
-    //full_adder fa07(s205, c205, pp1[7], pp2[6], s13);
-    //full_adder fa08(s206, c206, pp4[5], pp3[6], pp2[7]);
-    //full_adder fa09(s207, c207, pp5[5], pp6[4], pp7[3]);
-    //full_adder fa10(s208, c208, pp5[6], pp6[5], pp7[4]);
-
-    half_adder ha05(s209, c209, pp2[3], pp1[4]);
-    full_adder fa11(s210, c210, pp1[5], pp0[6], s11);
-    full_adder fa12(s211, c211, s12,    pp5[2], s15);
-
-    wire [2:0] G5, P5, C5;
-    assign G5[0] = pp5[3] & s16;
-    assign G5[1] = s14    & pp5[4];
-    assign G5[2] = pp4[6] & pp3[7];
-    assign P5[0] = pp5[3] ^ s16;
-    assign P5[1] = s14    ^ pp5[4];
-    assign P5[2] = pp4[6] ^ pp3[7];
-    assign C5[0] = 0;
-    assign C5[1] = G5[0] | (P5[0] & C5[0]);
-    assign C5[2] = G5[1] | (P5[1] & C5[1]);
-    assign c5    = G5[2] | (P5[2] & C5[2]);
-    assign s212  = P5[0];
-    assign s213  = P5[1] ^ C5[1];
-    assign s214  = P5[2] ^ C5[2];
-
-    //half_adder fa13(s212, c212, pp5[3], s16);
-    //full_adder fa14(s213, c213, s14,    pp5[4], c2);
-    //full_adder fa15(s214, c214, pp4[6], pp3[7], c1);
-    
-    /* Third Stage */
-    half_adder ha06(s301, c301, pp3[0], pp2[1]);
-    full_adder fa16(s302, c302, pp2[2], pp1[3], pp0[4]);
-    full_adder fa17(s303, c303, pp0[5], s202,   pp5[0]);
-    full_adder fa18(s304, c304, s203, pp4[2], s210);
-    full_adder fa19(s305, c305, s204, pp2[5], s211);
-    full_adder fa20(s306, c306, s205, s13, s212);
-    full_adder fa21(s307, c307, s206, pp2[7], s213);
-    full_adder fa22(s308, c308, s207, pp7[3], s214);
-    full_adder fa23(s309, c309, s208, pp7[4], pp4[7]);
-    full_adder fa24(s310, c310, pp7[5], pp6[6], pp5[7]);
-
-    /* Fourth Stage */
-    half_adder ha07(s401, c401, pp2[0], pp1[1]);
-    full_adder fa25(s402, c402, pp1[2], pp0[3], s301);
-    full_adder fa26(s403, c403, s201,   s302,   c301);
-    full_adder fa27(s404, c404, s209,   s303,   c302);
-    full_adder fa28(s405, c405, c209,   s304,   c303);
-    full_adder fa29(s406, c406, c210,   s305,   c304);
-    full_adder fa30(s407, c407, c211,   s306,   c305);
-    full_adder fa31(s408, c408, c2,   s307,   c306);
-    full_adder fa32(s409, c409, c1,   s308,   c307);
-    full_adder fa33(s410, c410, c5,   s309,   c308);
-    full_adder fa34(s411, c411, c3,   s310,   c309);
-    full_adder fa35(s412, c412, pp7[6], pp6[7], c310);
-
-    /* Final Stage is a Carry Look-Ahead Adder */
     assign product[0] = pp0[0];
 
-    wire [13:0] G; /* Generate */
-    wire [13:0] P; /* Propagate */
-    wire [13:0] C; /* Carry */
+    /* 1st CLA */
+    wire [3:0] s1, in1_1, in1_2;
+    wire c1;
+    assign in1_1 = {pp0[2], pp0[3], pp0[4], pp0[5]};
+    assign in1_2 = {pp1[1], pp1[2], pp1[3], pp1[4]};
+    CLA4_c CLA01(s1, c1, in1_1, in1_2, pp2[0]);
 
-    assign G[0]  = pp1[0] & pp0[1];
-    assign G[1]  = pp0[2] & s401;
-    assign G[2]  = c401   & s402;
-    assign G[3]  = c402   & s403;
-    assign G[4]  = c403   & s404;
-    assign G[5]  = c404   & s405;
-    assign G[6]  = c405   & s406;
-    assign G[7]  = c406   & s407;
-    assign G[8]  = c407   & s408;
-    assign G[9]  = c408   & s409;
-    assign G[10] = c409   & s410;
-    assign G[11] = c410   & s411;
-    assign G[12] = c411   & s412;
-    assign G[13] = c412   & pp7[7];
-    assign P[0]  = pp1[0] ^ pp0[1];
-    assign P[1]  = pp0[2] ^ s401;
-    assign P[2]  = c401   ^ s402;
-    assign P[3]  = c402   ^ s403;
-    assign P[4]  = c403   ^ s404;
-    assign P[5]  = c404   ^ s405;
-    assign P[6]  = c405   ^ s406;
-    assign P[7]  = c406   ^ s407;
-    assign P[8]  = c407   ^ s408;
-    assign P[9]  = c408   ^ s409;
-    assign P[10] = c409   ^ s410;
-    assign P[11] = c410   ^ s411;
-    assign P[12] = c411   ^ s412;
-    assign P[13] = c412   ^ pp7[7];
+    /* 2nd CLA */
+    wire [3:0] s2, in2_1, in2_2;
+    wire c2;
+    assign in2_1 = {pp0[6], pp0[7], pp1[7], pp2[7]};
+    assign in2_2 = {pp1[5], pp1[6], pp2[6], pp3[6]};
+    CLA4 CLA02(s2, c2, in2_1, in2_2);
 
-    //assign C[0] = 0;
-    assign C[1]  = G[0];
+    /* 3rd CLA */
+    wire [3:0] s3, in3_1, in3_2;
+    wire c3;
+    assign in3_1 = {pp2[2], pp2[3], pp2[4], pp2[5]};
+    assign in3_2 = {pp3[1], pp3[2], pp3[3], pp3[4]};
+    CLA4_c CLA03(s3, c3, in3_1, in3_2, pp4[0]);
+
+    /* 4th CLA */
+    wire [3:0] s4, in4_1, in4_2;
+    wire c4;
+    assign in4_1 = {pp4[2], pp4[3], pp4[4], pp4[5]};
+    assign in4_2 = {pp5[1], pp5[2], pp5[3], pp5[4]};
+    CLA4_c CLA04(s4, c4, in4_1, in4_2, pp6[0]);
+
+    /* 5th CLA */
+    wire [3:0] s5, in5_1, in5_2;
+    wire c5;
+    assign in5_1 = {pp4[6], pp4[7], pp5[7], pp6[7]};
+    assign in5_2 = {pp5[5], pp5[6], pp6[6], pp7[6]};
+    CLA4_c CLA05(s5, c5, in5_1, in5_2, pp3[7]);
+
+    /* 6th CLA */
+    wire [3:0] s6, in6_1, in6_2;
+    wire c6;
+    assign in6_1 = {pp6[2], pp6[3], pp6[4], pp6[5]};
+    assign in6_2 = {pp7[1], pp7[2], pp7[3], pp7[4]};
+    CLA4_c CLA06(s6, c6, in6_1, in6_2, pp3[5]);
+
+    /* 7th CLA */
+    wire [3:0] s7, in7_1, in7_2;
+    wire c7;
+    assign in7_1 = {s1[1], s1[2], s1[3], c1};
+    assign in7_2 = {pp2[1], s3[0], s3[1], s2[0]};
+    CLA4_c CLA07(s7, c7, in7_1, in7_2, pp3[0]);
+
+    /*8th CLA */
+    wire [3:0] s8, in8_1, in8_2;
+    wire c8;
+    assign in8_1 = {s2[1],  s2[2], s6[1], s5[0]};
+    assign in8_2 = {pp6[1], s6[0], s4[3], s6[2]};
+    CLA4_c CLA08(s8, c8, in8_1, in8_2, pp7[0]);
+
+    /* 9th CLA */
+    wire [3:0] s9, in9_1, in9_2;
+    wire c9;
+    assign in9_1 = {pp4[1], s3[2], s3[3], c3};
+    assign in9_2 = {pp5[0], s4[0], s4[1], s4[2]};
+    CLA4 CLA09(s9, c9, in9_1, in9_2);
+
+    wire sA, sB, sC, sD, sE, sF;
+    wire cA, cB, cC, cD, cE, cF;
+    full_adder fa01(sA, cA, s8[0], s9[2], c7);
+    half_adder ha01(sB, cB, s8[1], s9[3]);
+    full_adder fa02(sC, cC, s8[2], s2[3], c9);
+    full_adder fa03(sD, cD, s8[3], c4,    c2);
+    full_adder fa04(sE, cE, s5[1], s6[3], c8);
+    full_adder fa05(sF, cF, s5[2], c6,    pp7[5]);
+
+    /*Final Stage*/
+    wire [13:0] G, P, C;
+    and AND01(G[0], pp0[1], pp1[0]);
+    and AND02(G[1], s1[0] , 0);
+    and AND03(G[2], s7[0] , 0);
+    and AND04(G[3], s7[1] , 0);
+    and AND05(G[4], s7[2] , s9[0]);
+    and AND06(G[5], s7[3] , s9[1]);
+    and AND07(G[6], sA    , 0);
+    and AND08(G[7], sB    , cA);
+    and AND09(G[8], sC    , cB);
+    and AND10(G[9], sD    , cC);
+    and AND11(G[10],sE    , cD);
+    and AND12(G[11],sF    , cE);
+    and AND13(G[12],s5[3] , cF);
+    and AND14(G[13],pp7[7], c5);
+
+    xor XOR01(P[0],  pp0[1], pp1[0]);
+    xor XOR02(P[1],  s1[0],  0);
+    xor XOR03(P[2],  s7[0],  0);
+    xor XOR04(P[3],  s7[1],  0);
+    xor XOR05(P[4],  s7[2],  s9[0]);
+    xor XOR06(P[5],  s7[3],  s9[1]);
+    xor XOR07(P[6],  sA,     0);
+    xor XOR08(P[7],  sB,     cA);
+    xor XOR09(P[8],  sC,     cB);
+    xor XOR10(P[9],  sD,     cC);
+    xor XOR11(P[10], sE,     cD);
+    xor XOR12(P[11], sF,     cE);
+    xor XOR13(P[12], s5[3],  cF);
+    xor XOR14(P[13], pp7[7], c5);
+
+    assign C[0]  = 0;
+    assign C[1]  = G[0]  | (P[0]  & C[0]);
     assign C[2]  = G[1]  | (P[1]  & C[1]);
     assign C[3]  = G[2]  | (P[2]  & C[2]);
     assign C[4]  = G[3]  | (P[3]  & C[3]);
@@ -252,7 +136,6 @@ module russian_peasant_new_unsigned_multiplier_8(product, A, B);
     assign C[12] = G[11] | (P[11] & C[11]);
     assign C[13] = G[12] | (P[12] & C[12]);
     assign product[15] = G[13] | (P[13] & C[13]);
-
     assign product[1]  = P[0];
     assign product[2]  = P[1]  ^ C[1];
     assign product[3]  = P[2]  ^ C[2];
@@ -268,7 +151,6 @@ module russian_peasant_new_unsigned_multiplier_8(product, A, B);
     assign product[13] = P[12] ^ C[12];
     assign product[14] = P[13] ^ C[13];
 endmodule
-
 
 module half_adder(output wire sum,
                   output wire cout,
@@ -291,4 +173,54 @@ module full_adder(output wire sum,
     and(temp2,in1,cin);
     and(temp3,in2,cin);
     or(cout,temp1,temp2,temp3);
+endmodule
+
+module CLA4(output [3:0] sum,
+            output cout,
+            input [3:0] in1, in2);
+  wire [3:0] G; /* Generate */
+  wire [3:0] P; /* Propagate */
+  wire [3:0] C; /* Carry */
+
+  assign G[0] = in1[3] & in2[3]; /*Generate    Gi = Ai * Bi */
+  assign G[1] = in1[2] & in2[2];
+  assign G[2] = in1[1] & in2[1];
+  assign G[3] = in1[0] & in2[0];
+  assign P[0] = in1[3] ^ in2[3]; /*Propagate   Pi = Ai + Bi */
+  assign P[1] = in1[2] ^ in2[2];
+  assign P[2] = in1[1] ^ in2[1];
+  assign P[3] = in1[0] ^ in2[0];
+
+  assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */
+  assign C[1] = G[0] | (P[0] & C[0]);
+  assign C[2] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & C[0]);
+  assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & C[0]);
+  assign cout = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1] & G[0]) |(P[3] & P[2] & P[1] & P[0] & C[0]);
+  assign sum = P ^ C;
+endmodule
+
+module CLA4_c(output [3:0] sum,
+              output cout,
+              input [3:0] in1, in2,
+              input cin);
+  wire [3:0] G; /* Generate */
+  wire [3:0] P; /* Propagate */
+  wire [3:0] C; /* Carry */
+
+  assign G[0] = in1[3] & in2[3]; /*Generate    Gi = Ai * Bi */
+  assign G[1] = in1[2] & in2[2];
+  assign G[2] = in1[1] & in2[1];
+  assign G[3] = in1[0] & in2[0];
+  assign P[0] = in1[3] ^ in2[3]; /*Propagate   Pi = Ai + Bi */
+  assign P[1] = in1[2] ^ in2[2];
+  assign P[2] = in1[1] ^ in2[1];
+  assign P[3] = in1[0] ^ in2[0];
+
+
+  assign C[0] = cin;  /* Carry_out = Ci+1 = Gi + Pi*Ci */
+  assign C[1] = G[0] | (P[0] & C[0]);
+  assign C[2] = G[1] | (P[1] & G[0]) | (P[1] & P[0] & C[0]);
+  assign C[3] = G[2] | (P[2] & G[1]) | (P[2] & P[1] & G[0]) | (P[2] & P[1] & P[0] & C[0]);
+  assign cout = G[3] | (P[3] & G[2]) | (P[3] & P[2] & G[1]) | (P[3] & P[2] & P[1] & G[0]) |(P[3] & P[2] & P[1] & P[0] & C[0]);
+  assign sum = P ^ C;
 endmodule
