@@ -145,7 +145,6 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign s43   = P4[2] ^ C4[2];
     assign s44   = P4[3] ^ C4[3];
 
-<<<<<<< HEAD
     full_adder FA01(sA, cA, s14,    s22,    pp4[0]);
     full_adder FA02(sB, cB, s15,    s23,    s31);
     full_adder FA03(sC, cC, s16,    s24,    s32);
