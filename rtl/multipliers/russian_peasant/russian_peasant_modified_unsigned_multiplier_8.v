@@ -1,9 +1,10 @@
 module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     /* This implementation uses carry look-ahead adders of variable lengths
-     * that are 12-13 bits long, even for final stage. 
-     * Area: 1069.065369
-     * Power: 0.4808
-     * Timing: 1.27 */
+     * that are 12-13 bits long, even for final stage.
+     * 1st stage is CLA, 2nd Stage is HAs and FAs. 
+     * Area: 1068.126769
+     * Power: 0.5093
+     * Timing: 1.40 */
 
     input [7:0] A, B;
     output [15:0] product;
@@ -145,7 +146,7 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign s44   = P4[3] ^ C4[3];
 
     /* 5th CLA */
-    wire [9:0] G5, P5, C5;
+    wire [8:0] G5, P5, C5;
     assign G5[0] = s14    & s22;
     assign G5[1] = s15    & s23;
     assign G5[2] = s16    & s24;
@@ -155,7 +156,6 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign G5[6] = pp3[7] & c2;
     assign G5[7] = pp6[5] & pp7[4];
     assign G5[8] = pp5[7] & pp6[6];
-    assign G5[9] = pp6[7] & pp7[6];
     assign P5[0] = s14    ^ s22;
     assign P5[1] = s15    ^ s23;
     assign P5[2] = s16    ^ s24;
@@ -165,8 +165,7 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign P5[6] = pp3[7] ^ c2;
     assign P5[7] = pp6[5] ^ pp7[4];
     assign P5[8] = pp5[7] ^ pp6[6];
-    assign P5[9] = pp6[7] ^ pp7[6];
-    assign C5[0] = 0;
+    assign C5[0] = pp4[0];
     assign C5[1] = G5[0] | (P5[0] & C5[0]);
     assign C5[2] = G5[1] | (P5[1] & C5[1]);
     assign C5[3] = G5[2] | (P5[2] & C5[2]);
@@ -175,9 +174,8 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign C5[6] = G5[5] | (P5[5] & C5[5]);
     assign C5[7] = G5[6] | (P5[6] & C5[6]);
     assign C5[8] = G5[7] | (P5[7] & C5[7]);
-    assign C5[9] = G5[8] | (P5[8] & C5[8]);
-    assign c5    = G5[9] | (P5[9] & C5[9]);
-    assign s51   = P5[0];
+    assign c5    = G5[8] | (P5[8] & C5[8]);
+    assign s51   = P5[0] ^ C5[0];
     assign s52   = P5[1] ^ C5[1];
     assign s53   = P5[2] ^ C5[2];
     assign s54   = P5[3] ^ C5[3];
@@ -186,12 +184,47 @@ module russian_peasant_modified_unsigned_multiplier_8(product, A, B);
     assign s57   = P5[6] ^ C5[6];
     assign s58   = P5[7] ^ C5[7];
     assign s59   = P5[8] ^ C5[8];
-    assign s510  = P5[9] ^ C5[9];
+
+    full_adder fa01(sA, cA, s53, s32,    pp6[0]);
+    full_adder fa02(sB, cB, s54, s33,    s41);
+    full_adder fa03(sC, cC, s55, s34,    s42);
+    full_adder fa04(sD, cD, s56, s35,    s43);
+    full_adder fa05(sE, cE, s57, s36,    s44);
+    full_adder fa06(sF, cF, s58, s37,    c4);
+    full_adder fa07(sG, cG, s59, pp7[5], c3);
+    full_adder fa08(sH, cH, c5,  pp6[7], pp7[6]);
+
 
     
     /* Final CLA */
     wire [12:0] G, P, C;
-    
+    assign G[0]  = s12    & pp2[0];
+    assign G[1]  = s13    & s21;
+    assign G[2]  = s51    & 0;
+    assign G[3]  = s52    & s31;
+    assign G[4]  = sA     & 0;
+    assign G[5]  = sB     & cA;
+    assign G[6]  = sC     & cB;
+    assign G[7]  = sD     & cC;
+    assign G[8]  = sE     & cD;
+    assign G[9]  = sF     & cE;
+    assign G[10] = sG     & cF;
+    assign G[11] = sH     & cG;
+    assign G[12] = pp7[7] & cH;
+    assign P[0]  = s12    ^ pp2[0];
+    assign P[1]  = s13    ^ s21;
+    assign P[2]  = s51    ^ 0;
+    assign P[3]  = s52    ^ s31;
+    assign P[4]  = sA     ^ 0;
+    assign P[5]  = sB     ^ cA;
+    assign P[6]  = sC     ^ cB;
+    assign P[7]  = sD     ^ cC;
+    assign P[8]  = sE     ^ cD;
+    assign P[9]  = sF     ^ cE;
+    assign P[10] = sG     ^ cF;
+    assign P[11] = sH     ^ cG;
+    assign P[12] = pp7[7] ^ cH;
+   
     assign C[0]  = 0;
     assign C[1]  = G[0]  | (P[0] & C[0]);
     assign C[2]  = G[1]  | (P[1] & C[1]);
