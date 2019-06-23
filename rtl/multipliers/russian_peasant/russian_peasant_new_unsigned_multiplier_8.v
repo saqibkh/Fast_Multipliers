@@ -1,6 +1,6 @@
 module russian_peasant_new_unsigned_multiplier_8(product, A, B);
     /* This implementation uses carry look-ahead adders of variable lengths
-     * that are 12-13 bits long, even for final stage. However, the 2nd last stage is done using FAs and HAs.
+     * that are 12-13 bits long, even for final stage. 
      * Area: 1069.065369
      * Power: 0.4808
      * Timing: 1.27 */
