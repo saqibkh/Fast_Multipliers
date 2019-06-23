@@ -1,9 +1,9 @@
 module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     /* This attempt uses CLA of max length 4 but the 2nd last stage uses FA and HAs and 
-     * thefinal stage addition is done using CLA of length 14. 
-     * Area: 
-     * Power: 
-     * Timing: */
+     * the final stage addition is done using CLA of length 13. 
+     * Area: 1070.942570 
+     * Power: 0.5303
+     * Timing: 1.17*/
     input [7:0] A, B;
     output [15:0] product;
 
@@ -222,95 +222,53 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign s83   = P8[2] ^ C8[2];
     assign s84   = P8[3] ^ C8[3];
 
-    /* 9th CLA */
-    wire [3:0] G9, P9, C9;
-    assign G9[0] = pp0[2] & pp1[1];
-    assign G9[1] = pp2[1] & pp3[0];
-    assign G9[2] = pp4[0] & s42;
-    assign G9[3] = s21    & s43;
-    assign P9[0] = pp0[2] ^ pp1[1];
-    assign P9[1] = pp2[1] ^ pp3[0];
-    assign P9[2] = pp4[0] ^ s42;
-    assign P9[3] = s21    ^ s43;
-    assign C9[1] = G9[0];
-    assign C9[2] = G9[1] | (P9[1] & C9[1]);
-    assign C9[3] = G9[2] | (P9[2] & C9[2]);
-    assign c9    = G9[3] | (P9[3] & C9[3]);
-    assign s91   = P9[0];
-    assign s92   = P9[1] ^ C9[1];
-    assign s93   = P9[2] ^ C9[2];
-    assign s94   = P9[3] ^ C9[3];
-
-    /* 10th CLA */
-    wire [3:0] GA, PA, CA;
-    assign GA[0] = s22 & s44;
-    assign GA[1] = c4  & s51;
-    assign GA[2] = s52 & c7;
-    assign GA[3] = s33 & s53;
-    assign PA[0] = s22 ^ s44;
-    assign PA[1] = c4  ^ s51;
-    assign PA[2] = s52 ^ c7;
-    assign PA[3] = s33 ^ s53;
-    assign CA[0] = s73;
-    assign CA[1] = GA[0] | (PA[0] & CA[0]);
-    assign CA[2] = GA[1] | (PA[1] & CA[1]);
-    assign CA[3] = GA[2] | (PA[2] & CA[2]);
-    assign c10   = GA[3] | (PA[3] & CA[3]);
-    assign s101  = PA[0] ^ CA[0];
-    assign s102  = PA[1] ^ CA[1];
-    assign s103  = PA[2] ^ CA[2];
-    assign s104  = PA[3] ^ CA[3];
-
-    /* 11th CLA */
-    wire [3:0] GB, PB, CB;
-    assign GB[0] = s34    & s54;
-    assign GB[1] = c5     & s61;
-    assign GB[2] = pp7[5] & s62;
-    assign GB[3] = pp6[7] & pp7[6];
-    assign PB[0] = s34    ^ s54;
-    assign PB[1] = c5     ^ s61;
-    assign PB[2] = pp7[5] ^ s62;
-    assign PB[3] = pp6[7] ^ pp7[6];
-    assign CB[0] = s83;
-    assign CB[1] = GB[0] | (PB[0] & CB[0]);
-    assign CB[2] = GB[1] | (PB[1] & CB[1]);
-    assign CB[3] = GB[2] | (PB[2] & CB[2]);
-    assign c11   = GB[3] | (PB[3] & CB[3]);
-    assign s111  = PB[0] ^ CB[0];
-    assign s112  = PB[1] ^ CB[1];
-    assign s113  = PB[2] ^ CB[2];
-    assign s114  = PB[3] ^ CB[3];
+    half_adder ha01(product[1], cA, pp0[1], pp1[0]);
+    full_adder fa01(sB, cB, pp0[2],  pp1[1], pp2[0]);
+    full_adder fa02(sC, cC, pp2[1],  pp3[0], s41);
+    full_adder fa03(sD, cD, pp4[0],  s42, s71);
+    full_adder fa04(sE, cE, s21,     s43, s72);
+    full_adder fa05(sF, cF, s22,  s44, s73);
+    full_adder fa06(sG, cG, c4,   s51, s74);
+    full_adder fa07(sH, cH, s52,  c7, s81);
+    full_adder fa08(sI, cI, s33,  s53, s82);
+    
+    /* CLA */
+    wire [3:0] s9, in9_1, in9_2;
+    wire c9;
+    assign in9_1 = {s34,c5,pp7[5],pp6[7]};
+    assign in9_2 = {s54,s61,s62,pp7[6]};
+    CLA4 CLA09(s9, c9, in9_1, in9_2, s83);  
 
     /* Final Stage */
-    wire [13:0] G, P, C;
-    assign G[0] = pp0[1] & pp1[0];
-    assign G[1] = pp2[0] & s91;
-    assign G[2] = s41    & s92;
-    assign G[3] = s71    & s93;
-    assign G[4] = s72 & s94 ;
-    assign G[5] = c9  & s101;
-    assign G[6] = s74 & s102;
-    assign G[7] = s81 & s103;
-    assign G[8] = s82 & s104; 
-    assign G[9] = c10 & s111;
-    assign G[10] = s84 & s112;
-    assign G[11] = c8  & s113;
-    assign G[12] = c6     & s114;
-    assign G[13] = pp7[7] & c11;
-    assign P[0] = pp0[1] ^ pp1[0];
-    assign P[1] = pp2[0] ^ s91;
-    assign P[2] = s41    ^ s92;
-    assign P[3] = s71    ^ s93;
-    assign P[4] = s72 ^ s94 ;
-    assign P[5] = c9  ^ s101;
-    assign P[6] = s74 ^ s102;
-    assign P[7] = s81 ^ s103;
-    assign P[8] = s82 ^ s104;
-    assign P[9] = c10 ^ s111;
-    assign P[10] = s84 ^ s112;
-    assign P[11] = c8  ^ s113;
-    assign P[12] = c6     ^ s114;
-    assign P[13] = pp7[7] ^ c11;
+    wire [12:0] G, P, C;
+    assign G[0]  = sB     & cA;
+    assign G[1]  = sC     & cB;
+    assign G[2]  = sD     & cC;
+    assign G[3]  = sE     & cD;
+    assign G[4]  = sF     & cE;
+    assign G[5]  = sG     & cF;
+    assign G[6]  = sH     & cG;
+    assign G[7]  = sI     & cH;
+    assign G[8]  = s9[0]  & cI; 
+    assign G[9]  = s9[1]  & s84;
+    assign G[10] = s9[2]  & c8;
+    assign G[11] = s9[3]  & c6;
+    assign G[12] = pp7[7] & c9;
+
+    assign P[0]  = sB     ^ cA;
+    assign P[1]  = sC     ^ cB;
+    assign P[2]  = sD     ^ cC;
+    assign P[3]  = sE     ^ cD;
+    assign P[4]  = sF     ^ cE;
+    assign P[5]  = sG     ^ cF;
+    assign P[6]  = sH     ^ cG;
+    assign P[7]  = sI     ^ cH;
+    assign P[8]  = s9[0]  ^ cI;
+    assign P[9]  = s9[1]  ^ s84;
+    assign P[10] = s9[2]  ^ c8;
+    assign P[11] = s9[3]  ^ c6;
+    assign P[12] = pp7[7] ^ c9;
+
     assign C[1]  = G[0];
     assign C[2]  = G[1]  | (P[1]  & C[1]);
     assign C[3]  = G[2]  | (P[2]  & C[2]);
@@ -323,22 +281,20 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign C[10] = G[9]  | (P[9]  & C[9]);
     assign C[11] = G[10] | (P[10] & C[10]);
     assign C[12] = G[11] | (P[11] & C[11]);
-    assign C[13] = G[12] | (P[12] & C[12]);
-    assign product[15] = G[13] | (P[13] & C[13]);
-    assign product[1]  = P[0];
-    assign product[2]  = P[1]  ^ C[1];
-    assign product[3]  = P[2]  ^ C[2];
-    assign product[4]  = P[3]  ^ C[3];
-    assign product[5]  = P[4]  ^ C[4];
-    assign product[6]  = P[5]  ^ C[5];
-    assign product[7]  = P[6]  ^ C[6];
-    assign product[8]  = P[7]  ^ C[7];
-    assign product[9]  = P[8]  ^ C[8];
-    assign product[10] = P[9]  ^ C[9];
-    assign product[11] = P[10] ^ C[10];
-    assign product[12] = P[11] ^ C[11];
-    assign product[13] = P[12] ^ C[12];
-    assign product[14] = P[13] ^ C[13];
+    assign product[15] = G[12] | (P[12] & C[12]);
+    assign product[2]  = P[0];
+    assign product[3]  = P[1]  ^ C[1];
+    assign product[4]  = P[2]  ^ C[2];
+    assign product[5]  = P[3]  ^ C[3];
+    assign product[6]  = P[4]  ^ C[4];
+    assign product[7]  = P[5]  ^ C[5];
+    assign product[8]  = P[6]  ^ C[6];
+    assign product[9]  = P[7]  ^ C[7];
+    assign product[10] = P[8]  ^ C[8];
+    assign product[11] = P[9]  ^ C[9];
+    assign product[12] = P[10] ^ C[10];
+    assign product[13] = P[11] ^ C[11];
+    assign product[14] = P[12] ^ C[12];
 endmodule
 
 module dadda_unsigned_multiplier_CLA_Reduced_8_attempt2(product, A, B);
@@ -1336,7 +1292,31 @@ module dadda_unsigned_multiplier_CLA_Reduced_8_RCA(product, A, B);
     full_adder FA14(product[14], product[15], pp7[7] ,c11, d13);
 endmodule
 
+module CLA4(output [3:0] sum,
+            output cout,
+            input [3:0] in1, in2,
+            input cin);
 
+    wire [3:0] G; /* Generate */
+    wire [3:0] P; /* Propagate */
+    wire [3:0] C; /* Carry */
+
+    assign G[0] = in1[3] & in2[3]; /*Generate    Gi = Ai * Bi */
+    assign G[1] = in1[2] & in2[2];
+    assign G[2] = in1[1] & in2[1];
+    assign G[3] = in1[0] & in2[0];
+    assign P[0] = in1[3] ^ in2[3]; /*Propagate   Pi = Ai + Bi */
+    assign P[1] = in1[2] ^ in2[2];
+    assign P[2] = in1[1] ^ in2[1];
+    assign P[3] = in1[0] ^ in2[0];
+
+    assign C[0] = cin;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign cout = G[3] | (P[3] & C[3]);
+    assign sum = P ^ C;
+endmodule
 
 module half_adder(output wire sum,
                   output wire cout,
