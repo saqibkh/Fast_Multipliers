@@ -1,8 +1,8 @@
 module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     /* This attempt uses CLA of max length 4 but the 2nd last stage uses FA and HAs and 
      * the final stage addition is done using CLA of length 13. 
-     * Area: 1070.942570 
-     * Power: 0.5303
+     * Area: 1062.964470 
+     * Power: 0.5289
      * Timing: 1.17 */
     input [7:0] A, B;
     output [15:0] product;
@@ -178,7 +178,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign G6[1] = pp5[7] & pp6[6];
     assign P6[0] = pp4[7] ^ pp5[6];
     assign P6[1] = pp5[7] ^ pp6[6];
-    assign C6[0] = c3;
+    assign C6[0] = pp6[5];
     assign C6[1] = G6[0] | (P6[0] & C6[0]);
     assign c6    = G6[1] | (P6[1] & C6[1]);
     assign s61   = P6[0] ^ C6[0];
@@ -208,11 +208,11 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
     assign G8[0] = s24    & s32;
     assign G8[1] = s14    & c2;
     assign G8[2] = pp5[5] & c1;
-    assign G8[3] = pp6[5] & pp7[4];
+    assign G8[3] = c3     & pp7[4];
     assign P8[0] = s24    ^ s32;
     assign P8[1] = s14    ^ c2;
     assign P8[2] = pp5[5] ^ c1;
-    assign P8[3] = pp6[5] ^ pp7[4];
+    assign P8[3] = c3     ^ pp7[4];
     assign C8[1] = G8[0];
     assign C8[2] = G8[1] | (P8[1] & C8[1]);
     assign C8[3] = G8[2] | (P8[2] & C8[2]);
