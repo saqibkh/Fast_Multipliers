@@ -3,7 +3,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_8(product, A, B);
      * the final stage addition is done using CLA of length 13. 
      * Area: 1070.942570 
      * Power: 0.5303
-     * Timing: 1.17*/
+     * Timing: 1.17 */
     input [7:0] A, B;
     output [15:0] product;
 
