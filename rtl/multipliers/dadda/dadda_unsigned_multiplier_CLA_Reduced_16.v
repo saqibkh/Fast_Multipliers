@@ -283,7 +283,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
 
     wire [3:0] s16, in16_1, in16_2;
     wire c16;
-    assign in16_1 = {sK[2], sK[3], cK,    sL[0]};
+    assign in16_1 = {sK[2], sK[3], cK,    sL[1]};
     assign in16_2 = {sP[1], sP[2], sL[0], cP};
     CLA4_c CLA16(s16, c16, in16_1, in16_2, sY[3]);
 
@@ -372,7 +372,8 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     half_adder ha05(s59, c59, c24,    pp15[15]);
 
     /* Final Stage */
-    wire [30:0] G, P, C;
+    wire [29:0] G, P;
+    wire [30:0] C;
     assign G[0]  = pp0[1] & pp1[0];
     assign G[1]  = s31    & 0;
     assign G[2]  = s32    & c31;
@@ -403,7 +404,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     assign G[27] = s57    & c56;
     assign G[28] = s58    & c57;
     assign G[29] = s59    & c58;
-    assign G[30] = 0      & c59;
+    //assign G[30] = 0      & c59;
     assign P[0]  = pp0[1] ^ pp1[0];
     assign P[1]  = s31    ^ 0;
     assign P[2]  = s32    ^ c31;
@@ -434,7 +435,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     assign P[27] = s57    ^ c56;
     assign P[28] = s58    ^ c57;
     assign P[29] = s59    ^ c58;
-    assign P[30] = 0      ^ c59;
+    //assign P[30] = 0      ^ c59;
     assign C[0]  = 0;
     assign C[1]  = G[0]  | (P[0]  & C[0]);
     assign C[2]  = G[1]  | (P[1]  & C[1]);
@@ -466,7 +467,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     assign C[28] = G[27] | (P[27] & C[27]);
     assign C[29] = G[28] | (P[28] & C[28]);
     assign C[30] = G[29] | (P[29] & C[29]);
-    assign product[31] = G[30] | (P[30] & C[30]);
+    or(product[31], C[30], c59);
 
     assign product[1]  = P[0];
     assign product[2]  = P[1]  ^ C[1];
