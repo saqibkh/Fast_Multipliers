@@ -373,11 +373,6 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     assign in26_2 = {s23[3], s25, c25, pp15[15]};
     CLA4_c CLA26(s26, c26, in26_1, in26_2, c17);
 
-    //full_adder fa24(s56, c56, s24[0], s23[3], c17);
-    //full_adder fa25(s57, c57, s24[1], s25,    c23);
-    //half_adder ha04(s58, c58, s24[2], c25);
-    //half_adder ha05(s59, c59, c24,    pp15[15]);
-
     /* Final Stage */
     wire [29:0] G, P;
     wire [30:0] C;
