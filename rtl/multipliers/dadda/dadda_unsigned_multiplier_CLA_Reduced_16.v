@@ -272,7 +272,7 @@ module dadda_unsigned_multiplier_CLA_Reduced_16(product, A, B);
     wire [3:0] s14, in14_1, in14_2;
     wire c14;
     assign in14_1 = {sI[2], sI[3], cI,    sJ[1]};
-    assign in14_2 = {sN[1], sN[2], sI[0], cN};
+    assign in14_2 = {sN[1], sN[2], sJ[0], cN};
     CLA4_c CLA14(s14, c14, in14_1, in14_2, sW[3]);
 
     wire [3:0] s15, in15_1, in15_2;
