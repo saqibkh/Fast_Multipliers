@@ -32,9 +32,9 @@ module wallace_unsigned_multiplier_CLA_4(product, A, B);
 /* Second Stage */
     assign product[1] = s11;
     half_adder ha3(s21,        c21,         s12,    c11);
-    full_adder fa4(s22,        c22, pp3[0], s13,    c12);
-    full_adder fa5(s23,        c23, pp3[1], s14,    c13);
-    full_adder fa6(s24,        c24, pp3[2], pp2[3], c14);
+    full_adder fa3(s22,        c22, pp3[0], s13,    c12);
+    full_adder fa4(s23,        c23, pp3[1], s14,    c13);
+    full_adder fa5(s24,        c24, pp3[2], pp2[3], c14);
 
 /* Final Stage uses Carry Look-Ahead Adder */
     assign product[2] = s21;
