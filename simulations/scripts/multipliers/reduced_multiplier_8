@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/multipliers/reduced/reduced_multiplier_8.v tests/multipliers/reduced_multiplier_8_test.v -debug_all
+./simv
