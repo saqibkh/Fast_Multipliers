@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/brent_kung/brent_kung_4.v tests/adders/brent_kung_4_tests.v -debug_all
+./simv

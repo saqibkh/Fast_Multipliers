@@ -1,4 +1,4 @@
-module test_carry_lookahead_adder_16;
+module test_brent_kung_16;
 
   // Inputs
   reg [15:0] in1;
@@ -10,7 +10,7 @@ module test_carry_lookahead_adder_16;
   wire cout;
   
   // Instantiate the Unit test (UUT)
-  carry_lookahead_adder_16 uut(
+  brent_kung_16 uut(
     .sum(sum),
     .cout(cout),
     .in1(in1),
@@ -30,6 +30,7 @@ module test_carry_lookahead_adder_16;
     #10 in1=16'b1101000000000000;in2=16'b1010000000000000;cin=1'b1;
     end
   initial begin
+    //$monitor("time=",$time,, "in1=%b in2=%b cin=%b : sum=%b cout=%b",in1,in2,cin,sum,cout);
     $monitor("time=",$time,, "in1=%d in2=%d cin=%d : sum=%d cout=%d",in1,in2,cin,sum,cout);
   end
 endmodule
