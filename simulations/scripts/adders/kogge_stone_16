@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/kogge_stone/kogge_stone_16.v tests/adders/kogge_stone_16_tests.v -debug_all
+./simv
