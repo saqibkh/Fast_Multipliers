@@ -18,7 +18,7 @@ module kogge_stone_16(in1, in2, sum, cin, cout);
     assign P_Z = in1 ^ in2;
     assign G_Z = in1 & in2;
 
-    //level 1
+    /*level 1*/
     gray_cell level_0A(cin, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
@@ -38,7 +38,7 @@ module kogge_stone_16(in1, in2, sum, cin, cout);
     black_cell level_FA(G_Z[14], P_Z[15], G_Z[15], P_Z[14], G_A[15], P_A[15]);
 
 
-    //level 2 
+    /*level 2*/ 
     gray_cell level_1B(cin,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
@@ -55,7 +55,7 @@ module kogge_stone_16(in1, in2, sum, cin, cout);
     black_cell level_EB(G_A[12], P_A[14], G_A[14], P_A[12], G_B[14], P_B[14]);
     black_cell level_FB(G_A[13], P_A[15], G_A[15], P_A[13], G_B[15], P_B[15]);
 
-    //level 3
+    /*level 3*/
     gray_cell level_3C(cin,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
@@ -70,7 +70,7 @@ module kogge_stone_16(in1, in2, sum, cin, cout);
     black_cell level_EC(G_B[10], P_B[14], G_B[14], P_B[10], G_C[14], P_C[14]);
     black_cell level_FC(G_B[11], P_B[15], G_B[15], P_B[11], G_C[15], P_C[15]);
 
-    // level 4
+    /*level 4*/
     gray_cell level_7D(cin,      P_C[7],   G_C[7],           G_D[7]);
     gray_cell level_8D(G_A[0],   P_C[8],   G_C[8],           G_D[8]);
     gray_cell level_9D(G_B[1],   P_C[9],   G_C[9],           G_D[9]);
@@ -81,10 +81,10 @@ module kogge_stone_16(in1, in2, sum, cin, cout);
     gray_cell level_ED(G_C[6],   P_C[14],  G_C[14],          G_D[14]);
     black_cell level_FD(G_C[7],  P_C[15],  G_C[15],  P_C[7], G_D[15], P_D[15]);    
 
-    //level 5
+    /*level 5*/
     gray_cell level_15E(cin, P_D[15], G_D[15], cout);
 
-    //outputs
+    /*outputs*/
     assign sum[0]  = cin     ^ P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
