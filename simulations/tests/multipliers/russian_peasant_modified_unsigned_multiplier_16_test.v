@@ -24,6 +24,7 @@ module test_russian_peasant_modified_unsigned_multiplier_16;
     #10 A=16'b0010011101110001;B=16'b0000111101100111;
     #10 A=16'b1010000000000000;B=16'b0011000011001101;
     #10 A=16'b1101101001010000;B=16'b1010010100010010;
+    #10 A=16'b1111111111111111;B=16'b0000000000000001;
     end
   initial begin
     //$monitor("time=",$time,, "A=%b B=%b : product=%b",A,B,product);

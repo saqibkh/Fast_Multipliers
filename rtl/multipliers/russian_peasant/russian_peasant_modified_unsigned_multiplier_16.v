@@ -1,6 +1,10 @@
 module russian_peasant_modified_unsigned_multiplier_16(product, A, B);
     /* This implementation uses carry look-ahead adders of
-     * variable lengths and can extend upto 15 bits long */
+     * variable lengths and can extend upto 15 bits long 
+     * Area: 4743.214964
+     * Power: 2.5952mW
+     * Timing: 2.85
+     */
 
     input  [15:0] A, B;
     output [31:0] product;
@@ -682,7 +686,7 @@ module russian_peasant_modified_unsigned_multiplier_16(product, A, B);
 
     /* 12th CLA */
     wire [10:0] GC, PC, CC;
-    assign GC[0]  = s702     & pp15[0];
+    assign GC[0]  = s702     & pp14[0];
     assign GC[1]  = s703     & s801;
     assign GC[2]  = s704     & s802;
     assign GC[3]  = s705     & s803;
@@ -693,7 +697,7 @@ module russian_peasant_modified_unsigned_multiplier_16(product, A, B);
     assign GC[8]  = pp12[10] & pp13[9];
     assign GC[9]  = pp10[13] & pp11[12];
     assign GC[10] = pp10[14] & pp11[13];
-    assign PC[0]  = s702     ^ pp15[0];
+    assign PC[0]  = s702     ^ pp14[0];
     assign PC[1]  = s703     ^ s801;
     assign PC[2]  = s704     ^ s802;
     assign PC[3]  = s705     ^ s803;

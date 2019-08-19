@@ -1,7 +1,14 @@
 module multiplier_16bits_version4(product, A, B);
 
+    /* This implementation is similar to 16bit russian peasant multiplication
+     * that uses long CLA for partial product reduction and for the 
+     * final stage.
+     * Area: 4477.937662
+     * Power: 2.6390mW
+     * Timing: 2.50
+     */
 
-     input  [15:0] A, B;
+    input  [15:0] A, B;
     output [31:0] product;
 
     wire [31:0] product;
@@ -108,7 +115,7 @@ module multiplier_16bits_version4(product, A, B);
     wire [10:0] sC, inC_1, inC_2;
     wire cC;
     assign inC_1 = {s7[1],  s7[2],s7[3],s7[4],s7[5],s7[6],s7[7],  pp12[9],pp12[10],pp10[13],pp10[14]};
-    assign inC_2 = {pp15[0],s8[0],s8[1],s8[2],s8[3],c8,   pp5[15],pp13[8],pp13[9], pp11[12],pp11[13]};
+    assign inC_2 = {pp14[0],s8[0],s8[1],s8[2],s8[3],c8,   pp5[15],pp13[8],pp13[9], pp11[12],pp11[13]};
     CLA11 CLA0C(sC, cC, inC_1, inC_2);
 
     /* 13th CLA */
@@ -490,8 +497,7 @@ module CLA11(output [10:0] sum,
     assign C[8] = G[7] | (P[7] & C[7]);
     assign C[9] = G[8] | (P[8] & C[8]);
     assign C[10]= G[9] | (P[9] & C[9]);
-    assign C[11]= G[10] | (P[10] & C[10]);
-    assign cout = G[11] | (P[11] & C[11]);
+    assign cout = G[10] | (P[10] & C[10]);
     assign sum = P ^ C;
 endmodule
 
@@ -928,4 +934,41 @@ module CLA15(output [14:0] sum,
     assign C[14] = G[13] | (P[13] & C[13]);
     assign cout  = G[14] | (P[14] & C[14]);
     assign sum   = P ^ C;
+endmodule
+
+module CLA8(output [7:0] sum,
+            output cout,
+            input [7:0] in1, in2);
+  wire [7:0] G; /* Generate */
+  wire [7:0] P; /* Propagate */
+  wire [7:0] C; /* Carry */
+
+  assign G[0] = in1[7] & in2[7];
+  assign G[1] = in1[6] & in2[6]; /*Generate    Gi = Ai * Bi */
+  assign G[2] = in1[5] & in2[5];
+  assign G[3] = in1[4] & in2[4];
+  assign G[4] = in1[3] & in2[3];
+  assign G[5] = in1[2] & in2[2];
+  assign G[6] = in1[1] & in2[1];
+  assign G[7] = in1[0] & in2[0];
+  
+  assign P[0] = in1[7] ^ in2[7];
+  assign P[1] = in1[6] ^ in2[6]; /*Propagate   Pi = Ai + Bi */
+  assign P[2] = in1[5] ^ in2[5];
+  assign P[3] = in1[4] ^ in2[4];
+  assign P[4] = in1[3] ^ in2[3];
+  assign P[5] = in1[2] ^ in2[2];
+  assign P[6] = in1[1] ^ in2[1];
+  assign P[7] = in1[0] ^ in2[0];
+
+  assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */
+  assign C[1] = G[0] | (P[0] & C[0]);
+  assign C[2] = G[1] | (P[1] & C[1]);
+  assign C[3] = G[2] | (P[2] & C[2]);
+  assign C[4] = G[3] | (P[3] & C[3]);
+  assign C[5] = G[4] | (P[4] & C[4]);
+  assign C[6] = G[5] | (P[5] & C[5]);
+  assign C[7] = G[6] | (P[6] & C[6]);
+  assign cout = G[7] | (P[7] & C[7]);
+  assign sum = P ^ C;
 endmodule
