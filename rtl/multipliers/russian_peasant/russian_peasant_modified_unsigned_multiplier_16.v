@@ -620,7 +620,7 @@ module russian_peasant_modified_unsigned_multiplier_16(product, A, B);
     assign sA16   = PA[15] ^ CA[15];
     assign sA17   = PA[16] ^ CA[16];
 
-    /* qqth CLA */
+    /* 11th CLA */
     wire [13:0] GB, PB, CB;
     assign GB[0]  = s504     & s602;
     assign GB[1]  = s505     & s603;
