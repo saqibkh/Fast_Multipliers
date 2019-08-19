@@ -1,9 +1,9 @@
 module kogge_stone_32(in1, in2, sum, cin, cout);
 
     /* This is a 32 bit kogge-stone parallel prefix adder
-     * Area: 631.677782
-     * Power: mW
-     * Timing: ns
+     * Area: 1504.106458 
+     * Power: 0.5335mW
+     * Timing: 0.56ns
      */
     input [31:0] in1, in2; //input
     output [31:0] sum; //output

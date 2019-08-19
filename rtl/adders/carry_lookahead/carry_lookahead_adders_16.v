@@ -9,6 +9,11 @@ module carry_lookahead_adder_16(output [15:0] sum,
                                 input [15:0] in1, in2,
                                 input cin);
 
+    /* Area: 262.807992
+     * Power: 0.118mW
+     * Timing: 1.08ns
+     */
+
     wire [15:0] G; // Generate
     wire [15:0] P; // Propagate
     wire [15:0] C; // Carry

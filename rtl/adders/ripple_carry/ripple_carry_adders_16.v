@@ -8,6 +8,12 @@ module ripple_carry_adder_16(output [15:0] sum,
                       output cout,
                       input [15:0] in1, in2,
                       input cin);
+
+    /* Area: 277.825592 
+     * Power: 0.1385mW
+     * Timing: 1.73ns
+     */
+
     wire c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, c13, c14, c15;
     full_adder FA1(sum[0], c1, in1[0], in2[0], cin);
     full_adder FA2(sum[1], c2, in1[1], in2[1], c1);
