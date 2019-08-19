@@ -8,7 +8,7 @@ module test_multiplier_16bits_version5;
   wire [31:0] product;
   
   // Instantiate the Unit test (UUT)
-  multiplier_16bits_version3 uut(
+  multiplier_16bits_version5 uut(
     .product(product),
     .A(A),
     .B(B));
