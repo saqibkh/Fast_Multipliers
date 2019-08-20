@@ -3,9 +3,9 @@ module multiplier_16bits_version6(product, A, B);
     /* This implementation is similar to 16bit russian peasant multiplication
      * that uses long kogge-stone for partial product reduction and kogge-stone the 
      * final stage.
-     * Area: 5335.940839
-     * Power: 3.3144mW
-     * Timing: 2.71
+     * Area: 
+     * Power: mW
+     * Timing: 
      */
 
     input  [15:0] A, B;

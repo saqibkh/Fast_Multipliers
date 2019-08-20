@@ -2,9 +2,9 @@ module multiplier_16bits_version3(product, A, B);
 
     /* This implementation is similar to 16bit dadda with kogge-stone reduction, and
      * uses kogge-stone for carry propagating adder
-     * Area: 7669.769677 
-     * Power: 4.3417mW
-     * Timing: 1.62ns 
+     * Area: 7368.479084 
+     * Power: 4.235mW
+     * Timing: 1.60ns 
      */
  
     input [15:0] A, B;
@@ -381,7 +381,7 @@ module multiplier_16bits_version3(product, A, B);
     wire c;
     assign in_1 = {s26[3],s26[2],s26[1],s26[0],s55,s54,s53,s52,s51,s50,s49,s48,s47,s46,s45,s44,s43,s42,s41,s40,s39,s38,s37,s36,s35,s34,s33,s32,s31,pp0[1]};
     assign in_2 = {1'b0,1'b0,c23,c55,c54,c53,c52,c51,c50,c49,c48,c47,c46,c45,c44,c43,c42,c41,c40,c39,c38,c37,c36,c35,c34,c33,c32,c31,1'b0,pp1[0]};
-    kogge_stone_30 KS_27(s, c, in_1, in_2, 1'b0);
+    kogge_stone_30 KS_27(s, c, in_1, in_2);
     assign product[1]  = s[0];
     assign product[2]  = s[1];
     assign product[3]  = s[2];
@@ -528,16 +528,18 @@ module kogge_stone_3(sum, cout, in1, in2);
     assign G_Z[2] = in1[0] & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
 endmodule
@@ -561,21 +563,24 @@ module kogge_stone_4(sum, cout, in1, in2);
     assign G_Z[3] = in1[0] & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
 
     /*level 2*/
+    assign G_B[1] = G_A[1];
     gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
+    assign cout = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
@@ -646,10 +651,9 @@ module kogge_stone_2_c(sum, cout, in1, in2, cin);
     assign sum[1]  = G_A[0]  ^ P_Z[1];
 endmodule
 
-module kogge_stone_30(sum, cout, in1, in2, cin);
+module kogge_stone_30(sum, cout, in1, in2);
     input [29:0] in1, in2; //input
     output [29:0] sum; //output
-    input cin; //carry-in
     output cout; //carry-out
     wire [29:0] G_Z, P_Z, //wires
     G_A, P_A,
@@ -663,7 +667,8 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     assign G_Z = in1 & in2;
 
     /*level 1*/
-    gray_cell level_0A(cin, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(cin, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
@@ -695,7 +700,8 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     black_cell level_TA(G_Z[28], P_Z[29], G_Z[29], P_Z[28], G_A[29], P_A[29]);
 
     /*level 2*/
-    gray_cell level_1B(cin,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(cin,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
     black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
@@ -726,7 +732,8 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     black_cell level_TB(G_A[27], P_A[29], G_A[29], P_A[27], G_B[29], P_B[29]);
 
     /*level 3*/
-    gray_cell level_3C(cin,      P_B[3],  G_B[3],  G_C[3]);
+    assign G_C[3] = G_B[3];
+    //gray_cell level_3C(cin,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
     gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  G_C[6]);
@@ -755,7 +762,8 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     black_cell level_TC(G_B[25], P_B[29], G_B[29], P_B[25], G_C[29], P_C[29]);
 
     /*level 4*/
-    gray_cell level_7D(cin,       P_C[7],   G_C[7],            G_D[7]);
+    assign G_D[7] = G_C[7];
+    //gray_cell level_7D(cin,       P_C[7],   G_C[7],            G_D[7]);
     gray_cell level_8D(G_A[0],    P_C[8],   G_C[8],            G_D[8]);
     gray_cell level_9D(G_B[1],    P_C[9],   G_C[9],            G_D[9]);
     gray_cell level_AD(G_B[2],    P_C[10],  G_C[10],           G_D[10]);
@@ -780,7 +788,8 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     black_cell level_TD(G_C[21],  P_C[29],  G_C[29],  P_C[21], G_D[29], P_D[29]);
 
     /*level 5*/
-    gray_cell level_FE(cin,       P_D[15],  G_D[15],           G_E[15]);
+    assign G_E[15] = G_D[15];
+    //gray_cell level_FE(cin,       P_D[15],  G_D[15],           G_E[15]);
     gray_cell level_GE(G_A[0],    P_D[16],  G_D[16],           G_E[16]);
     gray_cell level_HE(G_B[1],    P_D[17],  G_D[17],           G_E[17]);
     gray_cell level_IE(G_B[2],    P_D[18],  G_D[18],           G_E[18]);
@@ -797,7 +806,7 @@ module kogge_stone_30(sum, cout, in1, in2, cin);
     gray_cell level_TE(G_D[13],   P_D[29],  G_D[29],           cout);
 
     /*outputs*/
-    assign sum[0]  = cin     ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];

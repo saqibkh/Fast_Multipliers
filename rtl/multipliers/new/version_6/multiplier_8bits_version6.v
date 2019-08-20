@@ -3,9 +3,9 @@ module multiplier_8bits_version6(product, A, B);
     /* This implementation is similar to 8bit russian peasant multiplication
      * that uses long kogge-stone for partial product reduction and kogge-stone for the 
      * final stage.
-     * Area: 1980.445943
-     * Power: 0.8034mW
-     * Timing: 1.23ns
+     * Area: 1822.761147
+     * Power: 0.7722mW
+     * Timing: 1.21ns
      */
 
     input [7:0] A, B;
@@ -132,21 +132,24 @@ module kogge_stone_4(sum, cout, in1, in2);
     assign G_Z[3] = in1[0] & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
+    assign cout = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
@@ -179,7 +182,8 @@ module kogge_stone_7(sum, cout, in1, in2);
     assign G_Z[6] = in1[0]  & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
@@ -188,7 +192,8 @@ module kogge_stone_7(sum, cout, in1, in2);
     black_cell level_6A(G_Z[5],  P_Z[6],  G_Z[6],  P_Z[5],  G_A[6],  P_A[6]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
     black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
@@ -196,13 +201,14 @@ module kogge_stone_7(sum, cout, in1, in2);
     black_cell level_6B(G_A[4],  P_A[6],  G_A[6],  P_A[4],  G_B[6],  P_B[6]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
+    assign G_C[3] = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
     gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
@@ -241,7 +247,8 @@ module kogge_stone_8(sum, cout, in1, in2);
     assign G_Z[7] = in1[0]  & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
@@ -251,7 +258,8 @@ module kogge_stone_8(sum, cout, in1, in2);
     black_cell level_7A(G_Z[6],  P_Z[7],  G_Z[7],  P_Z[6],  G_A[7],  P_A[7]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
     black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
@@ -260,17 +268,19 @@ module kogge_stone_8(sum, cout, in1, in2);
     black_cell level_7B(G_A[5],  P_A[7],  G_A[7],  P_A[5],  G_B[7],  P_B[7]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
+    assign G_C[3] = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
     gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  G_C[6]);
     black_cell level_7C(G_B[3],  P_B[7],  G_B[7],  P_B[3],  G_C[7],  P_C[7]);
 
     /*level 4*/
-    gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           cout);
+    assign cout = G_C[7];
+    //gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
@@ -313,7 +323,8 @@ module kogge_stone_10(sum, cout, in1, in2);
     assign G_Z[9] = in1[0]  & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
@@ -325,7 +336,8 @@ module kogge_stone_10(sum, cout, in1, in2);
     black_cell level_9A(G_Z[8],  P_Z[9],  G_Z[9],  P_Z[8],  G_A[9],  P_A[9]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
     black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
@@ -336,7 +348,8 @@ module kogge_stone_10(sum, cout, in1, in2);
     black_cell level_9B(G_A[7],  P_A[9],  G_A[9],  P_A[7],  G_B[9],  P_B[9]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
+    assign G_C[3] = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
     gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  G_C[6]);
@@ -345,12 +358,13 @@ module kogge_stone_10(sum, cout, in1, in2);
     black_cell level_9C(G_B[5],  P_B[9],  G_B[9],  P_B[5],  G_C[9],  P_C[9]);
 
     /*level 4*/
-    gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           G_D[7]);
+    assign G_D[7] = G_C[7];
+    //gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           G_D[7]);
     gray_cell level_8D(G_A[0],   P_C[8],   G_C[8],           G_D[8]);
     gray_cell level_9D(G_B[1],   P_C[9],   G_C[9],           cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
@@ -405,7 +419,8 @@ module kogge_stone_13(sum, cout, in1, in2);
     assign G_Z[12] = in1[0]  & in2[0];
 
     /*level 1*/
-    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    assign G_A[0] = G_Z[0];
+    //gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
     black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
     black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
@@ -420,7 +435,8 @@ module kogge_stone_13(sum, cout, in1, in2);
     black_cell level_CA(G_Z[11], P_Z[12], G_Z[12], P_Z[11], G_A[12], P_A[12]);
 
     /*level 2*/
-    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    assign G_B[1] = G_A[1];
+    //gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
     gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
     black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
     black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
@@ -434,7 +450,8 @@ module kogge_stone_13(sum, cout, in1, in2);
     black_cell level_CB(G_A[10], P_A[12], G_A[12], P_A[10], G_B[12], P_B[12]);
 
     /*level 3*/
-    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
+    assign G_C[3] = G_B[3];
+    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
     gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
     gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
     gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  G_C[6]);
@@ -446,7 +463,8 @@ module kogge_stone_13(sum, cout, in1, in2);
     black_cell level_CC(G_B[8],  P_B[12], G_B[12], P_B[8],  G_C[12], P_C[12]);
 
     /*level 4*/
-    gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           G_D[7]);
+    assign G_D[7] = G_C[7];
+    //gray_cell level_7D(1'b0,     P_C[7],   G_C[7],           G_D[7]);
     gray_cell level_8D(G_A[0],   P_C[8],   G_C[8],           G_D[8]);
     gray_cell level_9D(G_B[1],   P_C[9],   G_C[9],           G_D[9]);
     gray_cell level_AD(G_B[2],   P_C[10],  G_C[10],          G_D[10]);
@@ -454,7 +472,7 @@ module kogge_stone_13(sum, cout, in1, in2);
     gray_cell level_CD(G_C[4],   P_C[12],  G_C[12],          cout);
 
     /*outputs*/
-    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[0]  =           P_Z[0];
     assign sum[1]  = G_A[0]  ^ P_Z[1];
     assign sum[2]  = G_B[1]  ^ P_Z[2];
     assign sum[3]  = G_B[2]  ^ P_Z[3];
