@@ -3,9 +3,9 @@ module multiplier_8bits_version6(product, A, B);
     /* This implementation is similar to 8bit russian peasant multiplication
      * that uses long kogge-stone for partial product reduction and kogge-stone for the 
      * final stage.
-     * Area: 1314.039961
-     * Power: 0.6392mW
-     * Timing: 1.53
+     * Area: 1980.445943
+     * Power: 0.8034mW
+     * Timing: 1.23ns
      */
 
     input [7:0] A, B;
@@ -38,21 +38,21 @@ module multiplier_8bits_version6(product, A, B);
     wire c2;
     assign in2_1 = {pp2[1],pp2[2],pp2[3],pp2[4],pp2[5],pp2[6],pp2[7]};
     assign in2_2 = {pp3[0],pp3[1],pp3[2],pp3[3],pp3[4],pp3[5],pp3[6]};
-    CLA7 CLA02(s2, c2, in2_1, in2_2);
+    kogge_stone_7 CLA02(s2, c2, in2_1, in2_2);
 
     /* 3rd CLA */
     wire [6:0] s3, in3_1, in3_2;
     wire c3;
     assign in3_1 = {pp4[1],pp4[2],pp4[3],pp4[4],pp4[5],pp4[6],pp4[7]};
     assign in3_2 = {pp5[0],pp5[1],pp5[2],pp5[3],pp5[4],pp5[5],pp5[6]};
-    CLA7 CLA03(s3, c3, in3_1, in3_2);    
+    kogge_stone_7 CLA03(s3, c3, in3_1, in3_2);    
 
     /* 4th CLA */
     wire [3:0] s4, in4_1, in4_2;
     wire c4;
     assign in4_1 = {pp6[1],pp6[2],pp6[3],pp6[4]};
     assign in4_2 = {pp7[0],pp7[1],pp7[2],pp7[3]};
-    CLA4 CLA04(s4, c4, in4_1, in4_2);
+    kogge_stone_4 CLA04(s4, c4, in4_1, in4_2);
 
     /* 5th CLA */
     wire [9:0] s5, in5_1, in5_2;
@@ -66,7 +66,7 @@ module multiplier_8bits_version6(product, A, B);
     wire c6;
     assign in6_1 = {s3[1],s3[2],s3[3],s3[4],s3[5],s3[6],pp7[5]};
     assign in6_2 = {pp6[0],s4[0],s4[1],s4[2],s4[3],c4,c3};
-    CLA7 CLA06(s6, c6, in6_1, in6_2);
+    kogge_stone_7 CLA06(s6, c6, in6_1, in6_2);
 
     /* Final CLA */
     wire [12:0] s, in_1, in_2;
@@ -339,6 +339,104 @@ module full_adder(output wire sum,
     and(temp2,in1,cin);
     and(temp3,in2,cin);
     or(cout,temp1,temp2,temp3);
+endmodule
+
+module kogge_stone_4(sum, cout, in1, in2);
+    input [3:0] in1, in2; //input
+    output [3:0] sum; //output
+    output cout; //carry-out
+    wire [3:0] G_Z, P_Z, //wires
+    G_A, P_A,
+    G_B, P_B;
+
+    assign P_Z[0] = in1[3] ^ in2[3];
+    assign P_Z[1] = in1[2] ^ in2[2];
+    assign P_Z[2] = in1[1] ^ in2[1];
+    assign P_Z[3] = in1[0] ^ in2[0];
+    assign G_Z[0] = in1[3] & in2[3];
+    assign G_Z[1] = in1[2] & in2[2];
+    assign G_Z[2] = in1[1] & in2[1];
+    assign G_Z[3] = in1[0] & in2[0];
+
+    /*level 1*/
+    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
+    black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
+    black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
+
+    /*level 2*/
+    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
+    black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
+
+    /*level 3*/
+    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
+
+    /*outputs*/
+    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[1]  = G_A[0]  ^ P_Z[1];
+    assign sum[2]  = G_B[1]  ^ P_Z[2];
+    assign sum[3]  = G_B[2]  ^ P_Z[3];
+endmodule
+
+module kogge_stone_7(sum, cout, in1, in2);
+    input [6:0] in1, in2; //input
+    output [6:0] sum; //output
+    output cout; //carry-out
+    wire [6:0] G_Z, P_Z, //wires
+    G_A, P_A,
+    G_B, P_B,
+    G_C, P_C,
+    G_D, P_D;
+
+    assign P_Z[0]  = in1[6]  ^ in2[6];
+    assign P_Z[1]  = in1[5]  ^ in2[5];
+    assign P_Z[2]  = in1[4]  ^ in2[4];
+    assign P_Z[3]  = in1[3]  ^ in2[3];
+    assign P_Z[4]  = in1[2]  ^ in2[2];
+    assign P_Z[5]  = in1[1]  ^ in2[1];
+    assign P_Z[6]  = in1[0]  ^ in2[0];
+
+    assign G_Z[0]  = in1[6]  & in2[6];
+    assign G_Z[1]  = in1[5]  & in2[5];
+    assign G_Z[2]  = in1[4]  & in2[4];
+    assign G_Z[3]  = in1[3]  & in2[3];
+    assign G_Z[4] = in1[2]  & in2[2];
+    assign G_Z[5] = in1[1]  & in2[1];
+    assign G_Z[6] = in1[0]  & in2[0];
+
+    /*level 1*/
+    gray_cell level_0A(1'b0, P_Z[0], G_Z[0], G_A[0]);
+    black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
+    black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
+    black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
+    black_cell level_4A(G_Z[3],  P_Z[4],  G_Z[4],  P_Z[3],  G_A[4],  P_A[4]);
+    black_cell level_5A(G_Z[4],  P_Z[5],  G_Z[5],  P_Z[4],  G_A[5],  P_A[5]);
+    black_cell level_6A(G_Z[5],  P_Z[6],  G_Z[6],  P_Z[5],  G_A[6],  P_A[6]);
+
+    /*level 2*/
+    gray_cell level_1B(1'b0,      P_A[1],  G_A[1],  G_B[1]);
+    gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
+    black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
+    black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
+    black_cell level_5B(G_A[3],  P_A[5],  G_A[5],  P_A[3],  G_B[5],  P_B[5]);
+    black_cell level_6B(G_A[4],  P_A[6],  G_A[6],  P_A[4],  G_B[6],  P_B[6]);
+
+    /*level 3*/
+    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  G_C[3]);
+    gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
+    gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  G_C[5]);
+    gray_cell level_6C(G_B[2],   P_B[6],  G_B[6],  cout);
+
+    /*outputs*/
+    assign sum[0]  = 1'b0    ^ P_Z[0];
+    assign sum[1]  = G_A[0]  ^ P_Z[1];
+    assign sum[2]  = G_B[1]  ^ P_Z[2];
+    assign sum[3]  = G_B[2]  ^ P_Z[3];
+    assign sum[4]  = G_C[3]  ^ P_Z[4];
+    assign sum[5]  = G_C[4]  ^ P_Z[5];
+    assign sum[6]  = G_C[5]  ^ P_Z[6];
+    assign sum[7]  = G_C[6]  ^ P_Z[7];
 endmodule
 
 module kogge_stone_8(sum, cout, in1, in2);
