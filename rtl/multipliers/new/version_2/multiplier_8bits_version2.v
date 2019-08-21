@@ -99,8 +99,8 @@ module multiplier_8bits_version2(product, A, B);
     /* Final Stage */
     wire [12:0] s, in_1, in_2;
     wire c;
-    assign in_1 = {pp7[7],s9[3],s9[2],s9[1],s9[0],sI,sH,sG,sF,sE,sD,sC,sB};
-    assign in_2 = {c9,c6,c8,s8[3],cI,cH,cG,cF,cE,cD,cC,cB,cA};
+    assign in_1 = {sB,sC,sD,sE,sF,sG,sH,sI,s9[0],s9[1],s9[2],s9[3],pp7[7]};
+    assign in_2 = {cA,cB,cC,cD,cE,cF,cG,cH,cI,s8[3],c8,c6,c9};
     kogge_stone_13 KS_13(s, c, in_1, in_2);
     assign product[15] = c;
     assign product[2]  = s[0];
@@ -223,8 +223,33 @@ module kogge_stone_13(sum, cout, in1, in2);
     G_C, P_C,
     G_D, P_D;
 
-    assign P_Z = in1 ^ in2;
-    assign G_Z = in1 & in2;
+    assign P_Z[0]  = in1[12] ^ in2[12];
+    assign P_Z[1]  = in1[11] ^ in2[11];
+    assign P_Z[2]  = in1[10] ^ in2[10];
+    assign P_Z[3]  = in1[9]  ^ in2[9];
+    assign P_Z[4]  = in1[8]  ^ in2[8];
+    assign P_Z[5]  = in1[7]  ^ in2[7];
+    assign P_Z[6]  = in1[6]  ^ in2[6];
+    assign P_Z[7]  = in1[5]  ^ in2[5];
+    assign P_Z[8]  = in1[4]  ^ in2[4];
+    assign P_Z[9]  = in1[3]  ^ in2[3];
+    assign P_Z[10] = in1[2]  ^ in2[2];
+    assign P_Z[11] = in1[1]  ^ in2[1];
+    assign P_Z[12] = in1[0]  ^ in2[0];    
+
+    assign G_Z[0]  = in1[12] & in2[12];
+    assign G_Z[1]  = in1[11] & in2[11];
+    assign G_Z[2]  = in1[10] & in2[10];
+    assign G_Z[3]  = in1[9]  & in2[9];
+    assign G_Z[4]  = in1[8]  & in2[8];
+    assign G_Z[5]  = in1[7]  & in2[7];
+    assign G_Z[6]  = in1[6]  & in2[6];
+    assign G_Z[7]  = in1[5]  & in2[5];
+    assign G_Z[8]  = in1[4]  & in2[4];
+    assign G_Z[9]  = in1[3]  & in2[3];
+    assign G_Z[10] = in1[2]  & in2[2];
+    assign G_Z[11] = in1[1]  & in2[1];
+    assign G_Z[12] = in1[0]  & in2[0];
 
     /*level 1*/
     assign G_A[0] = G_Z[0];
