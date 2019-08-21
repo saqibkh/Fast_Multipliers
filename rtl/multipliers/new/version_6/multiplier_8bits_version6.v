@@ -215,7 +215,6 @@ module kogge_stone_7(sum, cout, in1, in2);
     assign sum[4]  = G_C[3]  ^ P_Z[4];
     assign sum[5]  = G_C[4]  ^ P_Z[5];
     assign sum[6]  = G_C[5]  ^ P_Z[6];
-    assign sum[7]  = G_C[6]  ^ P_Z[7];
 endmodule
 
 module kogge_stone_8(sum, cout, in1, in2);
