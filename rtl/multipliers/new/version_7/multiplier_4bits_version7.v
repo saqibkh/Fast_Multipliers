@@ -1,9 +1,9 @@
-module multiplier_4bits_version7(product, A, B);
+module multiplier_4bits_version7_CLA(product, A, B);
     /* This implementation follows dadda and wallace but uses half adders only
      * for partial product reduction, and CLA for the last two rows.
-     * Area: 
-     * Power: mW
-     * Timing: ns
+     * Area: 251.544792 
+     * Power: 9.3357e-02mW
+     * Timing: 0.65ns
      */
 
     input [3:0] A, B;
