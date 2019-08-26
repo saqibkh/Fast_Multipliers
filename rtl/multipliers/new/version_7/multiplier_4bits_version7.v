@@ -1,9 +1,76 @@
 module multiplier_4bits_version7(product, A, B);
+    /* This implementation just uses HA for partial product reduction
+     * Area: 336.488089
+     * Power: 0.1139mW
+     * Timing: 0.68ns
+     */
+
+    output [7:0] product;
+    input [3:0] A, B;
+
+    wire [3:0] pp0;
+    wire [3:0] pp1;
+    wire [3:0] pp2;
+    wire [3:0] pp3;
+
+
+    assign pp0 = A[0] ? B: 4'b0000;
+    assign pp1 = A[1] ? B: 4'b0000;
+    assign pp2 = A[2] ? B: 4'b0000;
+    assign pp3 = A[3] ? B: 4'b0000;
+
+
+
+    //Stage 1
+    half_adder HA0(s0, c0, pp2[0], pp1[1]);
+    half_adder HA1(s1, c1, pp3[0], pp2[1]);
+    half_adder HA2(s2, c2, pp3[1], pp2[2]);
+    half_adder HA3(s3, c3, pp3[2], pp2[3]);
+
+
+    //Stage 2
+    half_adder HA4(s4, c4, s1, pp1[2]);
+    half_adder HA5(s5, c5, s2, pp1[3]);
+    half_adder HA6(s6, c6, s3, c2);
+    half_adder HA7(s7, c7, pp3[3], c3);
+
+
+    //Stage 3
+    half_adder HA8(s8, c8, s4, pp0[3]);
+    half_adder HA9(s9, c9, s5, c4);
+    half_adder HA10(s10, c10, s6, c5);
+    half_adder HA11(s11, c11, s7, c6);
+
+
+    //Stage 4
+    half_adder HA12(s12, c12, s9, c8);
+    half_adder HA13(s13, c13, s10, c9);
+    half_adder HA14(s14, c14, s11, c10);
+    half_adder HA15(s15, c15, c7, c11);
+
+
+    wire[6:0] s, in_1, in_2;
+    assign in_1 = {pp1[0],s0,s8,s12,s13,s14,c14};
+    assign in_2 = {pp0[1],pp0[2],c0,c1,c12,c13,s15};
+    kogge_stone_7 KS(s, in_1, in_2);
+    assign product[0] = pp0[0];
+    assign product[1] = s[0];
+    assign product[2] = s[1];
+    assign product[3] = s[2];
+    assign product[4] = s[3];
+    assign product[5] = s[4];
+    assign product[6] = s[5];
+    assign product[7] = s[6];
+
+endmodule
+
+
+module multiplier_4bits_version7_KS(product, A, B);
     /* This implementation follows dadda and wallace but uses half adders only
      * for partial product reduction, and kogge-stone for the last two rows.
-     * Area: 225.263992
-     * Power: 7.6769e-02mW
-     * Timing: 0.44ns
+     * Area: 
+     * Power: 
+     * Timing: 
      */
 
     input [3:0] A, B;
@@ -46,7 +113,7 @@ module multiplier_4bits_version7(product, A, B);
     wire c;
     assign in_1 = {pp0[1], pp2[0], s6, c6,  c11, s15, s16};
     assign in_2 = {pp1[0], s1,     c1, s11, s14, c14, c15};
-    kogge_stone_7 KS(s, in_1, in_2);
+    CLA7 KS(s, in_1, in_2);
     assign product[1] = s[0];
     assign product[2] = s[1];
     assign product[3] = s[2];
@@ -215,4 +282,21 @@ module kogge_stone_7(sum, in1, in2);
     assign sum[4]  = G_C[3]  ^ P_Z[4];
     assign sum[5]  = G_C[4]  ^ P_Z[5];
     assign sum[6]  = G_C[5]  ^ P_Z[6];
+endmodule
+
+module gray_cell(Gk_j, Pi_k, Gi_k, G);
+    input Gk_j, Pi_k, Gi_k;
+    output G;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Y, Gi_k);
+endmodule
+
+module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
+    input Gk_j, Pi_k, Gi_k, Pk_j;
+    output G, P;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Gi_k, Y);
+    and(P, Pk_j, Pi_k);
 endmodule
