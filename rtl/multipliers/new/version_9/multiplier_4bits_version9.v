@@ -234,7 +234,7 @@ module kogge_stone_4(sum, cout, in1, in2);
 
     /*level 3*/
     assign cout = G_B[3];
-    //gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
+    gray_cell level_3C(1'b0,      P_B[3],  G_B[3],  cout);
 
     /*outputs*/
     assign sum[0]  =           P_Z[0];
