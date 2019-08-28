@@ -1,6 +1,8 @@
 module multiplier_4bits_version9(product, A, B);
 
-    /* Area: 283.926491
+    /* This approach tries to use the longest kogge-stone adder as much as
+     * possible.
+     * Area: 283.926491
      * Power: 0.1013mW
      * Timing: 0.69ns
      */

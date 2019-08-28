@@ -1,10 +1,493 @@
 module multiplier_8bits_version7(product, A, B);
 
+    /*
+     * Area: 2949.550403
+     * Power: 1.3190mW
+     * Timing: 2.66ns
+     */
+    output [15:0] product;
+    input [7:0] A, B;
+
+    wire [7:0] pp0;
+    wire [7:0] pp1;
+    wire [7:0] pp2;
+    wire [7:0] pp3;
+    wire [7:0] pp4;
+    wire [7:0] pp5;
+    wire [7:0] pp6;
+    wire [7:0] pp7;
+
+
+    assign pp0 = A[0] ? B: 8'b00000000;
+    assign pp1 = A[1] ? B: 8'b00000000;
+    assign pp2 = A[2] ? B: 8'b00000000;
+    assign pp3 = A[3] ? B: 8'b00000000;
+    assign pp4 = A[4] ? B: 8'b00000000;
+    assign pp5 = A[5] ? B: 8'b00000000;
+    assign pp6 = A[6] ? B: 8'b00000000;
+    assign pp7 = A[7] ? B: 8'b00000000;
+
+
+
+    /*Stage 1*/
+    half_adder HA0(s0, c0, pp0[2], pp1[1]);
+    half_adder HA1(s1, c1, pp0[3], pp1[2]);
+    half_adder HA2(s2, c2, pp0[4], pp1[3]);
+    half_adder HA3(s3, c3, pp0[5], pp1[4]);
+    half_adder HA4(s4, c4, pp0[6], pp1[5]);
+    half_adder HA5(s5, c5, pp0[7], pp1[6]);
+    half_adder HA6(s6, c6, pp1[7], pp2[6]);
+    half_adder HA7(s7, c7, pp2[7], pp3[6]);
+    half_adder HA8(s8, c8, pp3[7], pp4[6]);
+    half_adder HA9(s9, c9, pp4[7], pp5[6]);
+    half_adder HA10(s10, c10, pp5[7], pp6[6]);
+    half_adder HA11(s11, c11, pp6[7], pp7[6]);
+
+
+    /*Stage 2*/
+    half_adder HA12(s12, c12, pp2[1], pp3[0]);
+    half_adder HA13(s13, c13, pp2[2], pp3[1]);
+    half_adder HA14(s14, c14, pp2[3], pp3[2]);
+    half_adder HA15(s15, c15, pp2[4], pp3[3]);
+    half_adder HA16(s16, c16, pp2[5], pp3[4]);
+    half_adder HA17(s17, c17, pp3[5], pp4[4]);
+    half_adder HA18(s18, c18, pp4[5], pp5[4]);
+    half_adder HA19(s19, c19, pp5[5], pp6[4]);
+    half_adder HA20(s20, c20, pp6[5], pp7[4]);
+    half_adder HA21(s21, c21, pp7[5], s10);
+    half_adder HA22(s22, c22, c10, s11);
+    half_adder HA23(s23, c23, pp7[7], c11);
+
+
+    /*Stage 3*/
+    half_adder HA24(s24, c24, s12, c0);
+    half_adder HA25(s25, c25, pp4[0], c12);
+    half_adder HA26(s26, c26, pp4[1], pp5[0]);
+    half_adder HA27(s27, c27, pp4[2], pp5[1]);
+    half_adder HA28(s28, c28, pp4[3], pp5[2]);
+    half_adder HA29(s29, c29, pp5[3], pp6[2]);
+    half_adder HA30(s30, c30, pp6[3], pp7[2]);
+    half_adder HA31(s31, c31, pp7[3], c18);
+    half_adder HA32(s32, c32, c19, s20);
+    half_adder HA33(s33, c33, c20, s21);
+    half_adder HA34(s34, c34, c21, s22);
+    half_adder HA35(s35, c35, c22, s23);
+
+
+    /*Stage 4*/
+    half_adder HA36(s36, c36, s13, c24);
+    half_adder HA37(s37, c37, c13, s14);
+    half_adder HA38(s38, c38, pp6[0], c14);
+    half_adder HA39(s39, c39, pp6[1], pp7[0]);
+    half_adder HA40(s40, c40, pp7[1], c16);
+    half_adder HA41(s41, c41, c17, s18);
+    half_adder HA42(s42, c42, s19, c30);
+    half_adder HA43(s43, c43, c31, s32);
+    half_adder HA44(s44, c44, c32, s33);
+    half_adder HA45(s45, c45, c33, s34);
+    half_adder HA46(s46, c46, c34, s35);
+    half_adder HA47(s47, c47, c23, c35);
+
+
+    /*Stage 5*/
+    half_adder HA48(s48, c48, s25, s36);
+    half_adder HA49(s49, c49, c25, s26);
+    half_adder HA50(s50, c50, s15, c26);
+    half_adder HA51(s51, c51, c15, s16);
+    half_adder HA52(s52, c52, s17, c28);
+    half_adder HA53(s53, c53, c29, s30);
+    half_adder HA54(s54, c54, s31, c41);
+    half_adder HA55(s55, c55, c42, s43);
+    half_adder HA56(s56, c56, c43, s44);
+    half_adder HA57(s57, c57, c44, s45);
+    half_adder HA58(s58, c58, c45, s46);
+    half_adder HA59(s59, c59, c46, s47);
+
+
+    /*Stage 6*/
+    half_adder HA60(s60, c60, s48, c1);
+    half_adder HA61(s61, c61, c36, s37);
+    half_adder HA62(s62, c62, s27, c37);
+    half_adder HA63(s63, c63, c27, s28);
+    half_adder HA64(s64, c64, s29, c39);
+    half_adder HA65(s65, c65, c40, s41);
+    half_adder HA66(s66, c66, s42, c53);
+    half_adder HA67(s67, c67, c54, s55);
+    half_adder HA68(s68, c68, c55, s56);
+    half_adder HA69(s69, c69, c56, s57);
+    half_adder HA70(s70, c70, c57, s58);
+    half_adder HA71(s71, c71, c58, s59);
+
+
+    /*Stage 7*/
+    half_adder HA72(s72, c72, c48, s49);
+    half_adder HA73(s73, c73, s38, c49);
+    half_adder HA74(s74, c74, c38, s39);
+    half_adder HA75(s75, c75, s40, c51);
+    half_adder HA76(s76, c76, c52, s53);
+    half_adder HA77(s77, c77, s54, c65);
+    half_adder HA78(s78, c78, c66, s67);
+    half_adder HA79(s79, c79, c67, s68);
+    half_adder HA80(s80, c80, c68, s69);
+    half_adder HA81(s81, c81, c69, s70);
+    half_adder HA82(s82, c82, c70, s71);
+
+
+    /*Stage 8*/
+    half_adder HA83(s83, c83, c60, s61);
+    half_adder HA84(s84, c84, s50, c61);
+    half_adder HA85(s85, c85, c50, s51);
+    half_adder HA86(s86, c86, s52, c63);
+    half_adder HA87(s87, c87, c64, s65);
+    half_adder HA88(s88, c88, s66, c76);
+    half_adder HA89(s89, c89, c77, s78);
+    half_adder HA90(s90, c90, c78, s79);
+    half_adder HA91(s91, c91, c79, s80);
+    half_adder HA92(s92, c92, c80, s81);
+    half_adder HA93(s93, c93, c81, s82);
+
+
+    /*Stage 9*/
+    half_adder HA94(s94, c94, s72, s83);
+    half_adder HA95(s95, c95, s62, c72);
+    half_adder HA96(s96, c96, c62, s63);
+    half_adder HA97(s97, c97, s64, c74);
+    half_adder HA98(s98, c98, c75, s76);
+    half_adder HA99(s99, c99, s77, c87);
+    half_adder HA100(s100, c100, c88, s89);
+    half_adder HA101(s101, c101, c89, s90);
+    half_adder HA102(s102, c102, c90, s91);
+    half_adder HA103(s103, c103, c91, s92);
+    half_adder HA104(s104, c104, c92, s93);
+
+
+    /*Stage 10*/
+    half_adder HA105(s105, c105, s94, c2);
+    half_adder HA106(s106, c106, s73, c83);
+    half_adder HA107(s107, c107, c73, s74);
+    half_adder HA108(s108, c108, s75, c85);
+    half_adder HA109(s109, c109, c86, s87);
+    half_adder HA110(s110, c110, s88, c98);
+    half_adder HA111(s111, c111, s100, c99);
+    half_adder HA112(s112, c112, c100, s101);
+    half_adder HA113(s113, c113, c101, s102);
+    half_adder HA114(s114, c114, c102, s103);
+    half_adder HA115(s115, c115, c103, s104);
+
+
+    /*Stage 11*/
+    half_adder HA116(s116, c116, c105, s106);
+    half_adder HA117(s117, c117, c106, s107);
+    half_adder HA118(s118, c118, c107, s108);
+    half_adder HA119(s119, c119, c108, s109);
+    half_adder HA120(s120, c120, c109, s110);
+    half_adder HA121(s121, c121, c110, s111);
+    half_adder HA122(s122, c122, c111, s112);
+    half_adder HA123(s123, c123, c112, s113);
+    half_adder HA124(s124, c124, c113, s114);
+    half_adder HA125(s125, c125, c114, s115);
+
+
+    /*Stage 12*/
+    half_adder HA126(s126, c126, s116, s84);
+    half_adder HA127(s127, c127, c116, s117);
+    half_adder HA128(s128, c128, c117, s118);
+    half_adder HA129(s129, c129, c118, s119);
+    half_adder HA130(s130, c130, c119, s120);
+    half_adder HA131(s131, c131, c120, s121);
+    half_adder HA132(s132, c132, c121, s122);
+    half_adder HA133(s133, c133, c122, s123);
+    half_adder HA134(s134, c134, c123, s124);
+    half_adder HA135(s135, c135, c124, s125);
+
+
+    /*Stage 13*/
+    half_adder HA136(s136, c136, s126, c94);
+    half_adder HA137(s137, c137, c126, s127);
+    half_adder HA138(s138, c138, c127, s128);
+    half_adder HA139(s139, c139, c128, s129);
+    half_adder HA140(s140, c140, c129, s130);
+    half_adder HA141(s141, c141, c130, s131);
+    half_adder HA142(s142, c142, c131, s132);
+    half_adder HA143(s143, c143, c132, s133);
+    half_adder HA144(s144, c144, c133, s134);
+    half_adder HA145(s145, c145, c134, s135);
+
+
+    /*Stage 14*/
+    half_adder HA146(s146, c146, s136, s95);
+    half_adder HA147(s147, c147, c136, s137);
+    half_adder HA148(s148, c148, c137, s138);
+    half_adder HA149(s149, c149, c138, s139);
+    half_adder HA150(s150, c150, c139, s140);
+    half_adder HA151(s151, c151, c140, s141);
+    half_adder HA152(s152, c152, c141, s142);
+    half_adder HA153(s153, c153, c142, s143);
+    half_adder HA154(s154, c154, c143, s144);
+    half_adder HA155(s155, c155, c144, s145);
+
+
+    /*Stage 15*/
+    half_adder HA156(s156, c156, s146, c3);
+    half_adder HA157(s157, c157, c146, s147);
+    half_adder HA158(s158, c158, c147, s148);
+    half_adder HA159(s159, c159, c148, s149);
+    half_adder HA160(s160, c160, c149, s150);
+    half_adder HA161(s161, c161, c150, s151);
+    half_adder HA162(s162, c162, c151, s152);
+    half_adder HA163(s163, c163, c152, s153);
+    half_adder HA164(s164, c164, c153, s154);
+    half_adder HA165(s165, c165, c154, s155);
+
+
+    /*Stage 16*/
+    half_adder HA166(s166, c166, c156, s157);
+    half_adder HA167(s167, c167, c157, s158);
+    half_adder HA168(s168, c168, c158, s159);
+    half_adder HA169(s169, c169, c159, s160);
+    half_adder HA170(s170, c170, c160, s161);
+    half_adder HA171(s171, c171, c161, s162);
+    half_adder HA172(s172, c172, c162, s163);
+    half_adder HA173(s173, c173, c163, s164);
+    half_adder HA174(s174, c174, c164, s165);
+
+
+    /*Stage 17*/
+    half_adder HA175(s175, c175, s166, c84);
+    half_adder HA176(s176, c176, c166, s167);
+    half_adder HA177(s177, c177, c167, s168);
+    half_adder HA178(s178, c178, c168, s169);
+    half_adder HA179(s179, c179, c169, s170);
+    half_adder HA180(s180, c180, c170, s171);
+    half_adder HA181(s181, c181, c171, s172);
+    half_adder HA182(s182, c182, c172, s173);
+    half_adder HA183(s183, c183, c173, s174);
+
+
+    /*Stage 18*/
+    half_adder HA184(s184, c184, s175, s85);
+    half_adder HA185(s185, c185, c175, s176);
+    half_adder HA186(s186, c186, c176, s177);
+    half_adder HA187(s187, c187, c177, s178);
+    half_adder HA188(s188, c188, c178, s179);
+    half_adder HA189(s189, c189, c179, s180);
+    half_adder HA190(s190, c190, c180, s181);
+    half_adder HA191(s191, c191, c181, s182);
+    half_adder HA192(s192, c192, c182, s183);
+
+
+    /*Stage 19*/
+    half_adder HA193(s193, c193, s184, c95);
+    half_adder HA194(s194, c194, c184, s185);
+    half_adder HA195(s195, c195, c185, s186);
+    half_adder HA196(s196, c196, c186, s187);
+    half_adder HA197(s197, c197, c187, s188);
+    half_adder HA198(s198, c198, c188, s189);
+    half_adder HA199(s199, c199, c189, s190);
+    half_adder HA200(s200, c200, c190, s191);
+    half_adder HA201(s201, c201, c191, s192);
+
+
+    /*Stage 20*/
+    half_adder HA202(s202, c202, s193, s96);
+    half_adder HA203(s203, c203, c193, s194);
+    half_adder HA204(s204, c204, c194, s195);
+    half_adder HA205(s205, c205, c195, s196);
+    half_adder HA206(s206, c206, c196, s197);
+    half_adder HA207(s207, c207, c197, s198);
+    half_adder HA208(s208, c208, c198, s199);
+    half_adder HA209(s209, c209, c199, s200);
+    half_adder HA210(s210, c210, c200, s201);
+
+
+    /*Stage 21*/
+    half_adder HA211(s211, c211, s202, c4);
+    half_adder HA212(s212, c212, c202, s203);
+    half_adder HA213(s213, c213, c203, s204);
+    half_adder HA214(s214, c214, c204, s205);
+    half_adder HA215(s215, c215, c205, s206);
+    half_adder HA216(s216, c216, c206, s207);
+    half_adder HA217(s217, c217, c207, s208);
+    half_adder HA218(s218, c218, c208, s209);
+    half_adder HA219(s219, c219, c209, s210);
+
+
+    /*Stage 22*/
+    half_adder HA220(s220, c220, c211, s212);
+    half_adder HA221(s221, c221, c212, s213);
+    half_adder HA222(s222, c222, c213, s214);
+    half_adder HA223(s223, c223, c214, s215);
+    half_adder HA224(s224, c224, c215, s216);
+    half_adder HA225(s225, c225, c216, s217);
+    half_adder HA226(s226, c226, c217, s218);
+    half_adder HA227(s227, c227, c218, s219);
+
+
+    /*Stage 23*/
+    half_adder HA228(s228, c228, s220, s86);
+    half_adder HA229(s229, c229, c220, s221);
+    half_adder HA230(s230, c230, c221, s222);
+    half_adder HA231(s231, c231, c222, s223);
+    half_adder HA232(s232, c232, c223, s224);
+    half_adder HA233(s233, c233, c224, s225);
+    half_adder HA234(s234, c234, c225, s226);
+    half_adder HA235(s235, c235, c226, s227);
+
+
+    /*Stage 24*/
+    half_adder HA236(s236, c236, s228, c96);
+    half_adder HA237(s237, c237, c228, s229);
+    half_adder HA238(s238, c238, c229, s230);
+    half_adder HA239(s239, c239, c230, s231);
+    half_adder HA240(s240, c240, c231, s232);
+    half_adder HA241(s241, c241, c232, s233);
+    half_adder HA242(s242, c242, c233, s234);
+    half_adder HA243(s243, c243, c234, s235);
+
+
+    /*Stage 25*/
+    half_adder HA244(s244, c244, s236, s97);
+    half_adder HA245(s245, c245, c236, s237);
+    half_adder HA246(s246, c246, c237, s238);
+    half_adder HA247(s247, c247, c238, s239);
+    half_adder HA248(s248, c248, c239, s240);
+    half_adder HA249(s249, c249, c240, s241);
+    half_adder HA250(s250, c250, c241, s242);
+    half_adder HA251(s251, c251, c242, s243);
+
+
+    /*Stage 26*/
+    half_adder HA252(s252, c252, s244, c5);
+    half_adder HA253(s253, c253, c244, s245);
+    half_adder HA254(s254, c254, c245, s246);
+    half_adder HA255(s255, c255, c246, s247);
+    half_adder HA256(s256, c256, c247, s248);
+    half_adder HA257(s257, c257, c248, s249);
+    half_adder HA258(s258, c258, c249, s250);
+    half_adder HA259(s259, c259, c250, s251);
+
+
+    /*Stage 27*/
+    half_adder HA260(s260, c260, c252, s253);
+    half_adder HA261(s261, c261, c253, s254);
+    half_adder HA262(s262, c262, c254, s255);
+    half_adder HA263(s263, c263, c255, s256);
+    half_adder HA264(s264, c264, c256, s257);
+    half_adder HA265(s265, c265, c257, s258);
+    half_adder HA266(s266, c266, c258, s259);
+
+
+    /*Stage 28*/
+    half_adder HA267(s267, c267, s260, c97);
+    half_adder HA268(s268, c268, c260, s261);
+    half_adder HA269(s269, c269, c261, s262);
+    half_adder HA270(s270, c270, c262, s263);
+    half_adder HA271(s271, c271, c263, s264);
+    half_adder HA272(s272, c272, c264, s265);
+    half_adder HA273(s273, c273, c265, s266);
+
+
+    /*Stage 29*/
+    half_adder HA274(s274, c274, s267, s98);
+    half_adder HA275(s275, c275, c267, s268);
+    half_adder HA276(s276, c276, c268, s269);
+    half_adder HA277(s277, c277, c269, s270);
+    half_adder HA278(s278, c278, c270, s271);
+    half_adder HA279(s279, c279, c271, s272);
+    half_adder HA280(s280, c280, c272, s273);
+
+
+    /*Stage 30*/
+    half_adder HA281(s281, c281, s274, c6);
+    half_adder HA282(s282, c282, c274, s275);
+    half_adder HA283(s283, c283, c275, s276);
+    half_adder HA284(s284, c284, c276, s277);
+    half_adder HA285(s285, c285, c277, s278);
+    half_adder HA286(s286, c286, c278, s279);
+    half_adder HA287(s287, c287, c279, s280);
+
+
+    /*Stage 31*/
+    half_adder HA288(s288, c288, c281, s282);
+    half_adder HA289(s289, c289, c282, s283);
+    half_adder HA290(s290, c290, c283, s284);
+    half_adder HA291(s291, c291, c284, s285);
+    half_adder HA292(s292, c292, c285, s286);
+    half_adder HA293(s293, c293, c286, s287);
+
+
+    /*Stage 32*/
+    half_adder HA294(s294, c294, s288, s99);
+    half_adder HA295(s295, c295, c288, s289);
+    half_adder HA296(s296, c296, c289, s290);
+    half_adder HA297(s297, c297, c290, s291);
+    half_adder HA298(s298, c298, c291, s292);
+    half_adder HA299(s299, c299, c292, s293);
+
+
+    /*Stage 33*/
+    half_adder HA300(s300, c300, s294, c7);
+    half_adder HA301(s301, c301, c294, s295);
+    half_adder HA302(s302, c302, c295, s296);
+    half_adder HA303(s303, c303, c296, s297);
+    half_adder HA304(s304, c304, c297, s298);
+    half_adder HA305(s305, c305, c298, s299);
+
+
+    /*Stage 34*/
+    half_adder HA306(s306, c306, c300, s301);
+    half_adder HA307(s307, c307, c301, s302);
+    half_adder HA308(s308, c308, c302, s303);
+    half_adder HA309(s309, c309, c303, s304);
+    half_adder HA310(s310, c310, c304, s305);
+
+
+    /*Stage 35*/
+    half_adder HA311(s311, c311, s306, c8);
+    half_adder HA312(s312, c312, c306, s307);
+    half_adder HA313(s313, c313, c307, s308);
+    half_adder HA314(s314, c314, c308, s309);
+    half_adder HA315(s315, c315, c309, s310);
+
+
+    /*Stage 36*/
+    half_adder HA316(s316, c316, c311, s312);
+    half_adder HA317(s317, c317, c312, s313);
+    half_adder HA318(s318, c318, c313, s314);
+    half_adder HA319(s319, c319, c314, s315);
+
+
+    wire[14:0] s, in_1, in_2;
+    assign in_1 = {pp0[1],pp2[0],s24,s60,s105,s156,s211,s252,s281,s300,s311,s316,c316,c317,c318};
+    assign in_2 = {pp1[0],s0,s1,s2,s3,s4,s5,s6,s7,s8,s9,c9,s317,s318,s319};
+    kogge_stone_15(s, c, in_1, in_2);
+    assign product[0]  = pp0[0];
+    assign product[1]  = s[0];
+    assign product[2]  = s[1];
+    assign product[3]  = s[2];
+    assign product[4]  = s[3];
+    assign product[5]  = s[4];
+    assign product[6]  = s[5];
+    assign product[7]  = s[6];
+    assign product[8]  = s[7];
+    assign product[9]  = s[8];
+    assign product[10] = s[9];
+    assign product[11] = s[10];
+    assign product[12] = s[11];
+    assign product[13] = s[12];
+    assign product[14] = s[13];
+    assign product[15] = s[14]; 
+endmodule
+
+
+module multiplier_8bits_version7_version1(product, A, B);
+
     /* This implementation uses HAs for partial product reduction and uses 
      * kogge_stone adder at the end
      * Area: 2949.550403
      * Power: 1.8428mW
      * Timing: 3.09ns
+     */
 
     output [15:0] product;
     input [7:0] A, B;
