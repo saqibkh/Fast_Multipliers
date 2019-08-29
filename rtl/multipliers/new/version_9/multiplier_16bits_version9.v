@@ -1,9 +1,9 @@
 module multiplier_16bits_version9(product, A, B);
 
     /* This approach uses long kogge-stone adder and HAs
-     * Area:
-     * Power:
-     * Timing:
+     * Area: 8550.645762
+     * Power: 4.7634mW
+     * Timing: 2.79ns
      */
     output [31:0] product;
     input [15:0] A, B;
