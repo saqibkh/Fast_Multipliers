@@ -1,5 +1,10 @@
 module multiplier_32bits_version11(product, A, B);
 
+    /*
+     * Area: 18551.428426
+     * Power: 13.1407mW
+     * Timing: 4.22ns
+     */
     output [63:0] product;
     input [31:0] A, B;
 

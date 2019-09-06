@@ -1,9 +1,9 @@
 module multiplier_8bits_version11(product, A, B);
 
     /* 
-     * Area: 
-     * Power: mW
-     * Timing: ns
+     * Area: 1037.152968 
+     * Power: 0.5139mW
+     * Timing: 1.12ns
      */
 
     output [15:0] product;
