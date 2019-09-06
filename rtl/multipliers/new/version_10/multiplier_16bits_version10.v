@@ -78,7 +78,7 @@ module multiplier_16bits_version10(product, A, B);
     wire[1:0] s8, in8_1, in8_2;
     wire c8;
     assign in8_1 = {pp8[7],pp9[7]};
-    assign in8_2 = {pp9[6],p1'b0};
+    assign in8_2 = {pp9[6],1'b0};
     kogge_stone_2 KS_8(s8, c8, in8_1, in8_2);
 
     /*Stage 2*/

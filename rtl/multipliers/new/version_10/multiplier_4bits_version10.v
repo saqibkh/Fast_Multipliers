@@ -2,9 +2,9 @@ module multiplier_4bits_version10(product, A, B);
 
     /* This approach tries to use the longest kogge-stone adder as much as
      * possible using the dadda approach of minimum reduction in each step.
-     * Area:
-     * Power: mW
-     * Timing: ns
+     * Area: 324.286290
+     * Power: 0.1007mW
+     * Timing: 0.67ns
      */
 
     output [7:0] product;
@@ -29,9 +29,9 @@ module multiplier_4bits_version10(product, A, B);
     assign in1_2 = {pp1[1],pp1[2],pp2[2], pp3[2]};
     kogge_stone_4 KS_1(s1, c1, in1_1, in1_2);
 
-    wire[1:0] s1, in2_1, in2_2;
-    assign in1_1 = {pp2[1], pp3[1]};
-    assign in1_2 = {pp3[0], 1'b0};
+    wire[1:0] s2, in2_1, in2_2;
+    assign in2_1 = {pp2[1], pp3[1]};
+    assign in2_2 = {pp3[0], 1'b0};
     kogge_stone_2 KS_2(s2, c2, in2_1, in2_2);
 
     /*Final Stage */
@@ -49,6 +49,7 @@ module multiplier_4bits_version10(product, A, B);
     assign product[5] = s[4];
     assign product[6] = s[5];
     assign product[7] = c;
+endmodule
 
 module multiplier_4bits_version10_attempt1(product, A, B);
 

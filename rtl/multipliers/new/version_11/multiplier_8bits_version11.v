@@ -42,7 +42,7 @@ module multiplier_8bits_version11(product, A, B);
     wire[1:0] s4, in4_1, in4_2;
     wire c4;
     assign in4_1 = {pp6[1],pp7[1]};
-    assign in4_2 = {pp7[0],p1'b0};
+    assign in4_2 = {pp7[0],1'b0};
     CLA_2 KS_4(s4, c4, in4_1, in4_2);
 
     /*Stage 2*/

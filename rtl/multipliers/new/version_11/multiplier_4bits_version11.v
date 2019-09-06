@@ -24,7 +24,7 @@ module multiplier_4bits_version11(product, A, B);
     wire[1:0] s2, in2_1, in2_2;
     wire c2;
     assign in2_1 = {pp2[1],pp3[1]};
-    assign in2_2 = {pp3[0],p1'b0};
+    assign in2_2 = {pp3[0],1'b0};
     CLA_2 KS_2(s2, c2, in2_1, in2_2);
 
 
