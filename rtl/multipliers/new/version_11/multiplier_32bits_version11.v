@@ -1,4 +1,4 @@
-module multiplier_32bits_version10(product, A, B);
+module multiplier_32bits_version11(product, A, B);
 
     output [63:0] product;
     input [31:0] A, B;

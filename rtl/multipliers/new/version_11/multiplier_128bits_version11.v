@@ -1,5 +1,4 @@
-
-module multiplier_128bits_version10(product, A, B);
+module multiplier_128bits_version11(product, A, B);
 
     output [255:0] product;
     input [127:0] A, B;
