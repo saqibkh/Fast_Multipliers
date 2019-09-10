@@ -1,4 +1,4 @@
-module dadda_unsigned_multiplier_RCA_64(product, A, B);
+module dadda_unsigned_multiplier_CLA_64(product, A, B);
     input [63:0] A, B;
     output [127:0] product;
 
