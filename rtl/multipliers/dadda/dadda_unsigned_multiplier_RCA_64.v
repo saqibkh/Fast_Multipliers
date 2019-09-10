@@ -3,7 +3,9 @@ module dadda_unsigned_multiplier_RCA_64(product, A, B);
     output [127:0] product;
 
 	wire [63:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10, pp11, pp12, pp13, pp14, pp15;
-	wire [63:0] pp16, pp17, pp18, pp19, pp20, pp21, pp22, pp23, pp24, pp25, pp26, pp27, pp28, pp29, pp30, pp31;
+	wire [63:0] pp16, pp17, pp18, pp19, pp20, pp21, pp22, pp23, pp24, pp25, pp26, pp27, pp28, pp29, pp30, pp31, pp32, pp33, pp34;
+	wire [63:0] pp35, pp36, pp37, pp38, pp39, pp40, pp41, pp42, pp43, pp44, pp45, pp46, pp47, pp48, pp49, pp50, pp51, pp52, pp53;
+	wire [63:0] pp54, pp55, pp56, pp57, pp58, pp59, pp60, pp61, pp62, pp63;
 	wire [127:0] product;
 	
                 assign pp0[0] = A[0] & B[0];
