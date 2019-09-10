@@ -8330,7 +8330,7 @@ module dadda_unsigned_multiplier_RCA_64(product, A, B);
 
 endmodule
 
-module half_adder(output wire sum,
+module Half_Adder(output wire sum,
                   output wire cout,
                   input wire in1,
                   input wire in2);
@@ -8338,7 +8338,7 @@ module half_adder(output wire sum,
     and(cout, in1, in2);
 endmodule
 
-module full_adder(output wire sum,
+module Full_Adder(output wire sum,
                   output wire cout,
                   input wire in1,
                   input wire in2,
