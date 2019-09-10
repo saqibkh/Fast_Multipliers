@@ -2,6 +2,12 @@ module dadda_unsigned_multiplier_CLA_64(product, A, B);
     input [63:0] A, B;
     output [127:0] product;
 
+    /*
+     * Area: 81011.971520
+     * Power: 75.8186mW
+     * Timing: 8.41ns
+     */
+
     wire [63:0] pp0;
     wire [63:0] pp1;
     wire [63:0] pp2;
@@ -67,7 +73,7 @@ module dadda_unsigned_multiplier_CLA_64(product, A, B);
     wire [63:0] pp62;
     wire [63:0] pp63;
 	
-	wire [127:0] product;
+    wire [127:0] product;
 
     assign pp0 = A[0] ? B: 64'b0000000000000000000000000000000000000000000000000000000000000000;
     assign pp1 = A[1] ? B: 64'b0000000000000000000000000000000000000000000000000000000000000000;
@@ -4169,11 +4175,11 @@ module dadda_unsigned_multiplier_CLA_64(product, A, B);
 	Full_Adder FA3967 (Cout[3905], S[3906], Cout[4029], S[4030], Cout[4030]);
 	Full_Adder FA3968 (pp63[63], Cout[3906], Cout[4030], S[4031], Cout[4031]);
 
-        wire[124:0] sum, in_1, in_2;
+        wire[124:0] s, in_1, in_2;
         wire c;
         assign in_1 = {pp2[0], Cout[3783], Cout[3784], Cout[3785], Cout[3786], Cout[3787], Cout[3788], Cout[3789], Cout[3790], Cout[3791], Cout[3792], Cout[3793], Cout[3794], Cout[3795], Cout[3796], Cout[3797], Cout[3798], Cout[3799], Cout[3800], Cout[3801], Cout[3802], Cout[3803], Cout[3804], Cout[3805], Cout[3806], Cout[3807], Cout[3808], Cout[3809], Cout[3810], Cout[3811], Cout[3812], Cout[3813], Cout[3814], Cout[3815], Cout[3816], Cout[3817], Cout[3818], Cout[3819], Cout[3820], Cout[3821], Cout[3822], Cout[3823], Cout[3824], Cout[3825], Cout[3826], Cout[3827], Cout[3828], Cout[3829], Cout[3830], Cout[3831], Cout[3832], Cout[3833], Cout[3834], Cout[3835], Cout[3836], Cout[3837], Cout[3838], Cout[3839], Cout[3840], Cout[3841], Cout[3842], Cout[3843], Cout[3844], Cout[3845], Cout[3846], Cout[3847], Cout[3848], Cout[3849], Cout[3850], Cout[3851], Cout[3852], Cout[3853], Cout[3854], Cout[3855], Cout[3856], Cout[3857], Cout[3858], Cout[3859], Cout[3860], Cout[3861], Cout[3862], Cout[3863], Cout[3864], Cout[3865], Cout[3866], Cout[3867], Cout[3868], Cout[3869], Cout[3870], Cout[3871], Cout[3872], Cout[3873], Cout[3874], Cout[3875], Cout[3876], Cout[3877], Cout[3878], Cout[3879], Cout[3880], Cout[3881], Cout[3882], Cout[3883], Cout[3884], Cout[3885], Cout[3886], Cout[3887], Cout[3888], Cout[3889], Cout[3890], Cout[3891], Cout[3892], Cout[3893], Cout[3894], Cout[3895], Cout[3896], Cout[3897], Cout[3898], Cout[3899], Cout[3900], Cout[3901], Cout[3902], Cout[3903], Cout[3904], Cout[3905], pp63[63]};
-        assign in_1 = {S[3783], S[3784], S[3785], S[3786], S[3787], S[3788], S[3789], S[3790], S[3791], S[3792], S[3793], S[3794], S[3795], S[3796], S[3797], S[3798], S[3799], S[3800], S[3801], S[3802], S[3803], S[3804], S[3805], S[3806], S[3807], S[3808], S[3809], S[3810], S[3811], S[3812], S[3813], S[3814], S[3815], S[3816], S[3817], S[3818], S[3819], S[3820], S[3821], S[3822], S[3823], S[3824], S[3825], S[3826], S[3827], S[3828], S[3829], S[3830], S[3831], S[3832], S[3833], S[3834], S[3835], S[3836], S[3837], S[3838], S[3839], S[3840], S[3841], S[3842], S[3843], S[3844], S[3845], S[3846], S[3847], S[3848], S[3849], S[3850], S[3851], S[3852], S[3853], S[3854], S[3855], S[3856], S[3857], S[3858], S[3859], S[3860], S[3861], S[3862], S[3863], S[3864], S[3865], S[3866], S[3867], S[3868], S[3869], S[3870], S[3871], S[3872], S[3873], S[3874], S[3875], S[3876], S[3877], S[3878], S[3879], S[3880], S[3881], S[3882], S[3883], S[3884], S[3885], S[3886], S[3887], S[3888], S[3889], S[3890], S[3891], S[3892], S[3893], S[3894], S[3895], S[3896], S[3897], S[3898], S[3899], S[3900], S[3901], S[3902], S[3903], S[3904], S[3905], S[3906], Cout[3906]};
-        CLA_125 CLA(sum, c, in_1, in_2);
+        assign in_2 = {S[3783], S[3784], S[3785], S[3786], S[3787], S[3788], S[3789], S[3790], S[3791], S[3792], S[3793], S[3794], S[3795], S[3796], S[3797], S[3798], S[3799], S[3800], S[3801], S[3802], S[3803], S[3804], S[3805], S[3806], S[3807], S[3808], S[3809], S[3810], S[3811], S[3812], S[3813], S[3814], S[3815], S[3816], S[3817], S[3818], S[3819], S[3820], S[3821], S[3822], S[3823], S[3824], S[3825], S[3826], S[3827], S[3828], S[3829], S[3830], S[3831], S[3832], S[3833], S[3834], S[3835], S[3836], S[3837], S[3838], S[3839], S[3840], S[3841], S[3842], S[3843], S[3844], S[3845], S[3846], S[3847], S[3848], S[3849], S[3850], S[3851], S[3852], S[3853], S[3854], S[3855], S[3856], S[3857], S[3858], S[3859], S[3860], S[3861], S[3862], S[3863], S[3864], S[3865], S[3866], S[3867], S[3868], S[3869], S[3870], S[3871], S[3872], S[3873], S[3874], S[3875], S[3876], S[3877], S[3878], S[3879], S[3880], S[3881], S[3882], S[3883], S[3884], S[3885], S[3886], S[3887], S[3888], S[3889], S[3890], S[3891], S[3892], S[3893], S[3894], S[3895], S[3896], S[3897], S[3898], S[3899], S[3900], S[3901], S[3902], S[3903], S[3904], S[3905], S[3906], Cout[3906]};
+        CLA_125 CLA(s, c, in_1, in_2);
 
 	assign product[127] = c;
 	assign product[126] = s[124];
@@ -4270,7 +4276,7 @@ module dadda_unsigned_multiplier_CLA_64(product, A, B);
 	assign product[35]  = s[33];
 	assign product[34]  = s[32];
 	assign product[33]  = s[31];
-	assign product[32]  = s[30;
+	assign product[32]  = s[30];
 	assign product[31]  = s[29];
 	assign product[30]  = s[28];
 	assign product[29]  = s[27];
@@ -4303,7 +4309,6 @@ module dadda_unsigned_multiplier_CLA_64(product, A, B);
 	assign product[2]   = s[0];
 	assign product[1]   = S[0];
 	assign product[0]   = pp0[0];
-
 endmodule
 
 module CLA_128(output [127:0] sum, output cout, input [127:0] in1, input [127:0] in2);
@@ -30594,7 +30599,6 @@ module CLA_2(output [1:0] sum, output cout, input [1:0] in1, input [1:0] in2);
     assign cout = G[1] | (P[1] & C[1]);
     assign sum = P ^ C;
 endmodule
-
 
 
 module Half_Adder(input wire in1,
