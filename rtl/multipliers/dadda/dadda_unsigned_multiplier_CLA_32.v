@@ -4,9 +4,9 @@ module dadda_unsigned_multiplier_CLA_32(product, A, B);
 
 
     /*
-     * Area: 20295.816502
-     * Power: 17.8994mW
-     * Timing: 4.72ns
+     * Area: 19253.970532 
+     * Power: 16.15555mW
+     * Timing: 4.68ns
      */
 
     wire [31:0] pp0, pp1, pp2, pp3, pp4, pp5, pp6, pp7, pp8, pp9, pp10, pp11, pp12, pp13, pp14, pp15;
@@ -1971,7 +1971,7 @@ module dadda_unsigned_multiplier_CLA_32(product, A, B);
 	Full_Adder FA899 (pp30[31], pp31[30], Cout[870], S[930], Cout[930]);
 	Half_Adder HA32 (pp0[1], pp1[0], S[0], Cout[0]);
 	Full_Adder FA900 (pp2[0], S[871], Cout[0], S[931], Cout[931]);
-	Full_Adder FA901 (Cout[871], S[872], Cout[931], S[932], Cout[932]);
+	/*Full_Adder FA901 (Cout[871], S[872], Cout[931], S[932], Cout[932]);
 	Full_Adder FA902 (Cout[872], S[873], Cout[932], S[933], Cout[933]);
 	Full_Adder FA903 (Cout[873], S[874], Cout[933], S[934], Cout[934]);
 	Full_Adder FA904 (Cout[874], S[875], Cout[934], S[935], Cout[935]);
@@ -2030,7 +2030,7 @@ module dadda_unsigned_multiplier_CLA_32(product, A, B);
 	Full_Adder FA957 (Cout[927], S[928], Cout[987], S[988], Cout[988]);
 	Full_Adder FA958 (Cout[928], S[929], Cout[988], S[989], Cout[989]);
 	Full_Adder FA959 (Cout[929], S[930], Cout[989], S[990], Cout[990]);
-	Full_Adder FA960 (pp31[31], Cout[930], Cout[990], S[991], Cout[991]);
+	Full_Adder FA960 (pp31[31], Cout[930], Cout[990], S[991], Cout[991]);*/
 
 
         wire[60:0] sum, in_1, in_2;
