@@ -28,7 +28,7 @@ module multiplier_8bits_version13(product, A, B);
     assign pp6 = A[6] ? B: 8'b00000000;
     assign pp7 = A[7] ? B: 8'b00000000;
 
-/* Stage 1*/
+    /* Stage 1*/
     wire[7:0] s1, in1_1, in1_2;
     wire c1;
     assign in1_1 = {pp0[4], pp0[5], pp0[6], pp0[7], pp1[7], pp2[7], pp3[7], pp4[7]};
