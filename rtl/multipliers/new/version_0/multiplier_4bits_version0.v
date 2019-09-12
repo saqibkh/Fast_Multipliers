@@ -1,13 +1,13 @@
-module dadda_unsigned_multiplier_RCA_4(product, A, B);
+module multiplier_4bits_version0(product, A, B);
     input [3:0] A, B;
     output [7:0] product;
 
     /* This implementation follows the Dadda multiplier with HA and FAs used
      * for partial product reduction. However, the final two rows are added
      * using a kogge-stone adder of length 5
-     * Area:
-     * Power: mW
-     * Timing: ns
+     * Area: 267.500992
+     * Power: 9.6507e-02mW
+     * Timing: 0.59ns
      */
 
     wire [3:0] pp0, pp1, pp2, pp3;
