@@ -791,3 +791,20 @@ module kogge_stone_30(sum, cout, in1, in2);
     assign sum[29] = G_D[28] ^ P_Z[29];
 endmodule
 
+module gray_cell(Gk_j, Pi_k, Gi_k, G);
+    input Gk_j, Pi_k, Gi_k;
+    output G;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Y, Gi_k);
+endmodule
+
+module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
+    input Gk_j, Pi_k, Gi_k, Pk_j;
+    output G, P;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Gi_k, Y);
+    and(P, Pk_j, Pi_k);
+endmodule
+
