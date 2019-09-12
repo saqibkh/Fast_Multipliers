@@ -162,183 +162,6 @@ module multiplier_16bits_version13(product, A, B);
     assign product[30] = s[29];
     assign product[31] = c;
 endmodule
-
-module CLA_2_c(output [1:0] sum,
-            output cout,
-            input [1:0] in1, in2,
-            input cin);
-
-    wire [1:0] G; /* Generate */
-    wire [1:0] P; /* Propagate */
-    wire [1:0] C; /* Carry */
-
-    assign G[0] = in1[1] & in2[1]; /*Generate    Gi = Ai * Bi */
-    assign G[1] = in1[0] & in2[0];
-
-    assign P[0] = in1[1] ^ in2[1];
-    assign P[1] = in1[0] ^ in2[0];
-
-    assign C[0] = cin;
-    assign C[1] = G[0] | (P[0] & C[0]);
-    assign cout = G[1] | (P[1] & C[1]);
-    assign sum = P ^ C;
-endmodule
-
-module CLA_4(output [3:0] sum,
-            output cout,
-            input [3:0] in1, in2);
-
-    wire [3:0] G; /* Generate */
-    wire [3:0] P; /* Propagate */
-    wire [3:0] C; /* Carry */
-
-    assign G[0] = in1[3] & in2[3]; /*Generate    Gi = Ai * Bi */
-    assign G[1] = in1[2] & in2[2];
-    assign G[2] = in1[1] & in2[1];
-    assign G[3] = in1[0] & in2[0];
-    assign P[0] = in1[3] ^ in2[3]; /*Propagate   Pi = Ai + Bi */
-    assign P[1] = in1[2] ^ in2[2];
-    assign P[2] = in1[1] ^ in2[1];
-    assign P[3] = in1[0] ^ in2[0];
-
-    assign C[0] = 0;
-    assign C[1] = G[0] | (P[0] & C[0]);
-    assign C[2] = G[1] | (P[1] & C[1]);
-    assign C[3] = G[2] | (P[2] & C[2]);
-    assign cout = G[3] | (P[3] & C[3]);
-    assign sum = P ^ C;
-endmodule
-
-module CLA_4_c(output [3:0] sum,
-            output cout,
-            input [3:0] in1, in2,
-            input cin);
-
-    wire [3:0] G; /* Generate */
-    wire [3:0] P; /* Propagate */
-    wire [3:0] C; /* Carry */
-
-    assign G[0] = in1[3] & in2[3]; /*Generate    Gi = Ai * Bi */
-    assign G[1] = in1[2] & in2[2];
-    assign G[2] = in1[1] & in2[1];
-    assign G[3] = in1[0] & in2[0];
-    assign P[0] = in1[3] ^ in2[3]; /*Propagate   Pi = Ai + Bi */
-    assign P[1] = in1[2] ^ in2[2];
-    assign P[2] = in1[1] ^ in2[1];
-    assign P[3] = in1[0] ^ in2[0];
-
-    assign C[0] = cin;
-    assign C[1] = G[0] | (P[0] & C[0]);
-    assign C[2] = G[1] | (P[1] & C[1]);
-    assign C[3] = G[2] | (P[2] & C[2]);
-    assign cout = G[3] | (P[3] & C[3]);
-    assign sum = P ^ C;
-endmodule
-
-
-module CLA_30(output [29:0] sum, output cout, input [29:0] in1, input [29:0] in2);
-
-    wire[29:0] G;
-    wire[29:0] C;
-    wire[29:0] P;
-
-    assign G[0] = in1[29] & in2[29];
-    assign P[0] = in1[29] ^ in2[29];
-    assign G[1] = in1[28] & in2[28];
-    assign P[1] = in1[28] ^ in2[28];
-    assign G[2] = in1[27] & in2[27];
-    assign P[2] = in1[27] ^ in2[27];
-    assign G[3] = in1[26] & in2[26];
-    assign P[3] = in1[26] ^ in2[26];
-    assign G[4] = in1[25] & in2[25];
-    assign P[4] = in1[25] ^ in2[25];
-    assign G[5] = in1[24] & in2[24];
-    assign P[5] = in1[24] ^ in2[24];
-    assign G[6] = in1[23] & in2[23];
-    assign P[6] = in1[23] ^ in2[23];
-    assign G[7] = in1[22] & in2[22];
-    assign P[7] = in1[22] ^ in2[22];
-    assign G[8] = in1[21] & in2[21];
-    assign P[8] = in1[21] ^ in2[21];
-    assign G[9] = in1[20] & in2[20];
-    assign P[9] = in1[20] ^ in2[20];
-    assign G[10] = in1[19] & in2[19];
-    assign P[10] = in1[19] ^ in2[19];
-    assign G[11] = in1[18] & in2[18];
-    assign P[11] = in1[18] ^ in2[18];
-    assign G[12] = in1[17] & in2[17];
-    assign P[12] = in1[17] ^ in2[17];
-    assign G[13] = in1[16] & in2[16];
-    assign P[13] = in1[16] ^ in2[16];
-    assign G[14] = in1[15] & in2[15];
-    assign P[14] = in1[15] ^ in2[15];
-    assign G[15] = in1[14] & in2[14];
-    assign P[15] = in1[14] ^ in2[14];
-    assign G[16] = in1[13] & in2[13];
-    assign P[16] = in1[13] ^ in2[13];
-    assign G[17] = in1[12] & in2[12];
-    assign P[17] = in1[12] ^ in2[12];
-    assign G[18] = in1[11] & in2[11];
-    assign P[18] = in1[11] ^ in2[11];
-    assign G[19] = in1[10] & in2[10];
-    assign P[19] = in1[10] ^ in2[10];
-    assign G[20] = in1[9] & in2[9];
-    assign P[20] = in1[9] ^ in2[9];
-    assign G[21] = in1[8] & in2[8];
-    assign P[21] = in1[8] ^ in2[8];
-    assign G[22] = in1[7] & in2[7];
-    assign P[22] = in1[7] ^ in2[7];
-    assign G[23] = in1[6] & in2[6];
-    assign P[23] = in1[6] ^ in2[6];
-    assign G[24] = in1[5] & in2[5];
-    assign P[24] = in1[5] ^ in2[5];
-    assign G[25] = in1[4] & in2[4];
-    assign P[25] = in1[4] ^ in2[4];
-    assign G[26] = in1[3] & in2[3];
-    assign P[26] = in1[3] ^ in2[3];
-    assign G[27] = in1[2] & in2[2];
-    assign P[27] = in1[2] ^ in2[2];
-    assign G[28] = in1[1] & in2[1];
-    assign P[28] = in1[1] ^ in2[1];
-    assign G[29] = in1[0] & in2[0];
-    assign P[29] = in1[0] ^ in2[0];
-
-
-    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
-    assign C[1] = G[0] | (P[0] & C[0]);
-    assign C[2] = G[1] | (P[1] & C[1]);
-    assign C[3] = G[2] | (P[2] & C[2]);
-    assign C[4] = G[3] | (P[3] & C[3]);
-    assign C[5] = G[4] | (P[4] & C[4]);
-    assign C[6] = G[5] | (P[5] & C[5]);
-    assign C[7] = G[6] | (P[6] & C[6]);
-    assign C[8] = G[7] | (P[7] & C[7]);
-    assign C[9] = G[8] | (P[8] & C[8]);
-    assign C[10] = G[9] | (P[9] & C[9]);
-    assign C[11] = G[10] | (P[10] & C[10]);
-    assign C[12] = G[11] | (P[11] & C[11]);
-    assign C[13] = G[12] | (P[12] & C[12]);
-    assign C[14] = G[13] | (P[13] & C[13]);
-    assign C[15] = G[14] | (P[14] & C[14]);
-    assign C[16] = G[15] | (P[15] & C[15]);
-    assign C[17] = G[16] | (P[16] & C[16]);
-    assign C[18] = G[17] | (P[17] & C[17]);
-    assign C[19] = G[18] | (P[18] & C[18]);
-    assign C[20] = G[19] | (P[19] & C[19]);
-    assign C[21] = G[20] | (P[20] & C[20]);
-    assign C[22] = G[21] | (P[21] & C[21]);
-    assign C[23] = G[22] | (P[22] & C[22]);
-    assign C[24] = G[23] | (P[23] & C[23]);
-    assign C[25] = G[24] | (P[24] & C[24]);
-    assign C[26] = G[25] | (P[25] & C[25]);
-    assign C[27] = G[26] | (P[26] & C[26]);
-    assign C[28] = G[27] | (P[27] & C[27]);
-    assign C[29] = G[28] | (P[28] & C[28]);
-    assign cout = G[29] | (P[29] & C[29]);
-    assign sum = P ^ C;
-endmodule
-
-
 module kogge_stone_30(sum, cout, in1, in2);
     input [29:0] in1, in2; 
     output [29:0] sum; 
@@ -603,4 +426,1959 @@ module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
     or(G, Gi_k, Y);
     and(P, Pk_j, Pi_k);
 endmodule
+
+
+module CLA_32(output [31:0] sum, output cout, input [31:0] in1, input [31:0] in2);
+
+    wire[31:0] G;
+    wire[31:0] C;
+    wire[31:0] P;
+
+    assign G[0] = in1[31] & in2[31];
+    assign P[0] = in1[31] ^ in2[31];
+    assign G[1] = in1[30] & in2[30];
+    assign P[1] = in1[30] ^ in2[30];
+    assign G[2] = in1[29] & in2[29];
+    assign P[2] = in1[29] ^ in2[29];
+    assign G[3] = in1[28] & in2[28];
+    assign P[3] = in1[28] ^ in2[28];
+    assign G[4] = in1[27] & in2[27];
+    assign P[4] = in1[27] ^ in2[27];
+    assign G[5] = in1[26] & in2[26];
+    assign P[5] = in1[26] ^ in2[26];
+    assign G[6] = in1[25] & in2[25];
+    assign P[6] = in1[25] ^ in2[25];
+    assign G[7] = in1[24] & in2[24];
+    assign P[7] = in1[24] ^ in2[24];
+    assign G[8] = in1[23] & in2[23];
+    assign P[8] = in1[23] ^ in2[23];
+    assign G[9] = in1[22] & in2[22];
+    assign P[9] = in1[22] ^ in2[22];
+    assign G[10] = in1[21] & in2[21];
+    assign P[10] = in1[21] ^ in2[21];
+    assign G[11] = in1[20] & in2[20];
+    assign P[11] = in1[20] ^ in2[20];
+    assign G[12] = in1[19] & in2[19];
+    assign P[12] = in1[19] ^ in2[19];
+    assign G[13] = in1[18] & in2[18];
+    assign P[13] = in1[18] ^ in2[18];
+    assign G[14] = in1[17] & in2[17];
+    assign P[14] = in1[17] ^ in2[17];
+    assign G[15] = in1[16] & in2[16];
+    assign P[15] = in1[16] ^ in2[16];
+    assign G[16] = in1[15] & in2[15];
+    assign P[16] = in1[15] ^ in2[15];
+    assign G[17] = in1[14] & in2[14];
+    assign P[17] = in1[14] ^ in2[14];
+    assign G[18] = in1[13] & in2[13];
+    assign P[18] = in1[13] ^ in2[13];
+    assign G[19] = in1[12] & in2[12];
+    assign P[19] = in1[12] ^ in2[12];
+    assign G[20] = in1[11] & in2[11];
+    assign P[20] = in1[11] ^ in2[11];
+    assign G[21] = in1[10] & in2[10];
+    assign P[21] = in1[10] ^ in2[10];
+    assign G[22] = in1[9] & in2[9];
+    assign P[22] = in1[9] ^ in2[9];
+    assign G[23] = in1[8] & in2[8];
+    assign P[23] = in1[8] ^ in2[8];
+    assign G[24] = in1[7] & in2[7];
+    assign P[24] = in1[7] ^ in2[7];
+    assign G[25] = in1[6] & in2[6];
+    assign P[25] = in1[6] ^ in2[6];
+    assign G[26] = in1[5] & in2[5];
+    assign P[26] = in1[5] ^ in2[5];
+    assign G[27] = in1[4] & in2[4];
+    assign P[27] = in1[4] ^ in2[4];
+    assign G[28] = in1[3] & in2[3];
+    assign P[28] = in1[3] ^ in2[3];
+    assign G[29] = in1[2] & in2[2];
+    assign P[29] = in1[2] ^ in2[2];
+    assign G[30] = in1[1] & in2[1];
+    assign P[30] = in1[1] ^ in2[1];
+    assign G[31] = in1[0] & in2[0];
+    assign P[31] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign C[27] = G[26] | (P[26] & C[26]);
+    assign C[28] = G[27] | (P[27] & C[27]);
+    assign C[29] = G[28] | (P[28] & C[28]);
+    assign C[30] = G[29] | (P[29] & C[29]);
+    assign C[31] = G[30] | (P[30] & C[30]);
+    assign cout = G[31] | (P[31] & C[31]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_31(output [30:0] sum, output cout, input [30:0] in1, input [30:0] in2);
+
+    wire[30:0] G;
+    wire[30:0] C;
+    wire[30:0] P;
+
+    assign G[0] = in1[30] & in2[30];
+    assign P[0] = in1[30] ^ in2[30];
+    assign G[1] = in1[29] & in2[29];
+    assign P[1] = in1[29] ^ in2[29];
+    assign G[2] = in1[28] & in2[28];
+    assign P[2] = in1[28] ^ in2[28];
+    assign G[3] = in1[27] & in2[27];
+    assign P[3] = in1[27] ^ in2[27];
+    assign G[4] = in1[26] & in2[26];
+    assign P[4] = in1[26] ^ in2[26];
+    assign G[5] = in1[25] & in2[25];
+    assign P[5] = in1[25] ^ in2[25];
+    assign G[6] = in1[24] & in2[24];
+    assign P[6] = in1[24] ^ in2[24];
+    assign G[7] = in1[23] & in2[23];
+    assign P[7] = in1[23] ^ in2[23];
+    assign G[8] = in1[22] & in2[22];
+    assign P[8] = in1[22] ^ in2[22];
+    assign G[9] = in1[21] & in2[21];
+    assign P[9] = in1[21] ^ in2[21];
+    assign G[10] = in1[20] & in2[20];
+    assign P[10] = in1[20] ^ in2[20];
+    assign G[11] = in1[19] & in2[19];
+    assign P[11] = in1[19] ^ in2[19];
+    assign G[12] = in1[18] & in2[18];
+    assign P[12] = in1[18] ^ in2[18];
+    assign G[13] = in1[17] & in2[17];
+    assign P[13] = in1[17] ^ in2[17];
+    assign G[14] = in1[16] & in2[16];
+    assign P[14] = in1[16] ^ in2[16];
+    assign G[15] = in1[15] & in2[15];
+    assign P[15] = in1[15] ^ in2[15];
+    assign G[16] = in1[14] & in2[14];
+    assign P[16] = in1[14] ^ in2[14];
+    assign G[17] = in1[13] & in2[13];
+    assign P[17] = in1[13] ^ in2[13];
+    assign G[18] = in1[12] & in2[12];
+    assign P[18] = in1[12] ^ in2[12];
+    assign G[19] = in1[11] & in2[11];
+    assign P[19] = in1[11] ^ in2[11];
+    assign G[20] = in1[10] & in2[10];
+    assign P[20] = in1[10] ^ in2[10];
+    assign G[21] = in1[9] & in2[9];
+    assign P[21] = in1[9] ^ in2[9];
+    assign G[22] = in1[8] & in2[8];
+    assign P[22] = in1[8] ^ in2[8];
+    assign G[23] = in1[7] & in2[7];
+    assign P[23] = in1[7] ^ in2[7];
+    assign G[24] = in1[6] & in2[6];
+    assign P[24] = in1[6] ^ in2[6];
+    assign G[25] = in1[5] & in2[5];
+    assign P[25] = in1[5] ^ in2[5];
+    assign G[26] = in1[4] & in2[4];
+    assign P[26] = in1[4] ^ in2[4];
+    assign G[27] = in1[3] & in2[3];
+    assign P[27] = in1[3] ^ in2[3];
+    assign G[28] = in1[2] & in2[2];
+    assign P[28] = in1[2] ^ in2[2];
+    assign G[29] = in1[1] & in2[1];
+    assign P[29] = in1[1] ^ in2[1];
+    assign G[30] = in1[0] & in2[0];
+    assign P[30] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign C[27] = G[26] | (P[26] & C[26]);
+    assign C[28] = G[27] | (P[27] & C[27]);
+    assign C[29] = G[28] | (P[28] & C[28]);
+    assign C[30] = G[29] | (P[29] & C[29]);
+    assign cout = G[30] | (P[30] & C[30]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_30(output [29:0] sum, output cout, input [29:0] in1, input [29:0] in2);
+
+    wire[29:0] G;
+    wire[29:0] C;
+    wire[29:0] P;
+
+    assign G[0] = in1[29] & in2[29];
+    assign P[0] = in1[29] ^ in2[29];
+    assign G[1] = in1[28] & in2[28];
+    assign P[1] = in1[28] ^ in2[28];
+    assign G[2] = in1[27] & in2[27];
+    assign P[2] = in1[27] ^ in2[27];
+    assign G[3] = in1[26] & in2[26];
+    assign P[3] = in1[26] ^ in2[26];
+    assign G[4] = in1[25] & in2[25];
+    assign P[4] = in1[25] ^ in2[25];
+    assign G[5] = in1[24] & in2[24];
+    assign P[5] = in1[24] ^ in2[24];
+    assign G[6] = in1[23] & in2[23];
+    assign P[6] = in1[23] ^ in2[23];
+    assign G[7] = in1[22] & in2[22];
+    assign P[7] = in1[22] ^ in2[22];
+    assign G[8] = in1[21] & in2[21];
+    assign P[8] = in1[21] ^ in2[21];
+    assign G[9] = in1[20] & in2[20];
+    assign P[9] = in1[20] ^ in2[20];
+    assign G[10] = in1[19] & in2[19];
+    assign P[10] = in1[19] ^ in2[19];
+    assign G[11] = in1[18] & in2[18];
+    assign P[11] = in1[18] ^ in2[18];
+    assign G[12] = in1[17] & in2[17];
+    assign P[12] = in1[17] ^ in2[17];
+    assign G[13] = in1[16] & in2[16];
+    assign P[13] = in1[16] ^ in2[16];
+    assign G[14] = in1[15] & in2[15];
+    assign P[14] = in1[15] ^ in2[15];
+    assign G[15] = in1[14] & in2[14];
+    assign P[15] = in1[14] ^ in2[14];
+    assign G[16] = in1[13] & in2[13];
+    assign P[16] = in1[13] ^ in2[13];
+    assign G[17] = in1[12] & in2[12];
+    assign P[17] = in1[12] ^ in2[12];
+    assign G[18] = in1[11] & in2[11];
+    assign P[18] = in1[11] ^ in2[11];
+    assign G[19] = in1[10] & in2[10];
+    assign P[19] = in1[10] ^ in2[10];
+    assign G[20] = in1[9] & in2[9];
+    assign P[20] = in1[9] ^ in2[9];
+    assign G[21] = in1[8] & in2[8];
+    assign P[21] = in1[8] ^ in2[8];
+    assign G[22] = in1[7] & in2[7];
+    assign P[22] = in1[7] ^ in2[7];
+    assign G[23] = in1[6] & in2[6];
+    assign P[23] = in1[6] ^ in2[6];
+    assign G[24] = in1[5] & in2[5];
+    assign P[24] = in1[5] ^ in2[5];
+    assign G[25] = in1[4] & in2[4];
+    assign P[25] = in1[4] ^ in2[4];
+    assign G[26] = in1[3] & in2[3];
+    assign P[26] = in1[3] ^ in2[3];
+    assign G[27] = in1[2] & in2[2];
+    assign P[27] = in1[2] ^ in2[2];
+    assign G[28] = in1[1] & in2[1];
+    assign P[28] = in1[1] ^ in2[1];
+    assign G[29] = in1[0] & in2[0];
+    assign P[29] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign C[27] = G[26] | (P[26] & C[26]);
+    assign C[28] = G[27] | (P[27] & C[27]);
+    assign C[29] = G[28] | (P[28] & C[28]);
+    assign cout = G[29] | (P[29] & C[29]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_29(output [28:0] sum, output cout, input [28:0] in1, input [28:0] in2);
+
+    wire[28:0] G;
+    wire[28:0] C;
+    wire[28:0] P;
+
+    assign G[0] = in1[28] & in2[28];
+    assign P[0] = in1[28] ^ in2[28];
+    assign G[1] = in1[27] & in2[27];
+    assign P[1] = in1[27] ^ in2[27];
+    assign G[2] = in1[26] & in2[26];
+    assign P[2] = in1[26] ^ in2[26];
+    assign G[3] = in1[25] & in2[25];
+    assign P[3] = in1[25] ^ in2[25];
+    assign G[4] = in1[24] & in2[24];
+    assign P[4] = in1[24] ^ in2[24];
+    assign G[5] = in1[23] & in2[23];
+    assign P[5] = in1[23] ^ in2[23];
+    assign G[6] = in1[22] & in2[22];
+    assign P[6] = in1[22] ^ in2[22];
+    assign G[7] = in1[21] & in2[21];
+    assign P[7] = in1[21] ^ in2[21];
+    assign G[8] = in1[20] & in2[20];
+    assign P[8] = in1[20] ^ in2[20];
+    assign G[9] = in1[19] & in2[19];
+    assign P[9] = in1[19] ^ in2[19];
+    assign G[10] = in1[18] & in2[18];
+    assign P[10] = in1[18] ^ in2[18];
+    assign G[11] = in1[17] & in2[17];
+    assign P[11] = in1[17] ^ in2[17];
+    assign G[12] = in1[16] & in2[16];
+    assign P[12] = in1[16] ^ in2[16];
+    assign G[13] = in1[15] & in2[15];
+    assign P[13] = in1[15] ^ in2[15];
+    assign G[14] = in1[14] & in2[14];
+    assign P[14] = in1[14] ^ in2[14];
+    assign G[15] = in1[13] & in2[13];
+    assign P[15] = in1[13] ^ in2[13];
+    assign G[16] = in1[12] & in2[12];
+    assign P[16] = in1[12] ^ in2[12];
+    assign G[17] = in1[11] & in2[11];
+    assign P[17] = in1[11] ^ in2[11];
+    assign G[18] = in1[10] & in2[10];
+    assign P[18] = in1[10] ^ in2[10];
+    assign G[19] = in1[9] & in2[9];
+    assign P[19] = in1[9] ^ in2[9];
+    assign G[20] = in1[8] & in2[8];
+    assign P[20] = in1[8] ^ in2[8];
+    assign G[21] = in1[7] & in2[7];
+    assign P[21] = in1[7] ^ in2[7];
+    assign G[22] = in1[6] & in2[6];
+    assign P[22] = in1[6] ^ in2[6];
+    assign G[23] = in1[5] & in2[5];
+    assign P[23] = in1[5] ^ in2[5];
+    assign G[24] = in1[4] & in2[4];
+    assign P[24] = in1[4] ^ in2[4];
+    assign G[25] = in1[3] & in2[3];
+    assign P[25] = in1[3] ^ in2[3];
+    assign G[26] = in1[2] & in2[2];
+    assign P[26] = in1[2] ^ in2[2];
+    assign G[27] = in1[1] & in2[1];
+    assign P[27] = in1[1] ^ in2[1];
+    assign G[28] = in1[0] & in2[0];
+    assign P[28] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign C[27] = G[26] | (P[26] & C[26]);
+    assign C[28] = G[27] | (P[27] & C[27]);
+    assign cout = G[28] | (P[28] & C[28]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_28(output [27:0] sum, output cout, input [27:0] in1, input [27:0] in2);
+
+    wire[27:0] G;
+    wire[27:0] C;
+    wire[27:0] P;
+
+    assign G[0] = in1[27] & in2[27];
+    assign P[0] = in1[27] ^ in2[27];
+    assign G[1] = in1[26] & in2[26];
+    assign P[1] = in1[26] ^ in2[26];
+    assign G[2] = in1[25] & in2[25];
+    assign P[2] = in1[25] ^ in2[25];
+    assign G[3] = in1[24] & in2[24];
+    assign P[3] = in1[24] ^ in2[24];
+    assign G[4] = in1[23] & in2[23];
+    assign P[4] = in1[23] ^ in2[23];
+    assign G[5] = in1[22] & in2[22];
+    assign P[5] = in1[22] ^ in2[22];
+    assign G[6] = in1[21] & in2[21];
+    assign P[6] = in1[21] ^ in2[21];
+    assign G[7] = in1[20] & in2[20];
+    assign P[7] = in1[20] ^ in2[20];
+    assign G[8] = in1[19] & in2[19];
+    assign P[8] = in1[19] ^ in2[19];
+    assign G[9] = in1[18] & in2[18];
+    assign P[9] = in1[18] ^ in2[18];
+    assign G[10] = in1[17] & in2[17];
+    assign P[10] = in1[17] ^ in2[17];
+    assign G[11] = in1[16] & in2[16];
+    assign P[11] = in1[16] ^ in2[16];
+    assign G[12] = in1[15] & in2[15];
+    assign P[12] = in1[15] ^ in2[15];
+    assign G[13] = in1[14] & in2[14];
+    assign P[13] = in1[14] ^ in2[14];
+    assign G[14] = in1[13] & in2[13];
+    assign P[14] = in1[13] ^ in2[13];
+    assign G[15] = in1[12] & in2[12];
+    assign P[15] = in1[12] ^ in2[12];
+    assign G[16] = in1[11] & in2[11];
+    assign P[16] = in1[11] ^ in2[11];
+    assign G[17] = in1[10] & in2[10];
+    assign P[17] = in1[10] ^ in2[10];
+    assign G[18] = in1[9] & in2[9];
+    assign P[18] = in1[9] ^ in2[9];
+    assign G[19] = in1[8] & in2[8];
+    assign P[19] = in1[8] ^ in2[8];
+    assign G[20] = in1[7] & in2[7];
+    assign P[20] = in1[7] ^ in2[7];
+    assign G[21] = in1[6] & in2[6];
+    assign P[21] = in1[6] ^ in2[6];
+    assign G[22] = in1[5] & in2[5];
+    assign P[22] = in1[5] ^ in2[5];
+    assign G[23] = in1[4] & in2[4];
+    assign P[23] = in1[4] ^ in2[4];
+    assign G[24] = in1[3] & in2[3];
+    assign P[24] = in1[3] ^ in2[3];
+    assign G[25] = in1[2] & in2[2];
+    assign P[25] = in1[2] ^ in2[2];
+    assign G[26] = in1[1] & in2[1];
+    assign P[26] = in1[1] ^ in2[1];
+    assign G[27] = in1[0] & in2[0];
+    assign P[27] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign C[27] = G[26] | (P[26] & C[26]);
+    assign cout = G[27] | (P[27] & C[27]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_27(output [26:0] sum, output cout, input [26:0] in1, input [26:0] in2);
+
+    wire[26:0] G;
+    wire[26:0] C;
+    wire[26:0] P;
+
+    assign G[0] = in1[26] & in2[26];
+    assign P[0] = in1[26] ^ in2[26];
+    assign G[1] = in1[25] & in2[25];
+    assign P[1] = in1[25] ^ in2[25];
+    assign G[2] = in1[24] & in2[24];
+    assign P[2] = in1[24] ^ in2[24];
+    assign G[3] = in1[23] & in2[23];
+    assign P[3] = in1[23] ^ in2[23];
+    assign G[4] = in1[22] & in2[22];
+    assign P[4] = in1[22] ^ in2[22];
+    assign G[5] = in1[21] & in2[21];
+    assign P[5] = in1[21] ^ in2[21];
+    assign G[6] = in1[20] & in2[20];
+    assign P[6] = in1[20] ^ in2[20];
+    assign G[7] = in1[19] & in2[19];
+    assign P[7] = in1[19] ^ in2[19];
+    assign G[8] = in1[18] & in2[18];
+    assign P[8] = in1[18] ^ in2[18];
+    assign G[9] = in1[17] & in2[17];
+    assign P[9] = in1[17] ^ in2[17];
+    assign G[10] = in1[16] & in2[16];
+    assign P[10] = in1[16] ^ in2[16];
+    assign G[11] = in1[15] & in2[15];
+    assign P[11] = in1[15] ^ in2[15];
+    assign G[12] = in1[14] & in2[14];
+    assign P[12] = in1[14] ^ in2[14];
+    assign G[13] = in1[13] & in2[13];
+    assign P[13] = in1[13] ^ in2[13];
+    assign G[14] = in1[12] & in2[12];
+    assign P[14] = in1[12] ^ in2[12];
+    assign G[15] = in1[11] & in2[11];
+    assign P[15] = in1[11] ^ in2[11];
+    assign G[16] = in1[10] & in2[10];
+    assign P[16] = in1[10] ^ in2[10];
+    assign G[17] = in1[9] & in2[9];
+    assign P[17] = in1[9] ^ in2[9];
+    assign G[18] = in1[8] & in2[8];
+    assign P[18] = in1[8] ^ in2[8];
+    assign G[19] = in1[7] & in2[7];
+    assign P[19] = in1[7] ^ in2[7];
+    assign G[20] = in1[6] & in2[6];
+    assign P[20] = in1[6] ^ in2[6];
+    assign G[21] = in1[5] & in2[5];
+    assign P[21] = in1[5] ^ in2[5];
+    assign G[22] = in1[4] & in2[4];
+    assign P[22] = in1[4] ^ in2[4];
+    assign G[23] = in1[3] & in2[3];
+    assign P[23] = in1[3] ^ in2[3];
+    assign G[24] = in1[2] & in2[2];
+    assign P[24] = in1[2] ^ in2[2];
+    assign G[25] = in1[1] & in2[1];
+    assign P[25] = in1[1] ^ in2[1];
+    assign G[26] = in1[0] & in2[0];
+    assign P[26] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign C[26] = G[25] | (P[25] & C[25]);
+    assign cout = G[26] | (P[26] & C[26]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_26(output [25:0] sum, output cout, input [25:0] in1, input [25:0] in2);
+
+    wire[25:0] G;
+    wire[25:0] C;
+    wire[25:0] P;
+
+    assign G[0] = in1[25] & in2[25];
+    assign P[0] = in1[25] ^ in2[25];
+    assign G[1] = in1[24] & in2[24];
+    assign P[1] = in1[24] ^ in2[24];
+    assign G[2] = in1[23] & in2[23];
+    assign P[2] = in1[23] ^ in2[23];
+    assign G[3] = in1[22] & in2[22];
+    assign P[3] = in1[22] ^ in2[22];
+    assign G[4] = in1[21] & in2[21];
+    assign P[4] = in1[21] ^ in2[21];
+    assign G[5] = in1[20] & in2[20];
+    assign P[5] = in1[20] ^ in2[20];
+    assign G[6] = in1[19] & in2[19];
+    assign P[6] = in1[19] ^ in2[19];
+    assign G[7] = in1[18] & in2[18];
+    assign P[7] = in1[18] ^ in2[18];
+    assign G[8] = in1[17] & in2[17];
+    assign P[8] = in1[17] ^ in2[17];
+    assign G[9] = in1[16] & in2[16];
+    assign P[9] = in1[16] ^ in2[16];
+    assign G[10] = in1[15] & in2[15];
+    assign P[10] = in1[15] ^ in2[15];
+    assign G[11] = in1[14] & in2[14];
+    assign P[11] = in1[14] ^ in2[14];
+    assign G[12] = in1[13] & in2[13];
+    assign P[12] = in1[13] ^ in2[13];
+    assign G[13] = in1[12] & in2[12];
+    assign P[13] = in1[12] ^ in2[12];
+    assign G[14] = in1[11] & in2[11];
+    assign P[14] = in1[11] ^ in2[11];
+    assign G[15] = in1[10] & in2[10];
+    assign P[15] = in1[10] ^ in2[10];
+    assign G[16] = in1[9] & in2[9];
+    assign P[16] = in1[9] ^ in2[9];
+    assign G[17] = in1[8] & in2[8];
+    assign P[17] = in1[8] ^ in2[8];
+    assign G[18] = in1[7] & in2[7];
+    assign P[18] = in1[7] ^ in2[7];
+    assign G[19] = in1[6] & in2[6];
+    assign P[19] = in1[6] ^ in2[6];
+    assign G[20] = in1[5] & in2[5];
+    assign P[20] = in1[5] ^ in2[5];
+    assign G[21] = in1[4] & in2[4];
+    assign P[21] = in1[4] ^ in2[4];
+    assign G[22] = in1[3] & in2[3];
+    assign P[22] = in1[3] ^ in2[3];
+    assign G[23] = in1[2] & in2[2];
+    assign P[23] = in1[2] ^ in2[2];
+    assign G[24] = in1[1] & in2[1];
+    assign P[24] = in1[1] ^ in2[1];
+    assign G[25] = in1[0] & in2[0];
+    assign P[25] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign C[25] = G[24] | (P[24] & C[24]);
+    assign cout = G[25] | (P[25] & C[25]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_25(output [24:0] sum, output cout, input [24:0] in1, input [24:0] in2);
+
+    wire[24:0] G;
+    wire[24:0] C;
+    wire[24:0] P;
+
+    assign G[0] = in1[24] & in2[24];
+    assign P[0] = in1[24] ^ in2[24];
+    assign G[1] = in1[23] & in2[23];
+    assign P[1] = in1[23] ^ in2[23];
+    assign G[2] = in1[22] & in2[22];
+    assign P[2] = in1[22] ^ in2[22];
+    assign G[3] = in1[21] & in2[21];
+    assign P[3] = in1[21] ^ in2[21];
+    assign G[4] = in1[20] & in2[20];
+    assign P[4] = in1[20] ^ in2[20];
+    assign G[5] = in1[19] & in2[19];
+    assign P[5] = in1[19] ^ in2[19];
+    assign G[6] = in1[18] & in2[18];
+    assign P[6] = in1[18] ^ in2[18];
+    assign G[7] = in1[17] & in2[17];
+    assign P[7] = in1[17] ^ in2[17];
+    assign G[8] = in1[16] & in2[16];
+    assign P[8] = in1[16] ^ in2[16];
+    assign G[9] = in1[15] & in2[15];
+    assign P[9] = in1[15] ^ in2[15];
+    assign G[10] = in1[14] & in2[14];
+    assign P[10] = in1[14] ^ in2[14];
+    assign G[11] = in1[13] & in2[13];
+    assign P[11] = in1[13] ^ in2[13];
+    assign G[12] = in1[12] & in2[12];
+    assign P[12] = in1[12] ^ in2[12];
+    assign G[13] = in1[11] & in2[11];
+    assign P[13] = in1[11] ^ in2[11];
+    assign G[14] = in1[10] & in2[10];
+    assign P[14] = in1[10] ^ in2[10];
+    assign G[15] = in1[9] & in2[9];
+    assign P[15] = in1[9] ^ in2[9];
+    assign G[16] = in1[8] & in2[8];
+    assign P[16] = in1[8] ^ in2[8];
+    assign G[17] = in1[7] & in2[7];
+    assign P[17] = in1[7] ^ in2[7];
+    assign G[18] = in1[6] & in2[6];
+    assign P[18] = in1[6] ^ in2[6];
+    assign G[19] = in1[5] & in2[5];
+    assign P[19] = in1[5] ^ in2[5];
+    assign G[20] = in1[4] & in2[4];
+    assign P[20] = in1[4] ^ in2[4];
+    assign G[21] = in1[3] & in2[3];
+    assign P[21] = in1[3] ^ in2[3];
+    assign G[22] = in1[2] & in2[2];
+    assign P[22] = in1[2] ^ in2[2];
+    assign G[23] = in1[1] & in2[1];
+    assign P[23] = in1[1] ^ in2[1];
+    assign G[24] = in1[0] & in2[0];
+    assign P[24] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign C[24] = G[23] | (P[23] & C[23]);
+    assign cout = G[24] | (P[24] & C[24]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_24(output [23:0] sum, output cout, input [23:0] in1, input [23:0] in2);
+
+    wire[23:0] G;
+    wire[23:0] C;
+    wire[23:0] P;
+
+    assign G[0] = in1[23] & in2[23];
+    assign P[0] = in1[23] ^ in2[23];
+    assign G[1] = in1[22] & in2[22];
+    assign P[1] = in1[22] ^ in2[22];
+    assign G[2] = in1[21] & in2[21];
+    assign P[2] = in1[21] ^ in2[21];
+    assign G[3] = in1[20] & in2[20];
+    assign P[3] = in1[20] ^ in2[20];
+    assign G[4] = in1[19] & in2[19];
+    assign P[4] = in1[19] ^ in2[19];
+    assign G[5] = in1[18] & in2[18];
+    assign P[5] = in1[18] ^ in2[18];
+    assign G[6] = in1[17] & in2[17];
+    assign P[6] = in1[17] ^ in2[17];
+    assign G[7] = in1[16] & in2[16];
+    assign P[7] = in1[16] ^ in2[16];
+    assign G[8] = in1[15] & in2[15];
+    assign P[8] = in1[15] ^ in2[15];
+    assign G[9] = in1[14] & in2[14];
+    assign P[9] = in1[14] ^ in2[14];
+    assign G[10] = in1[13] & in2[13];
+    assign P[10] = in1[13] ^ in2[13];
+    assign G[11] = in1[12] & in2[12];
+    assign P[11] = in1[12] ^ in2[12];
+    assign G[12] = in1[11] & in2[11];
+    assign P[12] = in1[11] ^ in2[11];
+    assign G[13] = in1[10] & in2[10];
+    assign P[13] = in1[10] ^ in2[10];
+    assign G[14] = in1[9] & in2[9];
+    assign P[14] = in1[9] ^ in2[9];
+    assign G[15] = in1[8] & in2[8];
+    assign P[15] = in1[8] ^ in2[8];
+    assign G[16] = in1[7] & in2[7];
+    assign P[16] = in1[7] ^ in2[7];
+    assign G[17] = in1[6] & in2[6];
+    assign P[17] = in1[6] ^ in2[6];
+    assign G[18] = in1[5] & in2[5];
+    assign P[18] = in1[5] ^ in2[5];
+    assign G[19] = in1[4] & in2[4];
+    assign P[19] = in1[4] ^ in2[4];
+    assign G[20] = in1[3] & in2[3];
+    assign P[20] = in1[3] ^ in2[3];
+    assign G[21] = in1[2] & in2[2];
+    assign P[21] = in1[2] ^ in2[2];
+    assign G[22] = in1[1] & in2[1];
+    assign P[22] = in1[1] ^ in2[1];
+    assign G[23] = in1[0] & in2[0];
+    assign P[23] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign C[23] = G[22] | (P[22] & C[22]);
+    assign cout = G[23] | (P[23] & C[23]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_23(output [22:0] sum, output cout, input [22:0] in1, input [22:0] in2);
+
+    wire[22:0] G;
+    wire[22:0] C;
+    wire[22:0] P;
+
+    assign G[0] = in1[22] & in2[22];
+    assign P[0] = in1[22] ^ in2[22];
+    assign G[1] = in1[21] & in2[21];
+    assign P[1] = in1[21] ^ in2[21];
+    assign G[2] = in1[20] & in2[20];
+    assign P[2] = in1[20] ^ in2[20];
+    assign G[3] = in1[19] & in2[19];
+    assign P[3] = in1[19] ^ in2[19];
+    assign G[4] = in1[18] & in2[18];
+    assign P[4] = in1[18] ^ in2[18];
+    assign G[5] = in1[17] & in2[17];
+    assign P[5] = in1[17] ^ in2[17];
+    assign G[6] = in1[16] & in2[16];
+    assign P[6] = in1[16] ^ in2[16];
+    assign G[7] = in1[15] & in2[15];
+    assign P[7] = in1[15] ^ in2[15];
+    assign G[8] = in1[14] & in2[14];
+    assign P[8] = in1[14] ^ in2[14];
+    assign G[9] = in1[13] & in2[13];
+    assign P[9] = in1[13] ^ in2[13];
+    assign G[10] = in1[12] & in2[12];
+    assign P[10] = in1[12] ^ in2[12];
+    assign G[11] = in1[11] & in2[11];
+    assign P[11] = in1[11] ^ in2[11];
+    assign G[12] = in1[10] & in2[10];
+    assign P[12] = in1[10] ^ in2[10];
+    assign G[13] = in1[9] & in2[9];
+    assign P[13] = in1[9] ^ in2[9];
+    assign G[14] = in1[8] & in2[8];
+    assign P[14] = in1[8] ^ in2[8];
+    assign G[15] = in1[7] & in2[7];
+    assign P[15] = in1[7] ^ in2[7];
+    assign G[16] = in1[6] & in2[6];
+    assign P[16] = in1[6] ^ in2[6];
+    assign G[17] = in1[5] & in2[5];
+    assign P[17] = in1[5] ^ in2[5];
+    assign G[18] = in1[4] & in2[4];
+    assign P[18] = in1[4] ^ in2[4];
+    assign G[19] = in1[3] & in2[3];
+    assign P[19] = in1[3] ^ in2[3];
+    assign G[20] = in1[2] & in2[2];
+    assign P[20] = in1[2] ^ in2[2];
+    assign G[21] = in1[1] & in2[1];
+    assign P[21] = in1[1] ^ in2[1];
+    assign G[22] = in1[0] & in2[0];
+    assign P[22] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign C[22] = G[21] | (P[21] & C[21]);
+    assign cout = G[22] | (P[22] & C[22]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_22(output [21:0] sum, output cout, input [21:0] in1, input [21:0] in2);
+
+    wire[21:0] G;
+    wire[21:0] C;
+    wire[21:0] P;
+
+    assign G[0] = in1[21] & in2[21];
+    assign P[0] = in1[21] ^ in2[21];
+    assign G[1] = in1[20] & in2[20];
+    assign P[1] = in1[20] ^ in2[20];
+    assign G[2] = in1[19] & in2[19];
+    assign P[2] = in1[19] ^ in2[19];
+    assign G[3] = in1[18] & in2[18];
+    assign P[3] = in1[18] ^ in2[18];
+    assign G[4] = in1[17] & in2[17];
+    assign P[4] = in1[17] ^ in2[17];
+    assign G[5] = in1[16] & in2[16];
+    assign P[5] = in1[16] ^ in2[16];
+    assign G[6] = in1[15] & in2[15];
+    assign P[6] = in1[15] ^ in2[15];
+    assign G[7] = in1[14] & in2[14];
+    assign P[7] = in1[14] ^ in2[14];
+    assign G[8] = in1[13] & in2[13];
+    assign P[8] = in1[13] ^ in2[13];
+    assign G[9] = in1[12] & in2[12];
+    assign P[9] = in1[12] ^ in2[12];
+    assign G[10] = in1[11] & in2[11];
+    assign P[10] = in1[11] ^ in2[11];
+    assign G[11] = in1[10] & in2[10];
+    assign P[11] = in1[10] ^ in2[10];
+    assign G[12] = in1[9] & in2[9];
+    assign P[12] = in1[9] ^ in2[9];
+    assign G[13] = in1[8] & in2[8];
+    assign P[13] = in1[8] ^ in2[8];
+    assign G[14] = in1[7] & in2[7];
+    assign P[14] = in1[7] ^ in2[7];
+    assign G[15] = in1[6] & in2[6];
+    assign P[15] = in1[6] ^ in2[6];
+    assign G[16] = in1[5] & in2[5];
+    assign P[16] = in1[5] ^ in2[5];
+    assign G[17] = in1[4] & in2[4];
+    assign P[17] = in1[4] ^ in2[4];
+    assign G[18] = in1[3] & in2[3];
+    assign P[18] = in1[3] ^ in2[3];
+    assign G[19] = in1[2] & in2[2];
+    assign P[19] = in1[2] ^ in2[2];
+    assign G[20] = in1[1] & in2[1];
+    assign P[20] = in1[1] ^ in2[1];
+    assign G[21] = in1[0] & in2[0];
+    assign P[21] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign C[21] = G[20] | (P[20] & C[20]);
+    assign cout = G[21] | (P[21] & C[21]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_21(output [20:0] sum, output cout, input [20:0] in1, input [20:0] in2);
+
+    wire[20:0] G;
+    wire[20:0] C;
+    wire[20:0] P;
+
+    assign G[0] = in1[20] & in2[20];
+    assign P[0] = in1[20] ^ in2[20];
+    assign G[1] = in1[19] & in2[19];
+    assign P[1] = in1[19] ^ in2[19];
+    assign G[2] = in1[18] & in2[18];
+    assign P[2] = in1[18] ^ in2[18];
+    assign G[3] = in1[17] & in2[17];
+    assign P[3] = in1[17] ^ in2[17];
+    assign G[4] = in1[16] & in2[16];
+    assign P[4] = in1[16] ^ in2[16];
+    assign G[5] = in1[15] & in2[15];
+    assign P[5] = in1[15] ^ in2[15];
+    assign G[6] = in1[14] & in2[14];
+    assign P[6] = in1[14] ^ in2[14];
+    assign G[7] = in1[13] & in2[13];
+    assign P[7] = in1[13] ^ in2[13];
+    assign G[8] = in1[12] & in2[12];
+    assign P[8] = in1[12] ^ in2[12];
+    assign G[9] = in1[11] & in2[11];
+    assign P[9] = in1[11] ^ in2[11];
+    assign G[10] = in1[10] & in2[10];
+    assign P[10] = in1[10] ^ in2[10];
+    assign G[11] = in1[9] & in2[9];
+    assign P[11] = in1[9] ^ in2[9];
+    assign G[12] = in1[8] & in2[8];
+    assign P[12] = in1[8] ^ in2[8];
+    assign G[13] = in1[7] & in2[7];
+    assign P[13] = in1[7] ^ in2[7];
+    assign G[14] = in1[6] & in2[6];
+    assign P[14] = in1[6] ^ in2[6];
+    assign G[15] = in1[5] & in2[5];
+    assign P[15] = in1[5] ^ in2[5];
+    assign G[16] = in1[4] & in2[4];
+    assign P[16] = in1[4] ^ in2[4];
+    assign G[17] = in1[3] & in2[3];
+    assign P[17] = in1[3] ^ in2[3];
+    assign G[18] = in1[2] & in2[2];
+    assign P[18] = in1[2] ^ in2[2];
+    assign G[19] = in1[1] & in2[1];
+    assign P[19] = in1[1] ^ in2[1];
+    assign G[20] = in1[0] & in2[0];
+    assign P[20] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign C[20] = G[19] | (P[19] & C[19]);
+    assign cout = G[20] | (P[20] & C[20]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_20(output [19:0] sum, output cout, input [19:0] in1, input [19:0] in2);
+
+    wire[19:0] G;
+    wire[19:0] C;
+    wire[19:0] P;
+
+    assign G[0] = in1[19] & in2[19];
+    assign P[0] = in1[19] ^ in2[19];
+    assign G[1] = in1[18] & in2[18];
+    assign P[1] = in1[18] ^ in2[18];
+    assign G[2] = in1[17] & in2[17];
+    assign P[2] = in1[17] ^ in2[17];
+    assign G[3] = in1[16] & in2[16];
+    assign P[3] = in1[16] ^ in2[16];
+    assign G[4] = in1[15] & in2[15];
+    assign P[4] = in1[15] ^ in2[15];
+    assign G[5] = in1[14] & in2[14];
+    assign P[5] = in1[14] ^ in2[14];
+    assign G[6] = in1[13] & in2[13];
+    assign P[6] = in1[13] ^ in2[13];
+    assign G[7] = in1[12] & in2[12];
+    assign P[7] = in1[12] ^ in2[12];
+    assign G[8] = in1[11] & in2[11];
+    assign P[8] = in1[11] ^ in2[11];
+    assign G[9] = in1[10] & in2[10];
+    assign P[9] = in1[10] ^ in2[10];
+    assign G[10] = in1[9] & in2[9];
+    assign P[10] = in1[9] ^ in2[9];
+    assign G[11] = in1[8] & in2[8];
+    assign P[11] = in1[8] ^ in2[8];
+    assign G[12] = in1[7] & in2[7];
+    assign P[12] = in1[7] ^ in2[7];
+    assign G[13] = in1[6] & in2[6];
+    assign P[13] = in1[6] ^ in2[6];
+    assign G[14] = in1[5] & in2[5];
+    assign P[14] = in1[5] ^ in2[5];
+    assign G[15] = in1[4] & in2[4];
+    assign P[15] = in1[4] ^ in2[4];
+    assign G[16] = in1[3] & in2[3];
+    assign P[16] = in1[3] ^ in2[3];
+    assign G[17] = in1[2] & in2[2];
+    assign P[17] = in1[2] ^ in2[2];
+    assign G[18] = in1[1] & in2[1];
+    assign P[18] = in1[1] ^ in2[1];
+    assign G[19] = in1[0] & in2[0];
+    assign P[19] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign C[19] = G[18] | (P[18] & C[18]);
+    assign cout = G[19] | (P[19] & C[19]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_19(output [18:0] sum, output cout, input [18:0] in1, input [18:0] in2);
+
+    wire[18:0] G;
+    wire[18:0] C;
+    wire[18:0] P;
+
+    assign G[0] = in1[18] & in2[18];
+    assign P[0] = in1[18] ^ in2[18];
+    assign G[1] = in1[17] & in2[17];
+    assign P[1] = in1[17] ^ in2[17];
+    assign G[2] = in1[16] & in2[16];
+    assign P[2] = in1[16] ^ in2[16];
+    assign G[3] = in1[15] & in2[15];
+    assign P[3] = in1[15] ^ in2[15];
+    assign G[4] = in1[14] & in2[14];
+    assign P[4] = in1[14] ^ in2[14];
+    assign G[5] = in1[13] & in2[13];
+    assign P[5] = in1[13] ^ in2[13];
+    assign G[6] = in1[12] & in2[12];
+    assign P[6] = in1[12] ^ in2[12];
+    assign G[7] = in1[11] & in2[11];
+    assign P[7] = in1[11] ^ in2[11];
+    assign G[8] = in1[10] & in2[10];
+    assign P[8] = in1[10] ^ in2[10];
+    assign G[9] = in1[9] & in2[9];
+    assign P[9] = in1[9] ^ in2[9];
+    assign G[10] = in1[8] & in2[8];
+    assign P[10] = in1[8] ^ in2[8];
+    assign G[11] = in1[7] & in2[7];
+    assign P[11] = in1[7] ^ in2[7];
+    assign G[12] = in1[6] & in2[6];
+    assign P[12] = in1[6] ^ in2[6];
+    assign G[13] = in1[5] & in2[5];
+    assign P[13] = in1[5] ^ in2[5];
+    assign G[14] = in1[4] & in2[4];
+    assign P[14] = in1[4] ^ in2[4];
+    assign G[15] = in1[3] & in2[3];
+    assign P[15] = in1[3] ^ in2[3];
+    assign G[16] = in1[2] & in2[2];
+    assign P[16] = in1[2] ^ in2[2];
+    assign G[17] = in1[1] & in2[1];
+    assign P[17] = in1[1] ^ in2[1];
+    assign G[18] = in1[0] & in2[0];
+    assign P[18] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign C[18] = G[17] | (P[17] & C[17]);
+    assign cout = G[18] | (P[18] & C[18]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_18(output [17:0] sum, output cout, input [17:0] in1, input [17:0] in2);
+
+    wire[17:0] G;
+    wire[17:0] C;
+    wire[17:0] P;
+
+    assign G[0] = in1[17] & in2[17];
+    assign P[0] = in1[17] ^ in2[17];
+    assign G[1] = in1[16] & in2[16];
+    assign P[1] = in1[16] ^ in2[16];
+    assign G[2] = in1[15] & in2[15];
+    assign P[2] = in1[15] ^ in2[15];
+    assign G[3] = in1[14] & in2[14];
+    assign P[3] = in1[14] ^ in2[14];
+    assign G[4] = in1[13] & in2[13];
+    assign P[4] = in1[13] ^ in2[13];
+    assign G[5] = in1[12] & in2[12];
+    assign P[5] = in1[12] ^ in2[12];
+    assign G[6] = in1[11] & in2[11];
+    assign P[6] = in1[11] ^ in2[11];
+    assign G[7] = in1[10] & in2[10];
+    assign P[7] = in1[10] ^ in2[10];
+    assign G[8] = in1[9] & in2[9];
+    assign P[8] = in1[9] ^ in2[9];
+    assign G[9] = in1[8] & in2[8];
+    assign P[9] = in1[8] ^ in2[8];
+    assign G[10] = in1[7] & in2[7];
+    assign P[10] = in1[7] ^ in2[7];
+    assign G[11] = in1[6] & in2[6];
+    assign P[11] = in1[6] ^ in2[6];
+    assign G[12] = in1[5] & in2[5];
+    assign P[12] = in1[5] ^ in2[5];
+    assign G[13] = in1[4] & in2[4];
+    assign P[13] = in1[4] ^ in2[4];
+    assign G[14] = in1[3] & in2[3];
+    assign P[14] = in1[3] ^ in2[3];
+    assign G[15] = in1[2] & in2[2];
+    assign P[15] = in1[2] ^ in2[2];
+    assign G[16] = in1[1] & in2[1];
+    assign P[16] = in1[1] ^ in2[1];
+    assign G[17] = in1[0] & in2[0];
+    assign P[17] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign C[17] = G[16] | (P[16] & C[16]);
+    assign cout = G[17] | (P[17] & C[17]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_17(output [16:0] sum, output cout, input [16:0] in1, input [16:0] in2);
+
+    wire[16:0] G;
+    wire[16:0] C;
+    wire[16:0] P;
+
+    assign G[0] = in1[16] & in2[16];
+    assign P[0] = in1[16] ^ in2[16];
+    assign G[1] = in1[15] & in2[15];
+    assign P[1] = in1[15] ^ in2[15];
+    assign G[2] = in1[14] & in2[14];
+    assign P[2] = in1[14] ^ in2[14];
+    assign G[3] = in1[13] & in2[13];
+    assign P[3] = in1[13] ^ in2[13];
+    assign G[4] = in1[12] & in2[12];
+    assign P[4] = in1[12] ^ in2[12];
+    assign G[5] = in1[11] & in2[11];
+    assign P[5] = in1[11] ^ in2[11];
+    assign G[6] = in1[10] & in2[10];
+    assign P[6] = in1[10] ^ in2[10];
+    assign G[7] = in1[9] & in2[9];
+    assign P[7] = in1[9] ^ in2[9];
+    assign G[8] = in1[8] & in2[8];
+    assign P[8] = in1[8] ^ in2[8];
+    assign G[9] = in1[7] & in2[7];
+    assign P[9] = in1[7] ^ in2[7];
+    assign G[10] = in1[6] & in2[6];
+    assign P[10] = in1[6] ^ in2[6];
+    assign G[11] = in1[5] & in2[5];
+    assign P[11] = in1[5] ^ in2[5];
+    assign G[12] = in1[4] & in2[4];
+    assign P[12] = in1[4] ^ in2[4];
+    assign G[13] = in1[3] & in2[3];
+    assign P[13] = in1[3] ^ in2[3];
+    assign G[14] = in1[2] & in2[2];
+    assign P[14] = in1[2] ^ in2[2];
+    assign G[15] = in1[1] & in2[1];
+    assign P[15] = in1[1] ^ in2[1];
+    assign G[16] = in1[0] & in2[0];
+    assign P[16] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign C[16] = G[15] | (P[15] & C[15]);
+    assign cout = G[16] | (P[16] & C[16]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_16(output [15:0] sum, output cout, input [15:0] in1, input [15:0] in2);
+
+    wire[15:0] G;
+    wire[15:0] C;
+    wire[15:0] P;
+
+    assign G[0] = in1[15] & in2[15];
+    assign P[0] = in1[15] ^ in2[15];
+    assign G[1] = in1[14] & in2[14];
+    assign P[1] = in1[14] ^ in2[14];
+    assign G[2] = in1[13] & in2[13];
+    assign P[2] = in1[13] ^ in2[13];
+    assign G[3] = in1[12] & in2[12];
+    assign P[3] = in1[12] ^ in2[12];
+    assign G[4] = in1[11] & in2[11];
+    assign P[4] = in1[11] ^ in2[11];
+    assign G[5] = in1[10] & in2[10];
+    assign P[5] = in1[10] ^ in2[10];
+    assign G[6] = in1[9] & in2[9];
+    assign P[6] = in1[9] ^ in2[9];
+    assign G[7] = in1[8] & in2[8];
+    assign P[7] = in1[8] ^ in2[8];
+    assign G[8] = in1[7] & in2[7];
+    assign P[8] = in1[7] ^ in2[7];
+    assign G[9] = in1[6] & in2[6];
+    assign P[9] = in1[6] ^ in2[6];
+    assign G[10] = in1[5] & in2[5];
+    assign P[10] = in1[5] ^ in2[5];
+    assign G[11] = in1[4] & in2[4];
+    assign P[11] = in1[4] ^ in2[4];
+    assign G[12] = in1[3] & in2[3];
+    assign P[12] = in1[3] ^ in2[3];
+    assign G[13] = in1[2] & in2[2];
+    assign P[13] = in1[2] ^ in2[2];
+    assign G[14] = in1[1] & in2[1];
+    assign P[14] = in1[1] ^ in2[1];
+    assign G[15] = in1[0] & in2[0];
+    assign P[15] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign C[15] = G[14] | (P[14] & C[14]);
+    assign cout = G[15] | (P[15] & C[15]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_15(output [14:0] sum, output cout, input [14:0] in1, input [14:0] in2);
+
+    wire[14:0] G;
+    wire[14:0] C;
+    wire[14:0] P;
+
+    assign G[0] = in1[14] & in2[14];
+    assign P[0] = in1[14] ^ in2[14];
+    assign G[1] = in1[13] & in2[13];
+    assign P[1] = in1[13] ^ in2[13];
+    assign G[2] = in1[12] & in2[12];
+    assign P[2] = in1[12] ^ in2[12];
+    assign G[3] = in1[11] & in2[11];
+    assign P[3] = in1[11] ^ in2[11];
+    assign G[4] = in1[10] & in2[10];
+    assign P[4] = in1[10] ^ in2[10];
+    assign G[5] = in1[9] & in2[9];
+    assign P[5] = in1[9] ^ in2[9];
+    assign G[6] = in1[8] & in2[8];
+    assign P[6] = in1[8] ^ in2[8];
+    assign G[7] = in1[7] & in2[7];
+    assign P[7] = in1[7] ^ in2[7];
+    assign G[8] = in1[6] & in2[6];
+    assign P[8] = in1[6] ^ in2[6];
+    assign G[9] = in1[5] & in2[5];
+    assign P[9] = in1[5] ^ in2[5];
+    assign G[10] = in1[4] & in2[4];
+    assign P[10] = in1[4] ^ in2[4];
+    assign G[11] = in1[3] & in2[3];
+    assign P[11] = in1[3] ^ in2[3];
+    assign G[12] = in1[2] & in2[2];
+    assign P[12] = in1[2] ^ in2[2];
+    assign G[13] = in1[1] & in2[1];
+    assign P[13] = in1[1] ^ in2[1];
+    assign G[14] = in1[0] & in2[0];
+    assign P[14] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign C[14] = G[13] | (P[13] & C[13]);
+    assign cout = G[14] | (P[14] & C[14]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_14(output [13:0] sum, output cout, input [13:0] in1, input [13:0] in2);
+
+    wire[13:0] G;
+    wire[13:0] C;
+    wire[13:0] P;
+
+    assign G[0] = in1[13] & in2[13];
+    assign P[0] = in1[13] ^ in2[13];
+    assign G[1] = in1[12] & in2[12];
+    assign P[1] = in1[12] ^ in2[12];
+    assign G[2] = in1[11] & in2[11];
+    assign P[2] = in1[11] ^ in2[11];
+    assign G[3] = in1[10] & in2[10];
+    assign P[3] = in1[10] ^ in2[10];
+    assign G[4] = in1[9] & in2[9];
+    assign P[4] = in1[9] ^ in2[9];
+    assign G[5] = in1[8] & in2[8];
+    assign P[5] = in1[8] ^ in2[8];
+    assign G[6] = in1[7] & in2[7];
+    assign P[6] = in1[7] ^ in2[7];
+    assign G[7] = in1[6] & in2[6];
+    assign P[7] = in1[6] ^ in2[6];
+    assign G[8] = in1[5] & in2[5];
+    assign P[8] = in1[5] ^ in2[5];
+    assign G[9] = in1[4] & in2[4];
+    assign P[9] = in1[4] ^ in2[4];
+    assign G[10] = in1[3] & in2[3];
+    assign P[10] = in1[3] ^ in2[3];
+    assign G[11] = in1[2] & in2[2];
+    assign P[11] = in1[2] ^ in2[2];
+    assign G[12] = in1[1] & in2[1];
+    assign P[12] = in1[1] ^ in2[1];
+    assign G[13] = in1[0] & in2[0];
+    assign P[13] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign C[13] = G[12] | (P[12] & C[12]);
+    assign cout = G[13] | (P[13] & C[13]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_13(output [12:0] sum, output cout, input [12:0] in1, input [12:0] in2);
+
+    wire[12:0] G;
+    wire[12:0] C;
+    wire[12:0] P;
+
+    assign G[0] = in1[12] & in2[12];
+    assign P[0] = in1[12] ^ in2[12];
+    assign G[1] = in1[11] & in2[11];
+    assign P[1] = in1[11] ^ in2[11];
+    assign G[2] = in1[10] & in2[10];
+    assign P[2] = in1[10] ^ in2[10];
+    assign G[3] = in1[9] & in2[9];
+    assign P[3] = in1[9] ^ in2[9];
+    assign G[4] = in1[8] & in2[8];
+    assign P[4] = in1[8] ^ in2[8];
+    assign G[5] = in1[7] & in2[7];
+    assign P[5] = in1[7] ^ in2[7];
+    assign G[6] = in1[6] & in2[6];
+    assign P[6] = in1[6] ^ in2[6];
+    assign G[7] = in1[5] & in2[5];
+    assign P[7] = in1[5] ^ in2[5];
+    assign G[8] = in1[4] & in2[4];
+    assign P[8] = in1[4] ^ in2[4];
+    assign G[9] = in1[3] & in2[3];
+    assign P[9] = in1[3] ^ in2[3];
+    assign G[10] = in1[2] & in2[2];
+    assign P[10] = in1[2] ^ in2[2];
+    assign G[11] = in1[1] & in2[1];
+    assign P[11] = in1[1] ^ in2[1];
+    assign G[12] = in1[0] & in2[0];
+    assign P[12] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign C[12] = G[11] | (P[11] & C[11]);
+    assign cout = G[12] | (P[12] & C[12]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_12(output [11:0] sum, output cout, input [11:0] in1, input [11:0] in2);
+
+    wire[11:0] G;
+    wire[11:0] C;
+    wire[11:0] P;
+
+    assign G[0] = in1[11] & in2[11];
+    assign P[0] = in1[11] ^ in2[11];
+    assign G[1] = in1[10] & in2[10];
+    assign P[1] = in1[10] ^ in2[10];
+    assign G[2] = in1[9] & in2[9];
+    assign P[2] = in1[9] ^ in2[9];
+    assign G[3] = in1[8] & in2[8];
+    assign P[3] = in1[8] ^ in2[8];
+    assign G[4] = in1[7] & in2[7];
+    assign P[4] = in1[7] ^ in2[7];
+    assign G[5] = in1[6] & in2[6];
+    assign P[5] = in1[6] ^ in2[6];
+    assign G[6] = in1[5] & in2[5];
+    assign P[6] = in1[5] ^ in2[5];
+    assign G[7] = in1[4] & in2[4];
+    assign P[7] = in1[4] ^ in2[4];
+    assign G[8] = in1[3] & in2[3];
+    assign P[8] = in1[3] ^ in2[3];
+    assign G[9] = in1[2] & in2[2];
+    assign P[9] = in1[2] ^ in2[2];
+    assign G[10] = in1[1] & in2[1];
+    assign P[10] = in1[1] ^ in2[1];
+    assign G[11] = in1[0] & in2[0];
+    assign P[11] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign C[11] = G[10] | (P[10] & C[10]);
+    assign cout = G[11] | (P[11] & C[11]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_11(output [10:0] sum, output cout, input [10:0] in1, input [10:0] in2);
+
+    wire[10:0] G;
+    wire[10:0] C;
+    wire[10:0] P;
+
+    assign G[0] = in1[10] & in2[10];
+    assign P[0] = in1[10] ^ in2[10];
+    assign G[1] = in1[9] & in2[9];
+    assign P[1] = in1[9] ^ in2[9];
+    assign G[2] = in1[8] & in2[8];
+    assign P[2] = in1[8] ^ in2[8];
+    assign G[3] = in1[7] & in2[7];
+    assign P[3] = in1[7] ^ in2[7];
+    assign G[4] = in1[6] & in2[6];
+    assign P[4] = in1[6] ^ in2[6];
+    assign G[5] = in1[5] & in2[5];
+    assign P[5] = in1[5] ^ in2[5];
+    assign G[6] = in1[4] & in2[4];
+    assign P[6] = in1[4] ^ in2[4];
+    assign G[7] = in1[3] & in2[3];
+    assign P[7] = in1[3] ^ in2[3];
+    assign G[8] = in1[2] & in2[2];
+    assign P[8] = in1[2] ^ in2[2];
+    assign G[9] = in1[1] & in2[1];
+    assign P[9] = in1[1] ^ in2[1];
+    assign G[10] = in1[0] & in2[0];
+    assign P[10] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign C[10] = G[9] | (P[9] & C[9]);
+    assign cout = G[10] | (P[10] & C[10]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_10(output [9:0] sum, output cout, input [9:0] in1, input [9:0] in2);
+
+    wire[9:0] G;
+    wire[9:0] C;
+    wire[9:0] P;
+
+    assign G[0] = in1[9] & in2[9];
+    assign P[0] = in1[9] ^ in2[9];
+    assign G[1] = in1[8] & in2[8];
+    assign P[1] = in1[8] ^ in2[8];
+    assign G[2] = in1[7] & in2[7];
+    assign P[2] = in1[7] ^ in2[7];
+    assign G[3] = in1[6] & in2[6];
+    assign P[3] = in1[6] ^ in2[6];
+    assign G[4] = in1[5] & in2[5];
+    assign P[4] = in1[5] ^ in2[5];
+    assign G[5] = in1[4] & in2[4];
+    assign P[5] = in1[4] ^ in2[4];
+    assign G[6] = in1[3] & in2[3];
+    assign P[6] = in1[3] ^ in2[3];
+    assign G[7] = in1[2] & in2[2];
+    assign P[7] = in1[2] ^ in2[2];
+    assign G[8] = in1[1] & in2[1];
+    assign P[8] = in1[1] ^ in2[1];
+    assign G[9] = in1[0] & in2[0];
+    assign P[9] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign C[9] = G[8] | (P[8] & C[8]);
+    assign cout = G[9] | (P[9] & C[9]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_9(output [8:0] sum, output cout, input [8:0] in1, input [8:0] in2);
+
+    wire[8:0] G;
+    wire[8:0] C;
+    wire[8:0] P;
+
+    assign G[0] = in1[8] & in2[8];
+    assign P[0] = in1[8] ^ in2[8];
+    assign G[1] = in1[7] & in2[7];
+    assign P[1] = in1[7] ^ in2[7];
+    assign G[2] = in1[6] & in2[6];
+    assign P[2] = in1[6] ^ in2[6];
+    assign G[3] = in1[5] & in2[5];
+    assign P[3] = in1[5] ^ in2[5];
+    assign G[4] = in1[4] & in2[4];
+    assign P[4] = in1[4] ^ in2[4];
+    assign G[5] = in1[3] & in2[3];
+    assign P[5] = in1[3] ^ in2[3];
+    assign G[6] = in1[2] & in2[2];
+    assign P[6] = in1[2] ^ in2[2];
+    assign G[7] = in1[1] & in2[1];
+    assign P[7] = in1[1] ^ in2[1];
+    assign G[8] = in1[0] & in2[0];
+    assign P[8] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign C[8] = G[7] | (P[7] & C[7]);
+    assign cout = G[8] | (P[8] & C[8]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_8(output [7:0] sum, output cout, input [7:0] in1, input [7:0] in2);
+
+    wire[7:0] G;
+    wire[7:0] C;
+    wire[7:0] P;
+
+    assign G[0] = in1[7] & in2[7];
+    assign P[0] = in1[7] ^ in2[7];
+    assign G[1] = in1[6] & in2[6];
+    assign P[1] = in1[6] ^ in2[6];
+    assign G[2] = in1[5] & in2[5];
+    assign P[2] = in1[5] ^ in2[5];
+    assign G[3] = in1[4] & in2[4];
+    assign P[3] = in1[4] ^ in2[4];
+    assign G[4] = in1[3] & in2[3];
+    assign P[4] = in1[3] ^ in2[3];
+    assign G[5] = in1[2] & in2[2];
+    assign P[5] = in1[2] ^ in2[2];
+    assign G[6] = in1[1] & in2[1];
+    assign P[6] = in1[1] ^ in2[1];
+    assign G[7] = in1[0] & in2[0];
+    assign P[7] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign C[7] = G[6] | (P[6] & C[6]);
+    assign cout = G[7] | (P[7] & C[7]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_7(output [6:0] sum, output cout, input [6:0] in1, input [6:0] in2);
+
+    wire[6:0] G;
+    wire[6:0] C;
+    wire[6:0] P;
+
+    assign G[0] = in1[6] & in2[6];
+    assign P[0] = in1[6] ^ in2[6];
+    assign G[1] = in1[5] & in2[5];
+    assign P[1] = in1[5] ^ in2[5];
+    assign G[2] = in1[4] & in2[4];
+    assign P[2] = in1[4] ^ in2[4];
+    assign G[3] = in1[3] & in2[3];
+    assign P[3] = in1[3] ^ in2[3];
+    assign G[4] = in1[2] & in2[2];
+    assign P[4] = in1[2] ^ in2[2];
+    assign G[5] = in1[1] & in2[1];
+    assign P[5] = in1[1] ^ in2[1];
+    assign G[6] = in1[0] & in2[0];
+    assign P[6] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign C[6] = G[5] | (P[5] & C[5]);
+    assign cout = G[6] | (P[6] & C[6]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_6(output [5:0] sum, output cout, input [5:0] in1, input [5:0] in2);
+
+    wire[5:0] G;
+    wire[5:0] C;
+    wire[5:0] P;
+
+    assign G[0] = in1[5] & in2[5];
+    assign P[0] = in1[5] ^ in2[5];
+    assign G[1] = in1[4] & in2[4];
+    assign P[1] = in1[4] ^ in2[4];
+    assign G[2] = in1[3] & in2[3];
+    assign P[2] = in1[3] ^ in2[3];
+    assign G[3] = in1[2] & in2[2];
+    assign P[3] = in1[2] ^ in2[2];
+    assign G[4] = in1[1] & in2[1];
+    assign P[4] = in1[1] ^ in2[1];
+    assign G[5] = in1[0] & in2[0];
+    assign P[5] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign cout = G[5] | (P[5] & C[5]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_5(output [4:0] sum, output cout, input [4:0] in1, input [4:0] in2);
+
+    wire[4:0] G;
+    wire[4:0] C;
+    wire[4:0] P;
+
+    assign G[0] = in1[4] & in2[4];
+    assign P[0] = in1[4] ^ in2[4];
+    assign G[1] = in1[3] & in2[3];
+    assign P[1] = in1[3] ^ in2[3];
+    assign G[2] = in1[2] & in2[2];
+    assign P[2] = in1[2] ^ in2[2];
+    assign G[3] = in1[1] & in2[1];
+    assign P[3] = in1[1] ^ in2[1];
+    assign G[4] = in1[0] & in2[0];
+    assign P[4] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign cout = G[4] | (P[4] & C[4]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_4(output [3:0] sum, output cout, input [3:0] in1, input [3:0] in2);
+
+    wire[3:0] G;
+    wire[3:0] C;
+    wire[3:0] P;
+
+    assign G[0] = in1[3] & in2[3];
+    assign P[0] = in1[3] ^ in2[3];
+    assign G[1] = in1[2] & in2[2];
+    assign P[1] = in1[2] ^ in2[2];
+    assign G[2] = in1[1] & in2[1];
+    assign P[2] = in1[1] ^ in2[1];
+    assign G[3] = in1[0] & in2[0];
+    assign P[3] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign cout = G[3] | (P[3] & C[3]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_3(output [2:0] sum, output cout, input [2:0] in1, input [2:0] in2);
+
+    wire[2:0] G;
+    wire[2:0] C;
+    wire[2:0] P;
+
+    assign G[0] = in1[2] & in2[2];
+    assign P[0] = in1[2] ^ in2[2];
+    assign G[1] = in1[1] & in2[1];
+    assign P[1] = in1[1] ^ in2[1];
+    assign G[2] = in1[0] & in2[0];
+    assign P[2] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign cout = G[2] | (P[2] & C[2]);
+    assign sum = P ^ C;
+endmodule
+
+module CLA_2(output [1:0] sum, output cout, input [1:0] in1, input [1:0] in2);
+
+    wire[1:0] G;
+    wire[1:0] C;
+    wire[1:0] P;
+
+    assign G[0] = in1[1] & in2[1];
+    assign P[0] = in1[1] ^ in2[1];
+    assign G[1] = in1[0] & in2[0];
+    assign P[1] = in1[0] ^ in2[0];
+
+
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign cout = G[1] | (P[1] & C[1]);
+    assign sum = P ^ C;
+endmodule
+
 
