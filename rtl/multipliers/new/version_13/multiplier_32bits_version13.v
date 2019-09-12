@@ -1964,3 +1964,19 @@ module CLA_62(output [61:0] sum, output cout, input [61:0] in1, input [61:0] in2
     assign sum = P ^ C;
 endmodule
 
+module gray_cell(Gk_j, Pi_k, Gi_k, G);
+    input Gk_j, Pi_k, Gi_k;
+    output G;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Y, Gi_k);
+endmodule
+
+module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
+    input Gk_j, Pi_k, Gi_k, Pk_j;
+    output G, P;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Gi_k, Y);
+    and(P, Pk_j, Pi_k);
+endmodule
