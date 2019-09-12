@@ -3,6 +3,12 @@ module multiplier_128bits_version12(product, A, B);
     output [255:0] product;
     input [127:0] A, B;
 
+    /*
+     * Area: 374489.655991
+     * Power: 339.4565mW
+     * Timing: 16.77ns
+     */
+
     wire [127:0] pp0;
     wire [127:0] pp1;
     wire [127:0] pp2;
