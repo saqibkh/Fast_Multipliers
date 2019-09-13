@@ -67,6 +67,7 @@ module multiplier_4bits_version14(product, A, B);
     assign product[7] = c;
 endmodule
 
+
 module Half_Adder(output wire sum,
                   output wire cout,
                   input wire in1,
