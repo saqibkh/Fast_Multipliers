@@ -3,6 +3,12 @@ module multiplier_64bits_version14(product, A, B);
     output [127:0] product;
     input [63:0] A, B;
 
+    /* 
+     * Area: 78849.906482
+     * Power: 70.7154mW
+     * Timing: 8.32ns
+     */
+
     wire [63:0] pp0;
     wire [63:0] pp1;
     wire [63:0] pp2;

@@ -3,6 +3,12 @@ module multiplier_8bits_version14(product, A, B);
     output [15:0] product;
     input [7:0] A, B;
 
+    /*
+     * Area: 1032.459969
+     * Power: 0.5483mW
+     * Timing: 1.09ns
+     */
+
     wire [7:0] pp0;
     wire [7:0] pp1;
     wire [7:0] pp2;

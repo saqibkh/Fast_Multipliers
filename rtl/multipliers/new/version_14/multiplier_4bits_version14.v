@@ -3,6 +3,12 @@ module multiplier_4bits_version14(product, A, B);
     output [7:0] product;
     input [3:0] A, B;
 
+    /*
+     * Area: 204.614794
+     * Power: 7.7837e-02mW
+     * Timing: 0.58ns
+     */
+
     wire [3:0] pp0;
     wire [3:0] pp1;
     wire [3:0] pp2;
