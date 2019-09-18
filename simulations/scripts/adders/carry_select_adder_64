@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/carry_select_adder/carry_select_adder_64.v tests/adders/carry_select_adder_64_test.v -debug_all
+./simv
