@@ -4,9 +4,9 @@ module multiplier_8bits_version15(product, A, B);
     input [7:0] A, B;
 
     /*
-     * Area: 
-     * Power: mW
-     * Timing: ns
+     * Area: 1639.734152 
+     * Power: 0.7782mW
+     * Timing: 1.25ns
      */
 
     wire [7:0] pp0;
@@ -116,7 +116,7 @@ module multiplier_8bits_version15(product, A, B);
     assign product[15] = c;
 endmodule
 
-module kogge_stone_2(sum, cout, in1, in2);
+module Kogge_stone_2(sum, cout, in1, in2);
     input [1:0] in1, in2; //input
     output [1:0] sum; //output
     output cout; //carry-out
@@ -144,7 +144,7 @@ module kogge_stone_2(sum, cout, in1, in2);
     assign sum[1]  = G_A[0]  ^ P_Z[1];
 endmodule
 
-module kogge_stone_3(sum, cout, in1, in2);
+module Kogge_stone_3(sum, cout, in1, in2);
     input [2:0] in1, in2; 
     output [2:0] sum; 
     output cout; 
@@ -174,7 +174,7 @@ module kogge_stone_3(sum, cout, in1, in2);
     assign sum[2]  = G_B[1]  ^ P_Z[2];
 endmodule
 
-module kogge_stone_4(sum, cout, in1, in2);
+module Kogge_stone_4(sum, cout, in1, in2);
     input [3:0] in1, in2; //input
     output [3:0] sum; //output
     output cout; //carry-out
@@ -216,7 +216,7 @@ module kogge_stone_4(sum, cout, in1, in2);
 endmodule
 
 
-module kogge_stone_2_c(sum, cout, in1, in2, cin);
+module Kogge_stone_2_c(sum, cout, in1, in2, cin);
     input [1:0] in1, in2; //input
 	input cin;
     output [1:0] sum; //output
@@ -239,7 +239,7 @@ module kogge_stone_2_c(sum, cout, in1, in2, cin);
     assign sum[1] = G_A[0] ^ P_Z[1];
 endmodule
 
-module kogge_stone_3_c(sum, cout, in1, in2, cin);
+module Kogge_stone_3_c(sum, cout, in1, in2, cin);
     input [2:0] in1, in2;
 	input cin;
     output [2:0] sum; 
@@ -267,7 +267,7 @@ module kogge_stone_3_c(sum, cout, in1, in2, cin);
     assign sum[2] = G_B[1] ^ P_Z[2];
 endmodule
 
-module kogge_stone_4_c(sum, cout, in1, in2, cin);
+module Kogge_stone_4_c(sum, cout, in1, in2, cin);
     input [3:0] in1, in2; //input
     output [3:0] sum; //output
     input cin; //carry-in
@@ -277,8 +277,14 @@ module kogge_stone_4_c(sum, cout, in1, in2, cin);
     G_B, P_B,
     G_C, P_C;
 
-    assign P_Z = in1 ^ in2;
-    assign G_Z = in1 & in2;
+    assign P_Z[0] = in1[3] ^ in2[3];
+    assign P_Z[1] = in1[2] ^ in2[2];
+    assign P_Z[2] = in1[1] ^ in2[1];
+    assign P_Z[3] = in1[0] ^ in2[0];
+    assign G_Z[0] = in1[3] & in2[3];
+    assign G_Z[1] = in1[2] & in2[2];
+    assign G_Z[2] = in1[1] & in2[1];
+    assign G_Z[3] = in1[0] & in2[0];
 
     gray_cell level_0A(cin, P_Z[0], G_Z[0], G_A[0]);
     black_cell level_1A(G_Z[0], P_Z[1], G_Z[1], P_Z[0], G_A[1], P_A[1]);
@@ -298,7 +304,7 @@ module kogge_stone_4_c(sum, cout, in1, in2, cin);
 endmodule
 
 
-module kogge_stone_14(sum, cout, in1, in2);
+module Kogge_stone_14(sum, cout, in1, in2);
     input [13:0] in1, in2; 
     output [13:0] sum; 
     output cout; 
@@ -410,4 +416,19 @@ module kogge_stone_14(sum, cout, in1, in2);
     assign sum[13] = G_D[12] ^ P_Z[13];
 endmodule
 
+module gray_cell(Gk_j, Pi_k, Gi_k, G);
+    input Gk_j, Pi_k, Gi_k;
+    output G;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Y, Gi_k);
+endmodule
 
+module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
+    input Gk_j, Pi_k, Gi_k, Pk_j;
+    output G, P;
+    wire Y;
+    and(Y, Gk_j, Pi_k);
+    or(G, Gi_k, Y);
+    and(P, Pk_j, Pi_k);
+endmodule
