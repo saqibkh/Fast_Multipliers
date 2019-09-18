@@ -6,3 +6,7 @@ simulations/.restartSimSession.tcl.old
 simulations/.synopsys_dve_rebuild.tcl
 simulations/DVEfiles/
 simulations/inter.vpd
+*command.log
+*default.svf
+*filenames.log
+*.nfs*
