@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 -sverilog time -v ../rtl/multipliers/new/version_15/multiplier_512bits_version15.v tests/multipliers/version15/multiplier_512bits_version15.v -debug_all
+./simv
