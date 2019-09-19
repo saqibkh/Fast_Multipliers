@@ -4,7 +4,7 @@ module multiplier_16bits_version10(product, A, B);
     /* 
      * Area: 8222.135777
      * Power: 4.3449mW
-     * Timing: 1.42ns
+     * Timing: 1.50ns
      */
     output [31:0] product;
     input [15:0] A, B;

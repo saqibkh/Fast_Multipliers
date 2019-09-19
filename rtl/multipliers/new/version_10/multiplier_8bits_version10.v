@@ -2,9 +2,9 @@ module multiplier_8bits_version10(product, A, B);
 
     /* This approach tries to use the longest kogge-stone adder as much as
      * possible using the dadda approach of minimum reduction in each step.
-     * Area: 1885.178045
-     * Power: 0.8216mW
-     * Timing: 1.20ns
+     * Area: 2042.862841
+     * Power: 0.8495mW
+     * Timing: 1.22ns
      */
 
     output [15:0] product;

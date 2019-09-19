@@ -4,9 +4,9 @@ module multiplier_128bits_version0(product, A, B);
     input [127:0] A, B;
 
     /*
-     * Area: 
-     * Power: mW
-     * Timing: ns
+     * Area: 329101.308406 
+     * Power: 307.1121mW
+     * Timing: 2.03ns
      */
 
     wire [127:0] pp0;
