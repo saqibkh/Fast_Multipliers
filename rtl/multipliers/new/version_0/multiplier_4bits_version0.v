@@ -1,53 +1,69 @@
 module multiplier_4bits_version0(product, A, B);
-    input [3:0] A, B;
-    output [7:0] product;
 
-    /* This implementation follows the Dadda multiplier with HA and FAs used
-     * for partial product reduction. However, the final two rows are added
-     * using a kogge-stone adder of length 5
-     * Area: 267.500992
-     * Power: 9.6507e-02mW
-     * Timing: 0.59ns
+    output [7:0] product;
+    input [3:0] A, B;
+
+    /*
+     * Area: 287.211591
+     * Power: 9.984e-02mW
+     * Timing: 0.57ns
      */
 
-    wire [3:0] pp0, pp1, pp2, pp3;
+    wire [3:0] pp0;
+    wire [3:0] pp1;
+    wire [3:0] pp2;
+    wire [3:0] pp3;
 
-    and AND01(pp0[0], A[0], B[0]);
-    and AND02(pp0[1], A[1], B[0]);
-    and AND03(pp0[2], A[2], B[0]);
-    and AND04(pp0[3], A[3], B[0]);
-    and AND05(pp1[0], A[0], B[1]);
-    and AND06(pp1[1], A[1], B[1]);
-    and AND07(pp1[2], A[2], B[1]);
-    and AND08(pp1[3], A[3], B[1]);
-    and AND09(pp2[0], A[0], B[2]);
-    and AND10(pp2[1], A[1], B[2]);
-    and AND11(pp2[2], A[2], B[2]);
-    and AND12(pp2[3], A[3], B[2]);
-    and AND13(pp3[0], A[0], B[3]);
-    and AND14(pp3[1], A[1], B[3]);
-    and AND15(pp3[2], A[2], B[3]);
-    and AND16(pp3[3], A[3], B[3]);
+
+    assign pp0 = A[0] ? B: 4'b0000;
+    assign pp1 = A[1] ? B: 4'b0000;
+    assign pp2 = A[2] ? B: 4'b0000;
+    assign pp3 = A[3] ? B: 4'b0000;
+
+
+    /*Stage 1*/
+    wire[0:0] s1, in1_1, in1_2;
+    wire c1;
+    assign in1_1 = {pp0[3]};
+    assign in1_2 = {pp1[2]};
+    Half_Adder HA_1(s1, c1, in1_1, in1_2);
+    wire[0:0] s2, in2_1, in2_2;
+    wire c2;
+    assign in2_1 = {pp1[3]};
+    assign in2_2 = {pp2[2]};
+    Half_Adder HA_2(s2, c2, in2_1, in2_2);
+
+    /*Stage 2*/
+    wire[0:0] s3, in3_1, in3_2;
+    wire c3;
+    assign in3_1 = {pp0[2]};
+    assign in3_2 = {pp1[1]};
+    Half_Adder HA_3(s3, c3, in3_1, in3_2);
+    wire[0:0] s4, in4_1, in4_2;
+    wire c4;
+    assign in4_1 = {pp3[0]};
+    assign in4_2 = {s1[0]};
+    Full_Adder FA_4(s4, c4, in4_1, in4_2, pp2[1]);
+    wire[0:0] s5, in5_1, in5_2;
+    wire c5;
+    assign in5_1 = {c1};
+    assign in5_2 = {s2[0]};
+    Full_Adder FA_5(s5, c5, in5_1, in5_2, pp3[1]);
+    wire[0:0] s6, in6_1, in6_2;
+    wire c6;
+    assign in6_1 = {pp3[2]};
+    assign in6_2 = {c2};
+    Full_Adder FA_6(s6, c6, in6_1, in6_2, pp2[3]);
+
+
+    /*Final Stage 2*/
+    wire[5:0] s, in_1, in_2;
+    wire c;
+    assign in_1 = {pp0[1],pp2[0],c3,c4,c5,pp3[3]};
+    assign in_2 = {pp1[0],s3[0],s4[0],s5[0],s6[0],c6};
+    kogge_stone_6(s, c, in_1, in_2);
 
     assign product[0] = pp0[0];
-
-    /* First Stage */
-    half_adder ha1(s11, c11, pp3[0], pp2[1]);
-    half_adder ha2(s12, c12, pp3[1], pp2[2]);
-
-    /* Second Stage */
-    half_adder ha3(s21, c21, pp2[0], pp1[1]);
-    full_adder fa1(s22, c22, pp1[2], pp0[3], s11);
-    full_adder fa2(s23, c23, pp1[3], s12,    c11);
-    full_adder fa3(s24, c24, pp2[3], pp3[2], c12);
-
-    /* Final Stage */
-    wire [5:0] s, in_1, in_2;
-    wire c;
-    assign in_1 = {pp0[1],s21,s22,s23,s24,pp3[3]};
-    assign in_2 = {pp1[0],pp0[2],c21,c22,c23,c24};
-    kogge_stone_6 KS(s, c, in_1, in_2);
-
     assign product[1] = s[0];
     assign product[2] = s[1];
     assign product[3] = s[2];
@@ -57,7 +73,8 @@ module multiplier_4bits_version0(product, A, B);
     assign product[7] = c;
 endmodule
 
-module half_adder(output wire sum,
+
+module Half_Adder(output wire sum,
                   output wire cout,
                   input wire in1,
                   input wire in2);
@@ -65,7 +82,7 @@ module half_adder(output wire sum,
     and(cout, in1, in2);
 endmodule
 
-module full_adder(output wire sum,
+module Full_Adder(output wire sum,
                   output wire cout,
                   input wire in1,
                   input wire in2,
@@ -81,58 +98,92 @@ module full_adder(output wire sum,
 endmodule
 
 
-module kogge_stone_6(sum, cout, in1, in2);
-    input [5:0] in1, in2; 
-    output [5:0] sum; 
-    output cout;
-    wire [5:0] G_Z, P_Z, 
-    G_A, P_A,
-    G_B, P_B,
-    G_C, P_C,
-    G_D, P_D;
+module CLA_6(output [5:0] sum, output cout, input [5:0] in1, input [5:0] in2);
 
-    assign P_Z[0]  = in1[5]  ^ in2[5];
-    assign P_Z[1]  = in1[4]  ^ in2[4];
-    assign P_Z[2]  = in1[3]  ^ in2[3];
-    assign P_Z[3]  = in1[2]  ^ in2[2];
-    assign P_Z[4]  = in1[1]  ^ in2[1];
-    assign P_Z[5]  = in1[0]  ^ in2[0];
+    wire[5:0] G;
+    wire[5:0] C;
+    wire[5:0] P;
 
-    assign G_Z[0]  = in1[5]  & in2[5];
-    assign G_Z[1]  = in1[4]  & in2[4];
-    assign G_Z[2]  = in1[3]  & in2[3];
-    assign G_Z[3] = in1[2]  & in2[2];
-    assign G_Z[4] = in1[1]  & in2[1];
-    assign G_Z[5] = in1[0]  & in2[0];
-
-    /*level 1*/
-    assign G_A[0] = G_Z[0];
-    black_cell level_1A(G_Z[0],  P_Z[1],  G_Z[1],  P_Z[0],  G_A[1],  P_A[1]);
-    black_cell level_2A(G_Z[1],  P_Z[2],  G_Z[2],  P_Z[1],  G_A[2],  P_A[2]);
-    black_cell level_3A(G_Z[2],  P_Z[3],  G_Z[3],  P_Z[2],  G_A[3],  P_A[3]);
-    black_cell level_4A(G_Z[3],  P_Z[4],  G_Z[4],  P_Z[3],  G_A[4],  P_A[4]);
-    black_cell level_5A(G_Z[4],  P_Z[5],  G_Z[5],  P_Z[4],  G_A[5],  P_A[5]);
+    assign G[0] = in1[5] & in2[5];
+    assign P[0] = in1[5] ^ in2[5];
+    assign G[1] = in1[4] & in2[4];
+    assign P[1] = in1[4] ^ in2[4];
+    assign G[2] = in1[3] & in2[3];
+    assign P[2] = in1[3] ^ in2[3];
+    assign G[3] = in1[2] & in2[2];
+    assign P[3] = in1[2] ^ in2[2];
+    assign G[4] = in1[1] & in2[1];
+    assign P[4] = in1[1] ^ in2[1];
+    assign G[5] = in1[0] & in2[0];
+    assign P[5] = in1[0] ^ in2[0];
 
 
-    /*level 2*/
-    assign G_B[1] = G_A[1];
-    gray_cell level_2B(G_A[0],   P_A[2],  G_A[2],  G_B[2]);
-    black_cell level_3B(G_A[1],  P_A[3],  G_A[3],  P_A[1],  G_B[3],  P_B[3]);
-    black_cell level_4B(G_A[2],  P_A[4],  G_A[4],  P_A[2],  G_B[4],  P_B[4]);
-    black_cell level_5B(G_A[3],  P_A[5],  G_A[5],  P_A[3],  G_B[5],  P_B[5]);
+    assign C[0] = 0;  /* Carry_out = Ci+1 = Gi + Pi*Ci */;
+    assign C[1] = G[0] | (P[0] & C[0]);
+    assign C[2] = G[1] | (P[1] & C[1]);
+    assign C[3] = G[2] | (P[2] & C[2]);
+    assign C[4] = G[3] | (P[3] & C[3]);
+    assign C[5] = G[4] | (P[4] & C[4]);
+    assign cout = G[5] | (P[5] & C[5]);
+    assign sum = P ^ C;
+endmodule
 
-    /*level 3*/
-    assign G_C[3] = G_B[3];
-    gray_cell level_4C(G_A[0],   P_B[4],  G_B[4],  G_C[4]);
-    gray_cell level_5C(G_B[1],   P_B[5],  G_B[5],  cout);
+module kogge_stone_6(output [5:0] sum,
+        output cout,
+        input [5:0] in1,
+        input [5:0] in2);
 
-    /*outputs*/
-    assign sum[0]  =           P_Z[0];
-    assign sum[1]  = G_A[0]  ^ P_Z[1];
-    assign sum[2]  = G_B[1]  ^ P_Z[2];
-    assign sum[3]  = G_B[2]  ^ P_Z[3];
-    assign sum[4]  = G_C[3]  ^ P_Z[4];
-    assign sum[5]  = G_C[4]  ^ P_Z[5];
+    assign cin = 0;
+    wire[5:0] G_0;
+    wire[5:0] P_0;
+    wire[5:0] G_1;
+    wire[5:0] P_1;
+    wire[5:0] G_2;
+    wire[5:0] P_2;
+    wire[5:0] G_3;
+    wire[5:0] P_3;
+
+    assign G_0[0] = in1[5] & in2[5];
+    assign P_0[0] = in1[5] ^ in2[5];
+    assign G_0[1] = in1[4] & in2[4];
+    assign P_0[1] = in1[4] ^ in2[4];
+    assign G_0[2] = in1[3] & in2[3];
+    assign P_0[2] = in1[3] ^ in2[3];
+    assign G_0[3] = in1[2] & in2[2];
+    assign P_0[3] = in1[2] ^ in2[2];
+    assign G_0[4] = in1[1] & in2[1];
+    assign P_0[4] = in1[1] ^ in2[1];
+    assign G_0[5] = in1[0] & in2[0];
+    assign P_0[5] = in1[0] ^ in2[0];
+
+
+
+    /*Stage 1*/
+    gray_cell level_1_0(cin, P_0[0], G_0[0], G_1[0]);
+    black_cell level_0_1(G_0[0], P_0[1], G_0[1], P_0[0], G_1[1], P_1[1]);
+    black_cell level_0_2(G_0[1], P_0[2], G_0[2], P_0[1], G_1[2], P_1[2]);
+    black_cell level_0_3(G_0[2], P_0[3], G_0[3], P_0[2], G_1[3], P_1[3]);
+    black_cell level_0_4(G_0[3], P_0[4], G_0[4], P_0[3], G_1[4], P_1[4]);
+    black_cell level_0_5(G_0[4], P_0[5], G_0[5], P_0[4], G_1[5], P_1[5]);
+
+    /*Stage 2*/
+    gray_cell level_2_1(cin, P_1[1], G_1[1], G_2[1]);
+    gray_cell level_2_2(G_1[0], P_1[2], G_1[2], G_2[2]);
+    black_cell level_1_3(G_1[1], P_1[3], G_1[3], P_1[1], G_2[3], P_2[3]);
+    black_cell level_1_4(G_1[2], P_1[4], G_1[4], P_1[2], G_2[4], P_2[4]);
+    black_cell level_1_5(G_1[3], P_1[5], G_1[5], P_1[3], G_2[5], P_2[5]);
+
+    /*Stage 3*/
+    gray_cell level_3_3(cin, P_2[3], G_2[3], G_3[3]);
+    gray_cell level_3_4(G_1[0], P_2[4], G_2[4], G_3[4]);
+    gray_cell level_3_5(G_2[1], P_2[5], G_2[5], cout);
+
+    assign sum[0] = cin    ^ P_0[0];
+    assign sum[1] = G_1[0] ^ P_0[1];
+    assign sum[2] = G_2[1] ^ P_0[2];
+    assign sum[3] = G_2[2] ^ P_0[3];
+    assign sum[4] = G_3[3] ^ P_0[4];
+    assign sum[5] = G_3[4] ^ P_0[5];
 endmodule
 
 module gray_cell(Gk_j, Pi_k, Gi_k, G);
@@ -151,3 +202,4 @@ module black_cell(Gk_j, Pi_k, Gi_k, Pk_j, G, P);
     or(G, Gi_k, Y);
     and(P, Pk_j, Pi_k);
 endmodule
+
