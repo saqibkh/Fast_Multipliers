@@ -1,4 +1,4 @@
-module test_multiplier_256bits_version13;
+module test_multiplier_256bits_version14;
 
   // Inputs
   reg [255:0] A;
@@ -8,7 +8,7 @@ module test_multiplier_256bits_version13;
   wire [511:0] product;
   
   // Instantiate the Unit test (UUT)
-  multiplier_256bits_version13 uut(
+  multiplier_256bits_version14 uut(
     .product(product),
     .A(A),
     .B(B));
