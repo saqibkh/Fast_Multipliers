@@ -24,6 +24,7 @@ module test_carry_lookahead_adder_3_4bits;
   initial begin
     in1 = 0;
     in2 = 0;
+    in3 = 0;
     cin = 0;
 
     // Wait 100 ns for global reset to finish
