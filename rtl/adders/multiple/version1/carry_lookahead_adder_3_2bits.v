@@ -3,6 +3,42 @@ module carry_lookahead_adder_3_2bits(output [1:0] sum,
                                    input [1:0] in1, in2, in3,
                                    input cin);
 
+  wire c1, c2;
+  wire [3:0] G, P, C, D;
+
+  assign D = in1 & in2 & in3;
+
+  assign G[0] = (in1[0] & in2[0]) ^ (in1[0] & in3[0]) ^ (in2[0] & in3[0]);
+  assign G[1] = (in1[1] & in2[1]) ^ (in1[1] & in3[1]) ^ (in2[1] & in3[1]);
+  assign G[2] = 0;
+  assign G[3] = 0;
+  
+  xor3 XOR0(P[0], in1[0], in2[0], in3[0]); //assign P[0] = in1[0] ^ in2[0] ^ in3[0];
+  xor3 XOR1(P[1], in1[1], in2[1], in3[1]); //assign P[1] = in1[1] ^ in2[1] ^ in3[1];
+  assign P[2] = D[0] & C[0];
+  assign P[3] = D[1] & C[1];
+  
+
+  assign C[0] = cin;
+  xor2 XOR3(C[1], G[0], P[0] & C[0]); //assign C[1] = G[0] ^ (P[0] & C[0]);
+  xor2 XOR4(c1, G[1], P[1] & C[1]); //assign c1   = G[1] ^ (P[1] & C[1]);
+  
+  //xor2 XOR3(c2, G[2], P[2] & C[0]); 
+  //assign c2   = G[2] ^ (P[2] & c1);
+  assign c2   = P[2] & c1;  
+
+  assign sum[0] = P[0] ^ C[0];
+  assign sum[1] = P[1] ^ C[1];
+  assign cout_1 = P[2] ^ c1;
+  assign cout_2 = P[3] ^ c2;
+
+endmodule
+
+module carry_lookahead_adder_3_2bits_part2(output [1:0] sum,
+                                   output cout_1, cout_2,
+                                   input [1:0] in1, in2, in3,
+                                   input cin);
+
   wire a,b,c,d,e,f,g;
   wire [1:0] G, P, C, D;
 
