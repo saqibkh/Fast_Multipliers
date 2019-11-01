@@ -4,14 +4,13 @@ module carry_lookahead_adder_3_2bits(output [1:0] sum,
                                    input cin);
 
   wire c1, c2;
-  wire [3:0] G, P, C, D;
+  wire [3:0] P;
+  wire [1:0] C, G, D;
 
   assign D = in1 & in2 & in3;
 
   assign G[0] = (in1[0] & in2[0]) ^ (in1[0] & in3[0]) ^ (in2[0] & in3[0]);
   assign G[1] = (in1[1] & in2[1]) ^ (in1[1] & in3[1]) ^ (in2[1] & in3[1]);
-  assign G[2] = 0;
-  assign G[3] = 0;
   
   xor3 XOR0(P[0], in1[0], in2[0], in3[0]); //assign P[0] = in1[0] ^ in2[0] ^ in3[0];
   xor3 XOR1(P[1], in1[1], in2[1], in3[1]); //assign P[1] = in1[1] ^ in2[1] ^ in3[1];

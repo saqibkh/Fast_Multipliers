@@ -1,0 +1,3 @@
+#!/bin/sh
+vcs -full64 time -v ../rtl/misc/lib1 ../rtl/adders/multiple/version1/carry_lookahead_adder_7_2bits.v tests/adders/multiple/version1/carry_lookahead_adder_7_2bits_test.v -debug_all
+./simv
