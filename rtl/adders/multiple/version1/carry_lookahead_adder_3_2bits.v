@@ -3,6 +3,56 @@ module carry_lookahead_adder_3_2bits(output [1:0] sum,
                                    input [1:0] in1, in2, in3,
                                    input cin);
 
+
+  wire a,b, c,d,e,f,g,h,c1, c2;
+  wire i,j,k,l,m,n;
+  wire [1:0] C;
+  wire [3:0] P;
+
+  xor3 XOR0(P[0], in1[0], in2[0], in3[0]);
+  xor3 XOR1(P[1], in1[1], in2[1], in3[1]);
+  and4 AND1(P[2],in1[0],in2[0],in3[0],C[0]);
+  and4 AND2(P[3],in1[1],in2[1],in3[1],C[1]);
+
+  assign C[0]   = cin;
+  assign C[1]   = (C[0] & ((in1[0] ^ in2[0]) | (in1[0] ^ in3[0]))) | (~C[0] & ((in1[0] & in2[0]) | (in1[0] & in3[0]) | (in2[0] & in3[0])));
+  //xor2 XOR4(a, in1[0], in2[0]);
+  //xor2 XOR5(b, in1[0], in3[0]);
+  //and2 AND4(c, in1[0], in2[0]);
+  //and2 AND5(d, in1[0], in3[0]);
+  //and2 AND6(e, in2[0], in3[0]);
+  //or3  OR01(f, c,d,e);
+  //and2 AND7(g,C[0], a | b);
+  //assign C[1]   = g | (~C[0] & (f));
+
+
+  assign c1     = (C[1] & ((in1[1] ^ in2[1]) | (in1[1] ^ in3[1]))) | (~C[1] & ((in1[1] & in2[1]) | (in1[1] & in3[1]) | (in2[1] & in3[1])));
+  //xor2   XOR6(h, in1[1], in2[1]);
+  //xor2   XOR7(i, in1[1], in3[1]);
+  //and2   AND8(j, in1[1], in2[1]);
+  //and2   AND9(k, in1[1], in3[1]);
+  //and2  AND10(l, in2[1], in3[1]);
+  //or3    OR02(m, j,k,l);
+  //and2  AND11(n,C[1], h | i);
+  //assign c1   = n | (~C[1] & (m));
+
+
+  and2 AND12(c2, P[2], c1);
+
+  assign sum[0] = P[0] ^ C[0];
+  assign sum[1] = P[1] ^ C[1];
+  assign cout_1 = P[2] ^ c1;
+  xor2 XOR10(cout_2,P[3],c2);
+endmodule
+
+
+module carry_lookahead_adder_3_2bits_part3(output [1:0] sum,
+                                   output cout_1, cout_2,
+                                   input [1:0] in1, in2, in3,
+                                   input cin);
+
+
+  /* This implementation is wrong */
   wire c1, c2;
   wire [3:0] P;
   wire [1:0] C, G, D;
@@ -139,6 +189,13 @@ module or2(output wire z,
   assign z = x | y;
 endmodule
 
+module or3(output wire z,
+           input wire w,
+           input wire x,
+           input wire y);
+  assign z = w | x | y;
+endmodule
+
 module xor2(output wire z,
            input wire x,
            input wire y);
@@ -152,11 +209,27 @@ module and3(output wire z,
   assign z = w & x & y;
 endmodule
 
+module and4(output wire z,
+           input wire v,
+           input wire w,
+           input wire x,
+           input wire y);
+  assign z = v & w & x & y;
+endmodule
+
 module xor3(output wire z,
            input wire w,
            input wire x,
            input wire y);
   assign z = w ^ x ^ y;
+endmodule
+
+module xor4(output wire z,
+           input wire v,
+           input wire w,
+           input wire x,
+           input wire y);
+  assign z = v ^ w ^ x ^ y;
 endmodule
 
 module xor6(output wire z,
