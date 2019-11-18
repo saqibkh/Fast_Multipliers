@@ -42,7 +42,7 @@ module carry_lookahead_adder_3_2bits(output [1:0] sum,
   assign sum[0] = P[0] ^ C[0];
   assign sum[1] = P[1] ^ C[1];
   assign cout_1 = P[2] ^ c1;
-  xor2 XOR10(cout_2,P[3],c2);
+  xor XOR10(cout_2,P[3],c2);
 endmodule
 
 
