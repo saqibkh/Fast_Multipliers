@@ -15,7 +15,7 @@ module carry_lookahead_adder_3_4bits(output [3:0] sum,
   assign P[4] =  D[2]; assign C[5]   = D[2] & C[4];
   assign P[5] =  D[3];    
 
-  xor2 XOR24(cout_1, P[4], C[4]);
+  xor XOR24(cout_1, P[4], C[4]);
   or XOR25(cout_2, P[5], C[5]);
 
 endmodule
@@ -47,8 +47,13 @@ module three_bits(output sum,
                input c,
                input cin);
 
-  assign sum = (a ^ b ^ c) ^ cin;
-  assign c1  = (a & b) ^ (a & c) ^ (a & cin) ^ (b & c) ^ (b & cin) ^ (c & cin);
+  wire P, G;
+
+  assign P = a ^ b ^ c;
+  assign G = (a & b) ^ (a & c) ^ (b & c);
+
+  assign sum = P ^ cin;
+  assign c1  = (cin & (P ^ G)) | (!cin & G);
   assign c2  = (a & b & c) & cin;
 endmodule
 
@@ -61,9 +66,36 @@ module four_bits(output sum,
                input d,
                input cin);
 
-  assign sum = (a ^ b ^ c ^ d) ^ cin;
-  assign c1  = (a & b) ^ (a & c) ^ (a & d) ^ (a & cin) ^ (b & c) ^ (b & d) ^ (b & cin) ^ (c & d) ^ (c & cin) ^ (d & cin);
+  wire e, f, g, h ,i, j, k, l, m, n, o;
+  wire P, G, D;
+
+  assign P = (a ^ b ^ c) ^ d;
+  //xor XOR1(P, a, b, c, d);
+
+  assign G = (a & b) ^ (a & c) ^ (a & d) ^ (b & c) ^ (b & d) ^ (c & d);
+  //and AND3(h, a, b);
+  //and AND4(i, a, c);
+  //and AND5(j, a, d);
+  //and AND6(k, b, c);
+  //and AND7(l, b, d);
+  //and AND8(m, c, d);
+  //xor XOR3(G, h, i, j, k, l, m);
+
+  assign D = a & b & c & d;
+
+
+  assign sum = P ^ cin;
+  assign c1 = (cin & (P ^ G)) + (!cin & (G));
+  //xor XOR2(e, P, G);
+  //and AND1(f, cin, e);
+  //and AND2(g, !cin, G);
+  //or  OR1(c1, f, g);
+
+
+
   assign c2  = (a & b & c & d) ^ (a & b & c & cin) ^ (a & b & d & cin) ^ (a & c & d & cin) ^ (b & c & d & cin);
+  //assign c2  = (cin & ((a & b & c) ^ (a & b & d) ^ (a & c & d) ^ (b & c & d) ^ D)) | (!cin & (D));
+
 endmodule
 
 
