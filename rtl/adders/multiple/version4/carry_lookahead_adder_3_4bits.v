@@ -25,9 +25,6 @@ module carry_lookahead_adder_3_4bits(output [3:0] sum,
   four_bits_F  cel14(F[2], in1[2], in2[2], in3[2], D[0]);
   four_bits_F  cel15(F[3], in1[3], in2[3], in3[3], D[1]);
 
-
-
-
   assign P[4] = D[2];
   assign P[5] = D[3];
 
